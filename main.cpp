@@ -1,8 +1,8 @@
 #include <iostream>
+using namespace std;
 
 int main() {
-    std::cout << "Hello, World!\n"
-              << "Higga Cmake test" <<
-                std::endl;
+    cout << "Hello, World!\n"
+              << "Higga Cmake test";
     return 0;
 }
