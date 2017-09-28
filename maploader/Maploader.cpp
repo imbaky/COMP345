@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <jmorecfg.h>
 
 using namespace std;
 
@@ -16,10 +17,13 @@ MapLoader::MapLoader(){
 
 void MapLoader::loadMap(string mapname){
 //Need map classes with continents and countries
+// creation of fstream
+    //open file
+    //check line by line by putting delimeters for [ ] symbols and " " space. Register everything as a stringe and parse it into the new objects created by Sunny
 }
 
 void displayMap(){
-
+//
 }
 
 boolean isValid(){
