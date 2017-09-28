@@ -53,7 +53,7 @@ int main() {
     else{
         //read the actual file
         Maploader loader;
-        loader.isValid("World.map");
+        loader.isValid();
         loader.loadMap("World.map");
         loader.displayMap();
     }

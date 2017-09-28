@@ -21,7 +21,7 @@ class Maploader {
 public:
     Maploader();
     void loadMap(string mapname);
-    Country country(string country);
+    Territory territory(string territory);
     Continent continent(string continent);
     void displayMap();
     boolean isValid();
