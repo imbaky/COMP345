@@ -1,4 +1,6 @@
-#pragma once
+#ifndef DICE_H
+#define DICE_H
+
 #include "Die.h"
 class Dice
 {
@@ -10,3 +12,4 @@ private:
 	Die *dies;
 };
 
+#endif

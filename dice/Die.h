@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef DIE_H
+#define DIE_H
 
 class Die
 {
@@ -15,3 +15,4 @@ private:
 	int value_count[6]{ 0,0,0,0,0,0 };
 };
 
+#endif

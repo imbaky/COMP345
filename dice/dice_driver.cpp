@@ -1,5 +1,3 @@
-
-#include "stdafx.h"
 #include "Die.h"
 #include "Dice.h"
 #include <iostream>
