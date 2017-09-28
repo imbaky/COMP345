@@ -15,18 +15,14 @@ MapLoader::MapLoader(){
 }
 
 void MapLoader::loadMap(string mapname){
-
+//Need map classes with continents and countries
 }
 
 void displayMap(){
 
 }
 
-boolean isEmpty(){
-
-}
-
 boolean isValid(){
-
+// need to do loadmap to check for exception throwing
 }
 // Check lab for instructions

@@ -1,6 +1,8 @@
 #include <iostream>
 #include <stdlib.h>
 #include <limits>
+#include "Maploader.h"
+
 using namespace std;
 
 int main() {
@@ -50,6 +52,10 @@ int main() {
     }
     else{
         //read the actual file
+        Maploader loader;
+        loader.isValid("World.map");
+        loader.loadMap("World.map");
+        loader.displayMap();
     }
 
 

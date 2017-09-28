@@ -24,7 +24,6 @@ public:
     Country country(string country);
     Continent continent(string continent);
     void displayMap();
-    boolean isEmpty();
     boolean isValid();
 };
 
