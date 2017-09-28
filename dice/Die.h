@@ -11,7 +11,10 @@ public:
 	~Die();
 
 	int roll();
-	void stats();
+	// Return a map of the current roll count where keys are values from 1 to 6
+	map<int, int> stats();
+	// Print current roll count
+	void printStats();
 private:
 	int totalRolls;
 	map<int, int> valueCount;

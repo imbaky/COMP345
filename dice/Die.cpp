@@ -19,7 +19,12 @@ int Die::roll()
 	return value;
 }
 
-void Die::stats()
+map<int, int> Die::stats()
+{
+	return valueCount;
+}
+
+void Die::printStats()
 {
 	cout << "1: " << valueCount[1] << "\n" <<
 		"2: " << valueCount[2] << "\n" <<
@@ -29,3 +34,4 @@ void Die::stats()
 		"6: " << valueCount[6] << "\n";
 }
 
+	
