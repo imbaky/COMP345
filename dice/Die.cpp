@@ -6,29 +6,26 @@
 
 using namespace std;
 
-Die::Die()
+Die::Die() : totalRolls(0) {}
+
+Die::~Die() {}
+
+int Die::roll()
 {
-}
-
-
-Die::~Die()
-{
-}
-
-int Die::roll() {
-	total_rolls++;
+	totalRolls++;
 	srand(clock());
-	int value = (rand() % 6) + 1;
-	value_count[value-1]+=1;
+	int value = (rand() % 6) + 1;	
+	valueCount[value]++;
 	return value;
 }
 
-void Die::stats() {
-	int roll_value=0;
-	for each (int roll_count in value_count)
-	{
-		roll_value++;
-		cout << roll_value <<  " : " << (roll_count / max(total_rolls,1))*100 <<"%"<<endl;
-	}
+void Die::stats()
+{
+	cout << "1: " << valueCount[1] << "\n" <<
+		"2: " << valueCount[2] << "\n" <<
+		"3: " << valueCount[3] << "\n" <<
+		"4: " << valueCount[4] << "\n" <<
+		"5: " << valueCount[5] << "\n" <<
+		"6: " << valueCount[6] << "\n";
 }
 
