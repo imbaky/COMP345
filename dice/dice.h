@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "Die.h"
+#include "die.h"
 
 class Dice {
 public:

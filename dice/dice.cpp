@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "Dice.h"
-#include "Die.h"
+#include "dice.h"
+#include "die.h"
 
 using namespace std;
 

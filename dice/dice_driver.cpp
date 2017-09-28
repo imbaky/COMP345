@@ -1,5 +1,5 @@
-#include "Die.h"
-#include "Dice.h"
+#include "die.h"
+#include "dice.h"
 #include <iostream>
 
 using namespace std;

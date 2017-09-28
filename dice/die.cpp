@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
-#include "Die.h"
+#include "die.h"
 
 using namespace std;
 
