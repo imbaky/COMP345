@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include <limits>
 using namespace std;
 
 int main() {
@@ -43,22 +44,14 @@ int main() {
         cin >> option;
     };
 
-    /*if(option=1){
-        try{
-            if(true//isEmpty and isValid checker
-                ){
-                //Load Map into graph
-            }
-        }
-        catch(invalid_argument){
-            //Will check for a better exception
-        }
-        //Code to load text put into try and catch
+    if(option=2) {
+    cout<<" Thank you for playing! (Or testing the exit function of the program!";
+        return 0;
     }
     else{
-        //exit program
+        //read the actual file
     }
-    */
+
 
 
 return 0;
