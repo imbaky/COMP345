@@ -1,30 +1,28 @@
 //
 // Created by Mihai Damaschin on 26/09/17.
 //
-#ifndef RISK_MAPLOADER_H
-#define RISK_MAPLOADER_H
+#ifndef MAPLOADER_H
+#define MAPLOADER_H
 
 #include <string>
-#include <rpcndr.h>
+
+#include "../map/map.h"
 
 using namespace std;
 
-
-class Maploader {
-    Map map;
-    string author;
-    string image;
-    string wrap;
-    string scroll;
-    string warn;
-
+class MapLoader {
 public:
-    Maploader();
-    void loadMap(string mapname);
-    Territory territory(string territory);
-    Continent continent(string continent);
-    void displayMap();
-    boolean isValid();
+	MapLoader();
+	void loadMap(string mapname);
+	void displayMap();
+	bool isValid();
+private:
+	Map *map;
+	string author;
+	string image;
+	string wrap;
+	string scroll;
+	string warn;
 };
 
-#endif //RISK_MAPLOADER_H
+#endif
