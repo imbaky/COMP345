@@ -1,3 +1,7 @@
+#ifndef PLAYER_H
+#define PLAYER_H
+
+
 #include <vector>
 #include <string>
 
@@ -10,14 +14,14 @@ using namespace std;
 class Player {
 public:
 	string name;
-	Player(string name);
+	Player(string name, int numberOfDices);
 	
 	void reinforce();
 	void attack();
 	void fortify();
 
-	Hand getHand();
-	Dice getDice();
+	Hand *getHand();
+	Dice *getDice();
 	vector<Country *> getCountries();
 private:
 	Hand *hand;
@@ -25,3 +29,5 @@ private:
 	vector<Country *> countries;
 
 };
+
+#endif
