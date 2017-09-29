@@ -16,6 +16,7 @@ public:
 	void loadMap(string mapname);
 	void displayMap();
 	bool isValid();
+	Map *getMap();
 private:
 	Map *map;
 	string author;
