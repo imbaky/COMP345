@@ -1,7 +1,8 @@
 #include <iostream>
+#include <assert.h>
 
-#include "Dice.h"
-#include "Die.h"
+#include "dice.h"
+#include "die.h"
 
 using namespace std;
 
@@ -16,6 +17,17 @@ int Dice::roll()
 {
 	int sum = 0;
 	for(int i = 0; i < dices.size(); i++) {
+		int roll = dices[i]->roll();
+		sum += roll;
+	}
+	return sum;
+}
+
+int Dice::roll(int n)
+{
+	assert(n <= dices.size());
+	int sum = 0;
+	for(int i = 0; i < n; i++) {
 		int roll = dices[i]->roll();
 		sum += roll;
 	}

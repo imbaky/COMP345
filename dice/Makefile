@@ -1,6 +1,6 @@
 
 all:
-	g++ Die.h Die.cpp Dice.h Dice.cpp dice_driver.cpp -o main
+	g++ die.h die.cpp dice.h dice.cpp dice_driver.cpp -o main
 
 .PHONY: all
 
