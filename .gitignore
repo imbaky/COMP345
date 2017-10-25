@@ -38,6 +38,7 @@
 
 
 # Specific files
+!makefile
 main
 risk
 cMakeCache.txt
