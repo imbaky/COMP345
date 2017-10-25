@@ -7,6 +7,8 @@
 #include <vector>
 #include "./lib/Maploader.h"
 
+
+
 using namespace std;
 
 // function declaration
@@ -28,9 +30,25 @@ int main()
     start_game();
     MapLoader *ml = new MapLoader();
 	ml->loadMap(select_map());
-	Map *map = ml->getMap();
-    
+    Map *map = ml->getMap();
 
+    vector <Continent *>continents = map->getContinents();
+    cout<<continents.size()<<endl;
+        for (int i = 0; i < continents.size(); i++) {
+            cout << "CONTINENT: " << continents[i]->name << "\n========================\n";
+            vector<Country *> countries = continents[i]->getCountries();
+            for (int j = 0; j < countries.size(); j++) {
+                cout << countries[j]->name << ": ";
+                vector<Country *> neighbors = countries[j]->getNeighbors();
+                for (int k = 0; k < neighbors.size(); k++) {
+                    cout << neighbors[k]->name << ", ";
+                }
+                cout << "\n";
+            }
+            cout << "\n";
+        }
+
+return 0;
 
 }
 

@@ -51,6 +51,7 @@ void MapLoader::loadMap(string filename)
 	ifstream inFile (filename.c_str());
 	string line;
 	string current;
+
 	while (getline(inFile, line)) {
 		if (line == "[Map]") {
 			current = "MAP";

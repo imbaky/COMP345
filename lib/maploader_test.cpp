@@ -32,7 +32,7 @@ int main()
 	cout << "Generating new map from World.map ...\n\n";
 	
 	MapLoader *ml = new MapLoader();
-	ml->loadMap("World.map");
+	ml->loadMap("../maps/World.map");
 	Map *map = ml->getMap();
 
 	vector <Continent *>continents = map->getContinents();
