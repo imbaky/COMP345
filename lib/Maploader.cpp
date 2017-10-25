@@ -7,7 +7,7 @@
 #include <map>
 
 #include "Maploader.h"
-#include "../map/map.h"
+#include "map.h"
 
 using namespace std;
 

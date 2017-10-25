@@ -6,7 +6,7 @@
 
 #include <string>
 
-#include "../map/map.h"
+#include "map.h"
 
 using namespace std;
 
