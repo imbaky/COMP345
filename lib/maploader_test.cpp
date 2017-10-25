@@ -33,7 +33,6 @@ int main()
 	
 	MapLoader *ml = new MapLoader();
 	ml->loadMap("World.map");
-
 	Map *map = ml->getMap();
 
 	vector <Continent *>continents = map->getContinents();

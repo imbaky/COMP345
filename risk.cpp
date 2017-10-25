@@ -12,6 +12,7 @@ using namespace std;
 // function declaration
 void start_game();
 string select_map();
+int select_player_number();
 
 int main()
 {
@@ -27,7 +28,6 @@ int main()
     start_game();
     MapLoader *ml = new MapLoader();
 	ml->loadMap(select_map());
-
 	Map *map = ml->getMap();
     
 

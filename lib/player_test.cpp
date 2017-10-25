@@ -1,8 +1,8 @@
 #include <iostream>
 
 #include "player.h"
-#include "../cards/card.h"
-#include "../dice/dice.h"
+#include "card.h"
+#include "dice.h"
 
 int main()
 {

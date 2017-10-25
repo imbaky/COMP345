@@ -103,12 +103,12 @@ void MapLoader::loadMap(string filename)
 		}
 	}
 }
-void displayMap()
+void MapLoader::displayMap()
 {
 //
 }
 
-bool isValid()
+bool MapLoader::isValid()
 {
 // need to do loadmap to check for exception throwing
 	return true;
