@@ -56,7 +56,7 @@ string select_map(){
     int count=0;
     vector<string> files;
     
-    cout<<"Which map would you like to use? (enter number)"<<endl;
+    cout<<"\n\n***Available maps***"<< endl;
     if( pDIR=opendir("./maps/") ){
             while(entry = readdir(pDIR)){
                     if( strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0 && entry->d_name[strlen(entry->d_name)-2] == 'a' ){
@@ -67,6 +67,7 @@ string select_map(){
             closedir(pDIR);
     }
     while(!valid_input){
+        cout<<"Which map would you like to use? (enter number)"<<endl;
         cin>>input;
         if((input>=0)&&(input<=count)){
             valid_input=true;
