@@ -1,5 +1,4 @@
 #!/bin/bash
-
 for d in */ ; do
-    ( cd $d && make )
+( cd $d && make )
 done
