@@ -7,12 +7,11 @@
 
 #include "./lib/player.h"
 #include "./lib/Maploader.h"
+#include "utils.h"
 #include <iterator>
 
 
 
-// function declaration
-int players_number();
 
 int main()
 {
@@ -55,17 +54,7 @@ int main()
         }
     }
 
-        // Prints players in order
-        cout<<"Print players in order of their turns :"<<endl;
-        for (std::vector<Player*>::iterator it=players.begin(); it!=players.end(); ++it){
-        std::cout << ' ' << (*it)->name << " has " << (*it)->getCountries().size() << "countries" << endl;
-        vector <Country *>countries=(*it)->getCountries();
-            for (std::vector<Country *>::iterator it2=countries.begin(); it2!=countries.end(); ++it2){
-                std::cout << ' ' << (*it2)->name <<endl;
-            }
-        }
-        
-        cout<< "Number of armies per player: " << initial_army <<endl;
+
     
     //Distribute a players armies among their countries
     for (std::vector<Player*>::iterator it=players.begin(); it!=players.end(); ++it){
@@ -75,24 +64,25 @@ int main()
         for (std::vector<Country *>::iterator it2=countries.begin(); it2!=countries.end(); ++it2){
                 if(army_available-->0){
                         (*it2)->setArmySize(((*it2)->getArmySize())+1);
-                        cout<<(*it2)->name<<" has an army of size :"<<(*it2)->getArmySize()<<endl;
                 }else break;
         }
     }
-    
-    return 0;
-}
+            cout<< "\n Number of armies per player: " << initial_army <<endl;
 
-int players_number(){
-    bool valid_input=false;
-    int input;
-    while(!valid_input){
-        cout<<"Select the number of players in the game (2-6 players)"<<endl;
-        cin>>input;
-        if((input>=2)&&(input<=6)){
-            valid_input=true;
-        }else 
-            cerr<<"invalid input !!"<<endl;
-    }
-    return input;
+            // Prints players in order with the number of countries
+            cout<<"\n\n Print players in order of their turns :\n"<<endl;
+            for (std::vector<Player*>::iterator it=players.begin(); it!=players.end(); ++it){
+                std::cout<<"-------------------------------------------"<<endl;
+                std::cout << ' ' << (*it)->name << " has " << (*it)->getCountries().size() << " countries" << endl;
+                std::cout<<"-------------------------------------------"<<endl;
+            vector <Country *>countries=(*it)->getCountries();
+                for (std::vector<Country *>::iterator it2=countries.begin(); it2!=countries.end(); ++it2){
+                    std::cout << ' ' << (*it2)->name << ": army size of " << (*it2)->getArmySize() <<endl;
+                }
+                
+            }
+            
+            
+
+    return 0;
 }
