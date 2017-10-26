@@ -16,4 +16,8 @@ Map *loadMap();
 Deck *createDeck(int countries);
 vector<Player *> createPlayers();
 
+void reinforcementPhase(Player *player);
+void attackPhase(Player *player);
+void fortificationPhase(Player *player);
+
 #endif
