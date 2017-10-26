@@ -12,6 +12,10 @@ part1:
 # part 1
 	g++ -std=c++11 part1.cpp  ./lib/card.h ./lib/card.cpp ./lib/Maploader.h ./lib/Maploader.cpp ./lib/map.h ./lib/map.cpp ./lib/player.h ./lib/player.cpp ./lib/dice.h ./lib/die.h ./lib/dice.cpp ./lib/die.cpp  -o part1
 
+part2:
+
+# part 2
+	g++ -std=c++11 part2.cpp ./lib/player.h ./lib/player.cpp ./lib/dice.h ./lib/die.h ./lib/dice.cpp ./lib/die.cpp  -o part2
 
 # Previous Assignment parts
 player: 
@@ -35,3 +39,4 @@ clean:
 	rm -rf card.h.gch card_test
 	rm -rf risk
 	rm -rf part1
+	rm -rf part2

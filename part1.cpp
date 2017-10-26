@@ -21,8 +21,9 @@ int players_number();
 int main()
 {
 
-    cout<<"Lets play !\n"<<endl;
-
+    // cout<<"Lets play !\n"<<endl;
+    cout<<"Part 1!\n"<<endl;
+    
     cout << "██████╗ ██╗███████╗██╗  ██╗\n"<<
             "██╔══██╗██║██╔════╝██║ ██╔╝\n"<<
             "██████╔╝██║███████╗█████╔╝ \n"<<
