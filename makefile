@@ -15,7 +15,7 @@ part1:
 part2:
 
 # part 2
-	g++ -std=c++11 part2.cpp ./lib/player.h ./lib/player.cpp ./lib/dice.h ./lib/die.h ./lib/dice.cpp ./lib/die.cpp  -o part2
+	g++ -std=c++11 part2.cpp ./lib/player.h ./lib/player.cpp ./lib/dice.h ./lib/die.h ./lib/dice.cpp ./lib/die.cpp  ./lib/Maploader.h ./lib/Maploader.cpp ./lib/map.h ./lib/map.cpp  -o part2
 
 # Previous Assignment parts
 player: 

@@ -6,6 +6,7 @@
 #include <random>       // std::
 
 #include "./lib/player.h"
+#include "./lib/Maploader.h"
 #include <iterator>
 
 
@@ -35,9 +36,29 @@ int main()
     auto rng = std::default_random_engine {};
     std::shuffle(std::begin(players), std::end(players), rng);
 
+
+    // Prints players in order
     cout<<"Print players in order of their turns :"<<endl;
     for (std::vector<Player*>::iterator it=players.begin(); it!=players.end(); ++it)
     std::cout << ' ' << (*it)->name << endl;
+
+    //number of armies
+    cout<< "Number of armies: " << ((num_player-2)*5)+20 <<endl;
+
+    MapLoader *ml = new MapLoader();
+	ml->loadMap("./maps/World.map");
+    Map *map = ml->getMap();
+    vector <Continent *>continents = map->getContinents();
+
+    for (std::vector<Continent *>::iterator it=continents.begin(); it!=continents.end(); ++it){
+        vector <Country *>countries=(*it)->getCountries();
+        for (std::vector<Country *>::iterator it2=countries.begin(); it2!=countries.end(); ++it2){
+        cout<< (*it2)->name <<endl;
+
+        }
+    }
+    
+
     return 0;
 }
 
