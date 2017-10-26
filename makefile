@@ -6,8 +6,14 @@ OPT=-O2
 CFLAGS=$(WARN) $(OPT)
 
 all:
-	g++ -std=c++11 risk.cpp  ./lib/Maploader.h ./lib/Maploader.cpp ./lib/map.h ./lib/map.cpp ./lib/player.h ./lib/player.cpp ./lib/dice.h ./lib/die.h ./lib/dice.cpp ./lib/die.cpp  -o risk
 
+part1:
+
+# part 1
+	g++ -std=c++11 part1.cpp  ./lib/Maploader.h ./lib/Maploader.cpp ./lib/map.h ./lib/map.cpp ./lib/player.h ./lib/player.cpp ./lib/dice.h ./lib/die.h ./lib/dice.cpp ./lib/die.cpp  -o part1
+
+
+# Previous Assignment parts
 player: 
 	g++ ./lib/card.h ./lib/card.cpp ./lib/dice.h ./lib/dice.cpp ./lib/die.h ./lib/die.cpp ./lib/player.h ./lib/player.cpp ./lib/player_test.cpp -o player_test
 
@@ -27,3 +33,5 @@ clean:
 	rm -rf maploader_test
 	rm -rf map_test
 	rm -rf card.h.gch card_test
+	rm -rf risk
+	rm -rf part1
