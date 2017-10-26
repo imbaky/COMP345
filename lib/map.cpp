@@ -133,3 +133,12 @@ bool Map::hasContinent(string continent)
 	}
 	return false;
 }
+
+bool  Country::setArmySize(int army_size){
+	army=army_size;
+	return true;
+}
+
+int  Country::getArmySize(){
+	return army;
+}

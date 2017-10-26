@@ -23,6 +23,7 @@ public:
 	Hand *getHand();
 	Dice *getDice();
 	vector<Country *> getCountries();
+	void addCountry(Country* country);
 private:
 	Hand *hand;
 	Dice *dice;

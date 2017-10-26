@@ -19,8 +19,12 @@ public:
 	void addNeighbor(Country *country);
 	bool hasNeighbor(Country *country);
 	bool hasNeighbor(string country);
+	bool setArmySize(int army_size);
+	int getArmySize();
 private:
 	vector<Country *> neighbors;
+	int army;
+	
 };
 
 class Continent {
