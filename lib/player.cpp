@@ -7,6 +7,14 @@ Player::Player(string playerName, int numberOfDices)
 	dice = new Dice(numberOfDices);
 }
 
+int Player::getArmies() {
+	return armies;
+}
+
+void Player::setArmies(int newArmies) {
+	armies = newArmies;
+}
+
 Hand *Player::getHand()
 {
 	return hand;

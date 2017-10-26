@@ -15,6 +15,9 @@ class Player {
 public:
 	string name;
 	Player(string name, int numberOfDices);
+
+	int getArmies();
+	void setArmies(int newArmies);
 	
 	void reinforce();
 	void attack();
@@ -25,10 +28,10 @@ public:
 	vector<Country *> getCountries();
 	void addCountry(Country* country);
 private:
+	int armies;
 	Hand *hand;
 	Dice *dice;
 	vector<Country *> countries;
-
 };
 
 #endif

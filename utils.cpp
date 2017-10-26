@@ -103,3 +103,12 @@ int players_number(){
 	}
 	return input;
 }
+
+void reinforcementPhase(Player *player) {
+	int owned = player->getCountries().size();
+	int additionalArmies = owned / 3;
+	if (additionalArmies < 3)
+		additionalArmies = 3;
+	player->setArmies(player->getArmies() + additionalArmies);
+	
+}
