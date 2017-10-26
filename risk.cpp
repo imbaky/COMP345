@@ -6,15 +6,16 @@
 #include<dirent.h>
 #include <vector>
 #include "./lib/Maploader.h"
+#include "./lib/player.h"
 
-
+#define ARRAY_SIZE(array) (sizeof((array))/sizeof((array[0])))
 
 using namespace std;
 
 // function declaration
 void start_game();
 string select_map();
-int select_player_number();
+int players_number();
 
 int main()
 {
@@ -31,22 +32,15 @@ int main()
     MapLoader *ml = new MapLoader();
 	ml->loadMap(select_map());
     Map *map = ml->getMap();
+    /* TODO check if map is valid 
+    * Need to implement isValid()
+    */ 
+    int num_player=players_number();
+    vector<Player*> players;
+    for(int i=0;i<num_player;i++){
+        players.push_back(new Player("Player "+i, 3));
+    }
 
-    vector <Continent *>continents = map->getContinents();
-    cout<<continents.size()<<endl;
-        for (int i = 0; i < continents.size(); i++) {
-            cout << "CONTINENT: " << continents[i]->name << "\n========================\n";
-            vector<Country *> countries = continents[i]->getCountries();
-            for (int j = 0; j < countries.size(); j++) {
-                cout << countries[j]->name << ": ";
-                vector<Country *> neighbors = countries[j]->getNeighbors();
-                for (int k = 0; k < neighbors.size(); k++) {
-                    cout << neighbors[k]->name << ", ";
-                }
-                cout << "\n";
-            }
-            cout << "\n";
-        }
 
 return 0;
 
@@ -64,6 +58,7 @@ void start_game(){
                 cerr<<"invalid input !!"<<endl;
     }
 }
+
 
 string select_map(){
     bool valid_input=false;
@@ -93,4 +88,18 @@ string select_map(){
                
     }
     return "./maps/"+files.at(input-1);
+}
+
+int players_number(){
+    bool valid_input=false;
+    int input;
+    while(!valid_input){
+        cout<<"Select the number of players in the game (2-6 players)"<<endl;
+        cin>>input;
+        if((input>=2)&&(input<=6)){
+            valid_input=true;
+        }else 
+            cerr<<"invalid input !!"<<endl;
+    }
+    return input;
 }

@@ -5,9 +5,9 @@
 #include <vector>
 #include <string>
 
-#include "../map/map.h"
-#include "../dice/dice.h"
-#include "../cards/card.h"
+#include "map.h"
+#include "dice.h"
+#include "card.h"
 
 using namespace std;
 

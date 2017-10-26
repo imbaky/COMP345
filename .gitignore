@@ -46,3 +46,4 @@ cMakeCache.txt
 .vscode/
 .vs
 CMakeFiles/
+.idea/*
