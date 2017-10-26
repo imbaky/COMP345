@@ -7,6 +7,7 @@
 #include <vector>
 #include "./lib/Maploader.h"
 #include "./lib/player.h"
+#include "./lib/card.h"
 
 #define ARRAY_SIZE(array) (sizeof((array))/sizeof((array[0])))
 
@@ -36,9 +37,12 @@ int main()
     * Need to implement isValid()
     */ 
     
+    Deck* deck = new Deck(18);
+
     int num_player=players_number();
     vector<Player*> players;
     for(int i=0;i<num_player;i++){
+    //Each player has an empty hand created in the constructor
         players.push_back(new Player("Player "+to_string(i+1), 3));
     }
 
