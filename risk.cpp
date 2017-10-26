@@ -35,12 +35,12 @@ int main()
     /* TODO check if map is valid 
     * Need to implement isValid()
     */ 
+    
     int num_player=players_number();
     vector<Player*> players;
     for(int i=0;i<num_player;i++){
-        players.push_back(new Player("Player "+i, 3));
+        players.push_back(new Player("Player "+to_string(i+1), 3));
     }
-
 
 return 0;
 
