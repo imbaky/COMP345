@@ -3,6 +3,8 @@
 #include <vector>       // std::vector
 #include <ctime>        // std::time
 #include <cstdlib>      // std::rand, std::srand
+#include <random>       // std::
+
 #include "./lib/player.h"
 #include <iterator>
 
@@ -10,9 +12,6 @@
 
 // function declaration
 int players_number();
-
-// random generator function:
-int random (int i) { return std::rand()%i;}
 
 int main()
 {
@@ -29,8 +28,13 @@ int main()
     for(int i=0;i<num_player;i++){
         players.push_back(new Player("Player "+to_string(i+1), 3));
     }
-    //TODO shuffle players
-    
+
+    /*  shuffle players order
+    *  Reference: https://stackoverflow.com/questions/6926433/how-to-shuffle-a-stdvector
+    */
+    auto rng = std::default_random_engine {};
+    std::shuffle(std::begin(players), std::end(players), rng);
+
     cout<<"Print players in order of their turns :"<<endl;
     for (std::vector<Player*>::iterator it=players.begin(); it!=players.end(); ++it)
     std::cout << ' ' << (*it)->name << endl;

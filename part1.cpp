@@ -47,6 +47,23 @@ int main()
         players.push_back(new Player("Player "+to_string(i+1), 3));
     }
 
+
+    //test map
+    vector <Continent *>continents = map->getContinents();
+    
+        for (int i = 0; i < continents.size(); i++) {
+            cout << "CONTINENT: " << continents[i]->name << "\n========================\n";
+            vector<Country *> countries = continents[i]->getCountries();
+            for (int j = 0; j < countries.size(); j++) {
+                cout << countries[j]->name << ": ";
+                vector<Country *> neighbors = countries[j]->getNeighbors();
+                for (int k = 0; k < neighbors.size(); k++) {
+                    cout << neighbors[k]->name << ", ";
+                }
+                cout << "\n";
+            }
+            cout << "\n";
+        }
 return 0;
 
 }
