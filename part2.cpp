@@ -43,22 +43,40 @@ int main()
     std::cout << ' ' << (*it)->name << endl;
 
     //number of armies
-    cout<< "Number of armies: " << ((num_player-2)*5)+20 <<endl;
+    int initial_army=40-((num_player-2)*5);
+    cout<< "Number of armies per player: " << initial_army <<endl;
 
+    //Distribute countries between players
     MapLoader *ml = new MapLoader();
 	ml->loadMap("./maps/World.map");
     Map *map = ml->getMap();
     vector <Continent *>continents = map->getContinents();
-
+    int index=0;
     for (std::vector<Continent *>::iterator it=continents.begin(); it!=continents.end(); ++it){
         vector <Country *>countries=(*it)->getCountries();
         for (std::vector<Country *>::iterator it2=countries.begin(); it2!=countries.end(); ++it2){
-        cout<< (*it2)->name <<endl;
-
+            cout<<players.at(index)->name<<" has "<<players.at(index)->getCountries().size()<< " Countries "<<endl;
+        cout<< (*it2)->name  << " is given to " << players.at(index)->name <<endl;
+        players.at(index)->addCountry((*it2));
+        index=(index+1)%num_player;
         }
     }
     
+    //Distribute a players armies among their countries
+    for (std::vector<Player*>::iterator it=players.begin(); it!=players.end(); ++it){
+        int army_available=20;
+        vector <Country *>countries=(*it)->getCountries();
+        for (std::vector<Country *>::iterator it2=countries.begin(); it2!=countries.end(); ++it2){
+                cout<<(*it2)->name<<" has an army of size :"<<(*it2)->getArmySize()<<endl;
+                if(army_available-->0)
+                        (*it2)->setArmySize((*it2)->getArmySize()+1);
+                        else break;
+        }
+    }
 
+        //number of armies
+        cout<< "Number of armies per player: " << initial_army <<endl;
+    
     return 0;
 }
 

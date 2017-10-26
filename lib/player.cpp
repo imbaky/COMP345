@@ -16,3 +16,11 @@ Dice *Player::getDice()
 {
 	return dice;
 }
+
+void Player::addCountry(Country* country){
+Player::countries.push_back(country);
+}
+
+vector<Country *> Player::getCountries(){
+	return Player::countries;
+	}
