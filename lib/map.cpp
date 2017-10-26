@@ -1,7 +1,7 @@
 #include "map.h"
 
 Country::Country(string countryName, int x, int y) :
-	name(countryName), posX(x), posY(y)
+	name(countryName), posX(x), posY(y),army(0)
 {}
 
 vector<Country *> Country::getNeighbors()

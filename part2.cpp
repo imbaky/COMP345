@@ -37,14 +37,9 @@ int main()
     std::shuffle(std::begin(players), std::end(players), rng);
 
 
-    // Prints players in order
-    cout<<"Print players in order of their turns :"<<endl;
-    for (std::vector<Player*>::iterator it=players.begin(); it!=players.end(); ++it)
-    std::cout << ' ' << (*it)->name << endl;
-
     //number of armies
     int initial_army=40-((num_player-2)*5);
-    cout<< "Number of armies per player: " << initial_army <<endl;
+    
 
     //Distribute countries between players
     MapLoader *ml = new MapLoader();
@@ -55,27 +50,35 @@ int main()
     for (std::vector<Continent *>::iterator it=continents.begin(); it!=continents.end(); ++it){
         vector <Country *>countries=(*it)->getCountries();
         for (std::vector<Country *>::iterator it2=countries.begin(); it2!=countries.end(); ++it2){
-            cout<<players.at(index)->name<<" has "<<players.at(index)->getCountries().size()<< " Countries "<<endl;
-        cout<< (*it2)->name  << " is given to " << players.at(index)->name <<endl;
         players.at(index)->addCountry((*it2));
         index=(index+1)%num_player;
         }
     }
+
+        // Prints players in order
+        cout<<"Print players in order of their turns :"<<endl;
+        for (std::vector<Player*>::iterator it=players.begin(); it!=players.end(); ++it){
+        std::cout << ' ' << (*it)->name << " has " << (*it)->getCountries().size() << "countries" << endl;
+        vector <Country *>countries=(*it)->getCountries();
+            for (std::vector<Country *>::iterator it2=countries.begin(); it2!=countries.end(); ++it2){
+                std::cout << ' ' << (*it2)->name <<endl;
+            }
+        }
+        
+        cout<< "Number of armies per player: " << initial_army <<endl;
     
     //Distribute a players armies among their countries
     for (std::vector<Player*>::iterator it=players.begin(); it!=players.end(); ++it){
-        int army_available=20;
+        int army_available=initial_army;
         vector <Country *>countries=(*it)->getCountries();
+        while(army_available>0)
         for (std::vector<Country *>::iterator it2=countries.begin(); it2!=countries.end(); ++it2){
-                cout<<(*it2)->name<<" has an army of size :"<<(*it2)->getArmySize()<<endl;
-                if(army_available-->0)
-                        (*it2)->setArmySize((*it2)->getArmySize()+1);
-                        else break;
+                if(army_available-->0){
+                        (*it2)->setArmySize(((*it2)->getArmySize())+1);
+                        cout<<(*it2)->name<<" has an army of size :"<<(*it2)->getArmySize()<<endl;
+                }else break;
         }
     }
-
-        //number of armies
-        cout<< "Number of armies per player: " << initial_army <<endl;
     
     return 0;
 }
