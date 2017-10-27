@@ -37,6 +37,11 @@ bool Country::hasNeighbor(string country)
 	return false;
 }
 
+bool Country::hasNeighbor()
+{
+	return neighbors.size() == 0;
+}
+
 Continent::Continent(string continentName) : name(continentName) {}
 
 vector<Country *> Continent::getCountries()

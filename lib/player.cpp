@@ -45,3 +45,22 @@ vector<Country *> Player::getCountries()
 {
 	return Player::countries;
 }
+
+bool Player::hasCountry(Country* country)
+{
+	for (int i = 0; i < countries.size(); i++) {
+		if (countries[i] == country)
+			return true;
+	}
+	return false;
+}
+
+
+bool Player::hasCountry(string name)
+{
+	for (int i = 0; i < countries.size(); i++) {
+		if (countries[i]->name == name)
+			return true;
+	}
+	return false;
+}
