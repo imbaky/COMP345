@@ -28,6 +28,8 @@ public:
 	Dice *getDice();
 	vector<Country *> getCountries();
 	void addCountry(Country* country);
+	bool hasCountry(Country* country);
+	bool hasCountry(string name);
 private:
 	int armies;
 	Hand *hand;

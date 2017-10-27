@@ -21,19 +21,22 @@ string select_map();
 int players_number();
 
 
-Map *loadMap() {
+Map *loadMap()
+{
 	MapLoader *ml = new MapLoader();
 	ml->loadMap(select_map());
 	Map *map = ml->getMap();
 	return map;
 }
 
-Deck *createDeck(int countries) {
+Deck *createDeck(int countries)
+{
 	Deck* deck = new Deck(countries);
 	return deck;
 }
 
-vector<Player *> createPlayers() {
+vector<Player *> createPlayers()
+{
 	int playerCount = players_number();
 	vector<Player *> players;
 	for (int i = 0; i < playerCount; i++) {
@@ -57,7 +60,8 @@ void start_game(){
 }
 
 
-string select_map(){
+string select_map()
+{
 	bool valid_input = false;
 	int input;
 
@@ -90,7 +94,8 @@ string select_map(){
 	return "./maps/" + files.at(input - 1);
 }
 
-int players_number(){
+int players_number()
+{
 	bool valid_input=false;
 	int input;
 	while(!valid_input){
@@ -104,45 +109,143 @@ int players_number(){
 	return input;
 }
 
-void reinforcementPhase(Player *player, Map *map) {
+void reinforcementPhase(Player *player, Map *map)
+{
 	char input;
+	bool validInput = false;
 	int owned = player->getCountries().size();
 	int additionalArmies = owned / 3;
 	if (additionalArmies < 3)
 		additionalArmies = 3;
 	additionalArmies += numOfContinents(player, map);
-	
-	cout << "Exchange cards? (y/n)\n";
-	cin >> input;
-	if (input == 'y') {
-		cout << "(0) Echange infantries\n";
-		cout << "(1) Echange cavaleries\n";
-		cout << "(2) Echange artilleries\n";
-		cout << "(3) Echange all\n";
+
+	while (!validInput) {
+		cout << "Exchange cards? (y/n)\n";
 		cin >> input;
-		switch (input) {
-		case '0':
-			additionalArmies = player->getHand()->exchange(Infantry);
-			player->setArmies(player->getArmies() + additionalArmies);
-			break;
-		case '1':
-			additionalArmies = player->getHand()->exchange(Cavalery);
-			player->setArmies(player->getArmies() + additionalArmies);
-			break;
-		case '2':
-			additionalArmies = player->getHand()->exchange(Artillery);
-			player->setArmies(player->getArmies() + additionalArmies);
-			break;
-		case '3':
-			additionalArmies = player->getHand()->exchange();
-			player->setArmies(player->getArmies() + additionalArmies);
-			break;
+		if (input == 'y') {
+			cout << "(0) Echange infantries\n";
+			cout << "(1) Echange cavaleries\n";
+			cout << "(2) Echange artilleries\n";
+			cout << "(3) Echange all\n";
+			cin >> input;
+			switch (input) {
+			case '0':
+				additionalArmies = player->getHand()->exchange(Infantry);
+				player->setArmies(player->getArmies() + additionalArmies);
+				break;
+			case '1':
+				additionalArmies = player->getHand()->exchange(Cavalery);
+				player->setArmies(player->getArmies() + additionalArmies);
+				break;
+			case '2':
+				additionalArmies = player->getHand()->exchange(Artillery);
+				player->setArmies(player->getArmies() + additionalArmies);
+				break;
+			case '3':
+				additionalArmies = player->getHand()->exchange();
+				player->setArmies(player->getArmies() + additionalArmies);
+				break;
+			default:
+				break;
+			}
+			validInput = true;
 		}
+		if (input == 'n')
+			validInput = true;
 	}
 	player->setArmies(player->getArmies() + additionalArmies);
 }
 
-int numOfContinents(Player *player, Map *map) {
+void attackPhase(Player *player ,Map *mp)
+{
+	char input;
+	bool validInput = false;
+	cout << "Attack? (y/n)\n";
+	cin >> input;
+	while(!validInput) {
+		if (input == 'y') {
+			// Hash of the countries and neightbors it can attack
+			map<string, vector<Country *>> validCountries;
+			// A player's countries
+			vector<Country *> countries = player->getCountries();
+		
+			for (int i = 0; i < countries.size(); i++) {
+				if (countries[i]->getArmySize() < 2)
+					continue;
+				vector<Country *> enemyNeighbors;
+				vector<Country *> neighbors = countries[i]->getNeighbors();
+			
+				for (int j = 0; j < neighbors.size(); j++) {
+					if (!player->hasCountry(neighbors[i]->name)) {
+						enemyNeighbors.push_back(neighbors[i]);
+					}
+				}
+			
+				if (neighbors.size() > 0)
+					validCountries[countries[i]->name] = enemyNeighbors;
+				
+			}
+
+			// Attacking country
+			string attackFrom;
+			cout << "Select country to attack from:\n";
+			map<string, vector<Country *>>::iterator it;
+			for (it = validCountries.begin(); it != validCountries.end(); it++) {
+				cout << it->first << ", ";
+			}
+			cin >> attackFrom;
+			if (validCountries.find(attackFrom) == validCountries.end()) {
+				cout << "invalid country\n";
+				continue;
+			}
+
+			// Attack target
+			string attackTo;
+			cout << "Select country to attack:\n";
+			for (int i = 0; i < validCountries[attackFrom].size(); i++) {
+				cout << validCountries[attackFrom][i]->name << ", ";
+			}
+			cin >> attackTo;
+			vector<Country *> targetNeighbors = validCountries[attackTo];
+			for (int i = 0; i < validCountries[attackTo].size(); i++) {
+				if (targetNeighbors[i]->name == attackTo)
+					validInput = true;
+					break;
+			}
+		}
+		if (input == 'n')
+			validInput = true;
+	}
+}
+
+void attack(Player *attacker, Player *defender, Country *c1, Country *c2)
+{
+	bool validInput = false;
+	int attackerDices, defenderDices;
+	int maxAttackerDices = c1->getArmySize(), maxDefenderDices = c2->getArmySize();
+	
+	while(!validInput) {
+		cout << attacker->name << "Number of dices to attack (1, 2 or 3)?" << endl;
+		cin >> attackerDices;
+		if (attackerDices > '0' && attackerDices < '4' && attackerDices <= maxAttackerDices) {
+			cout << defender->name << ": Number of dices to defend (1 or 2)?" << endl;
+			cin >> defenderDices;
+			if ((defenderDices == '1' || defenderDices == '2') && defenderDices <= maxDefenderDices) {
+				validInput = true;
+				// TODO: ROLL DICES FOR EACH PLAYER
+				// COMPARE THE ROLLS
+			}
+		}
+	}
+}
+
+void attackDefend(Player *player1, Player *player2)
+{
+
+}
+
+int numOfContinents(Player *player, Map *map)
+{
 	int owned = 0;	
 	vector<Continent *> continents = map->getContinents();
 	vector<Country *> countries = player->getCountries();

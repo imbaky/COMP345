@@ -17,7 +17,7 @@ Deck *createDeck(int countries);
 vector<Player *> createPlayers();
 
 void reinforcementPhase(Player *player, Map *map);
-void attackPhase(Player *player);
+void attackPhase(Player *player, Map *map);
 void fortificationPhase(Player *player);
 
 int numOfContinents(Player *player, Map *map);
