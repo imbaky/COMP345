@@ -19,5 +19,5 @@ vector<Player *> createPlayers();
 void reinforcementPhase(Player *player);
 void attackPhase(Player *player);
 void fortificationPhase(Player *player);
-
+void displayLogo();
 #endif

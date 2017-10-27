@@ -17,12 +17,8 @@ int main()
 {
     cout<<"Part 2!\n"<<endl;
     
-    cout << "██████╗ ██╗███████╗██╗  ██╗\n"<<
-            "██╔══██╗██║██╔════╝██║ ██╔╝\n"<<
-            "██████╔╝██║███████╗█████╔╝ \n"<<
-            "██╔══██╗██║╚════██║██╔═██╗ \n"<<
-            "██║  ██║██║███████║██║  ██╗\n"<<
-            "╚═╝  ╚═╝╚═╝╚══════╝╚═╝  ╚═╝\n\n" << endl;
+    displayLogo();
+
     int num_player=players_number();
     vector<Player*> players;
     for(int i=0;i<num_player;i++){
@@ -34,6 +30,7 @@ int main()
     */
     auto rng = std::default_random_engine {};
     std::shuffle(std::begin(players), std::end(players), rng);
+    
 
 
     //number of armies
