@@ -15,6 +15,7 @@ class Player {
 public:
 	string name;
 	Player(string name, int numberOfDices);
+	Player(string name, int numberOfDices, int initArmies);
 
 	int getArmies();
 	void setArmies(int newArmies);

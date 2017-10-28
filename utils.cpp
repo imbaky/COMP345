@@ -120,13 +120,69 @@ int players_number()
         return input;
 }
 
-void reinforcementPhase(Player *player)
-{
-        int owned = player->getCountries().size();
-        int additionalArmies = owned / 3;
-        if (additionalArmies < 3)
-                additionalArmies = 3;
-        player->setArmies(player->getArmies() + additionalArmies);
+
+void reinforcementPhase(Player *player, Map *map) {
+	char input;
+	int owned = player->getCountries().size();
+	int additionalArmies = owned / 3;
+	if (additionalArmies < 3)
+		additionalArmies = 3;
+	additionalArmies += numOfContinents(player, map);
+	
+	cout << "Exchange cards? (y/n)\n";
+	cin >> input;
+	if (input == 'y') {
+		cout << "(0) Echange infantries\n";
+		cout << "(1) Echange cavaleries\n";
+		cout << "(2) Echange artilleries\n";
+		cout << "(3) Echange all\n";
+		cin >> input;
+		switch (input) {
+		case '0':
+			additionalArmies = player->getHand()->exchange(Infantry);
+			player->setArmies(player->getArmies() + additionalArmies);
+			break;
+		case '1':
+			additionalArmies = player->getHand()->exchange(Cavalery);
+			player->setArmies(player->getArmies() + additionalArmies);
+			break;
+		case '2':
+			additionalArmies = player->getHand()->exchange(Artillery);
+			player->setArmies(player->getArmies() + additionalArmies);
+			break;
+		case '3':
+			additionalArmies = player->getHand()->exchange();
+			player->setArmies(player->getArmies() + additionalArmies);
+			break;
+		}
+	}
+	player->setArmies(player->getArmies() + additionalArmies);
+}
+
+int numOfContinents(Player *player, Map *map) {
+	int owned = 0;	
+	vector<Continent *> continents = map->getContinents();
+	vector<Country *> countries = player->getCountries();
+
+	for (int i = 0; i < continents.size(); i++) {
+	       	vector<Country *> continentCountries = continents[i]->getCountries();
+		for (int j = 0; j < continentCountries.size(); j++) {
+			vector<Country *>::iterator it = find(countries.begin(), countries.end(), continentCountries[j]);
+			if (it == countries.end()) {
+				break;
+			}
+			if (j == continentCountries.size() - 1) {
+				owned++;
+			}
+		}
+	}
+
+	return owned;
+}
+
+void printPlayerInfo(Player *player) {
+	cout << player->name << ": " << player->getDice()->getDices().size() << " dices, "
+		     << player->getArmies() << " armies\n";
 }
 
 void displayLogo()
