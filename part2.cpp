@@ -47,6 +47,7 @@ int main()
         vector <Country *>countries=(*it)->getCountries();
         for (std::vector<Country *>::iterator it2=countries.begin(); it2!=countries.end(); ++it2){
         players.at(index)->addCountry((*it2));
+        (*it2)->owner=(players.at(index));
         index=(index+1)%num_player;
         }
     }
@@ -60,6 +61,7 @@ int main()
         while(army_available>0)
         for (std::vector<Country *>::iterator it2=countries.begin(); it2!=countries.end(); ++it2){
                 if(army_available-->0){
+                    //cout<<(static_cast<Player*>((*it2)->owner)->name)<<endl;
                         (*it2)->setArmySize(((*it2)->getArmySize())+1);
                 }else break;
         }
