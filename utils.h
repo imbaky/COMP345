@@ -20,10 +20,10 @@ void reinforcementPhase(Player *player, Map *map);
 void attackPhase(Player *player);
 void fortificationPhase(Player *player);
 
-void displayLogo();
-
 int numOfContinents(Player *player, Map *map);
 
 void printPlayerInfo(Player *player);
+
+void displayLogo();
 	
 #endif
