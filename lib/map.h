@@ -12,6 +12,8 @@ public:
 	string name;
 	int posX;
 	int posY;
+	void *owner;
+
 
 	Country(string name, int posX, int posY);
 	
