@@ -132,23 +132,31 @@ void reinforcementPhase(Player *player, Map *map)
 			case '0':
 				additionalArmies = player->getHand()->exchange(Infantry);
 				player->setArmies(player->getArmies() + additionalArmies);
+				validInput = true;
+
 				break;
 			case '1':
 				additionalArmies = player->getHand()->exchange(Cavalery);
 				player->setArmies(player->getArmies() + additionalArmies);
+				validInput = true;
+
 				break;
 			case '2':
 				additionalArmies = player->getHand()->exchange(Artillery);
 				player->setArmies(player->getArmies() + additionalArmies);
+				validInput = true;
+
 				break;
 			case '3':
 				additionalArmies = player->getHand()->exchange();
 				player->setArmies(player->getArmies() + additionalArmies);
+				validInput = true;
 				break;
 			default:
+				cout << "Invalid input\n";
+				validInput = false;
 				break;
 			}
-			validInput = true;
 		}
 		if (input == 'n')
 			validInput = true;
@@ -160,9 +168,9 @@ void attackPhase(Player *player ,Map *mp)
 {
 	char input;
 	bool validInput = false;
-	cout << "Attack? (y/n)\n";
-	cin >> input;
 	while(!validInput) {
+		cout << "Attack? (y/n)\n";
+		cin >> input;
 		if (input == 'y') {
 			// Hash of the countries and neightbors it can attack
 			map<string, vector<Country *>> validCountries;
@@ -181,9 +189,8 @@ void attackPhase(Player *player ,Map *mp)
 					}
 				}
 			
-				if (neighbors.size() > 0)
+				if (enemyNeighbors.size() > 0)
 					validCountries[countries[i]->name] = enemyNeighbors;
-				
 			}
 
 			// Attacking country
@@ -201,16 +208,16 @@ void attackPhase(Player *player ,Map *mp)
 
 			// Attack target
 			string attackTo;
+			vector<Country *> targetNeighbors = validCountries[attackTo];
 			cout << "Select country to attack:\n";
 			for (int i = 0; i < validCountries[attackFrom].size(); i++) {
 				cout << validCountries[attackFrom][i]->name << ", ";
 			}
 			cin >> attackTo;
-			vector<Country *> targetNeighbors = validCountries[attackTo];
 			for (int i = 0; i < validCountries[attackTo].size(); i++) {
 				if (targetNeighbors[i]->name == attackTo)
 					validInput = true;
-					break;
+				break;
 			}
 		}
 		if (input == 'n')
@@ -239,9 +246,89 @@ void attack(Player *attacker, Player *defender, Country *c1, Country *c2)
 	}
 }
 
-void attackDefend(Player *player1, Player *player2)
+void fortificationPhase(Player *player)
 {
+	char input;
+	bool validInput = false;
+	while (!validInput) {
+		cout << "Fortify? (y/n)\n";
+		cin >> input;
+		if (input == 'y') {
+			// Hash of the countries and neightbors it can attack
+			map<string, vector<Country *>> validCountries;
+			// A player's countries
+			vector<Country *> countries = player->getCountries();
 
+			for (int i = 0; i < countries.size(); i++) {
+				vector<Country *> ownNeighbors;
+				vector<Country *> neighbors = countries[i]->getNeighbors();
+
+				for (int j = 0; j < neighbors.size(); j++) {
+					if (player->hasCountry(neighbors[i]->name) &&
+					    neighbors[i]->getArmySize() < 2) {
+						ownNeighbors.push_back(neighbors[i]);
+					}
+				}
+
+				if (ownNeighbors.size() > 0)
+					validCountries[countries[i]->name] = ownNeighbors;
+			}
+
+			// Input country to fortify
+			string fortifiee;
+			cout << "Select country to fortify:\n";
+			map<string, vector<Country *>>::iterator it;
+			for (it = validCountries.begin(); it != validCountries.end(); it++) {
+				cout << it->first << ", ";
+			}
+			cin >> fortifiee;
+			if (validCountries.find(fortifiee) == validCountries.end()) {
+				cout << "invalid country\n";
+				continue;
+			}
+
+			// Input transferring country
+			string fortifier;
+			Country *fortifierPtr;
+			vector<Country *> fortifiers = validCountries[fortifier];
+			cout << "Select country to fortify from:\n";
+			for (int i = 0; i < validCountries[fortifiee].size(); i++) {
+				cout << validCountries[fortifiee][i]->name << ", ";
+			}
+			cin >> fortifier;
+			for (int i = 0; i < validCountries[fortifiee].size(); i++) {
+				if (fortifiers[i]->name == fortifier) {
+					fortifierPtr = validCountries[fortifiee][i];
+					validInput = true;
+					break;
+				}
+			}
+
+			if (!validInput) {
+				cout << "Invalid input\n";
+				continue;
+			}
+
+			// Transfer
+			int transferAmount;
+			int maxTransfer = fortifierPtr->getArmySize() - 1;
+			cout << "Enter amount to transfer from " << fortifier << " to " << fortifiee <<
+				" (1" << " to " << maxTransfer << ")\n";
+			cin >> transferAmount;
+			if (transferAmount > 0 && transferAmount <= maxTransfer) {
+				validInput = true;
+				Country *fortifieePtr;
+				for (int i = 0; i < countries.size(); i++) {
+					if (countries[i]->name == fortifiee)
+						fortifieePtr = countries[i];
+				}
+				fortifieePtr->setArmySize(fortifieePtr->getArmySize() + transferAmount);
+				fortifierPtr->setArmySize(fortifierPtr->getArmySize() - transferAmount);
+			}
+		}
+		if (input == 'n')
+			validInput = true;
+	}
 }
 
 int numOfContinents(Player *player, Map *map)
@@ -268,5 +355,5 @@ int numOfContinents(Player *player, Map *map)
 
 void printPlayerInfo(Player *player) {
 	cout << player->name << ": " << player->getDice()->getDices().size() << " dices, "
-		     << player->getArmies() << " armies\n";
+	     << player->getArmies() << " armies\n";
 }
