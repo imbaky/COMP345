@@ -21,6 +21,7 @@ public:
 	void addNeighbor(Country *country);
 	bool hasNeighbor(Country *country);
 	bool hasNeighbor(string country);
+	bool hasNeighbor();
 	bool setArmySize(int army_size);
 	int getArmySize();
 private:

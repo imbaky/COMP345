@@ -1,25 +1,32 @@
 CC=g++
 
-WARN=-Wall -W -Wno-missing-field-initializers
+WARN=-Wall -W -Wno-missing-field-initializers -std=c++11
 OPT=-O2
 
 CFLAGS=$(WARN) $(OPT)
+
+LIBS=./lib/card.h ./lib/card.cpp ./lib/Maploader.h ./lib/Maploader.cpp ./lib/map.h ./lib/map.cpp ./lib/player.h ./lib/player.cpp ./lib/dice.h ./lib/die.h ./lib/dice.cpp ./lib/die.cpp utils.h utils.cpp
 
 all:
 
 # Assignment 2
 part1: clean
-	g++ -std=c++11 ./lib/card.h ./lib/card.cpp ./lib/Maploader.h ./lib/Maploader.cpp ./lib/map.h ./lib/map.cpp ./lib/player.h ./lib/player.cpp ./lib/dice.h ./lib/die.h ./lib/dice.cpp ./lib/die.cpp utils.h utils.cpp part1.cpp -o part1
+	$(CC) $(OPTS) $(LIBS) part1.cpp -o part1
 
 part2: clean
-	g++ -std=c++11 part2.cpp  ./lib/card.h ./lib/card.cpp ./lib/player.h ./lib/player.cpp ./lib/dice.h ./lib/die.h ./lib/dice.cpp ./lib/die.cpp  ./lib/Maploader.h ./lib/Maploader.cpp ./lib/map.h ./lib/map.cpp utils.h utils.cpp -o part2
+	$(CC) $(OPTS) $(LIBS) part2.cpp -o part2
 
 part3: clean
 	g++ -std=c++11 part3.cpp  ./lib/card.h ./lib/card.cpp ./lib/player.h ./lib/player.cpp ./lib/dice.h ./lib/die.h ./lib/dice.cpp ./lib/die.cpp  ./lib/Maploader.h ./lib/Maploader.cpp ./lib/map.h ./lib/map.cpp utils.h utils.cpp -o part3
 
 part4: clean
-	g++ -std=c++11 ./lib/card.h ./lib/card.cpp ./lib/Maploader.h ./lib/Maploader.cpp ./lib/map.h ./lib/map.cpp ./lib/player.h ./lib/player.cpp ./lib/dice.h ./lib/die.h ./lib/dice.cpp ./lib/die.cpp utils.h utils.cpp part4.cpp -o part4
+	$(CC) $(OPTS) $(LIBS) part4.cpp -o part4
 
+part5: clean
+	$(CC) $(OPTS) $(LIBS) part5.cpp -o part5
+
+part6: clean
+	$(CC) $(OPTS) $(LIBS) part6.cpp -o part6
 
 # Assignment 1
 player: 

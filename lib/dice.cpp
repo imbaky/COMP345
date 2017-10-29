@@ -23,15 +23,15 @@ int Dice::roll()
 	return sum;
 }
 
-int Dice::roll(int n)
+vector<int> Dice::roll(int n)
 {
+	vector<int> rolls;
 	assert(n <= dices.size());
-	int sum = 0;
 	for(int i = 0; i < n; i++) {
 		int roll = dices[i]->roll();
-		sum += roll;
+		rolls.push_back(roll);
 	}
-	return sum;
+	return rolls;
 }
 
 void Dice::printStats()
