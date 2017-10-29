@@ -17,7 +17,7 @@ part2: clean
 	$(CC) $(OPTS) $(LIBS) part2.cpp -o part2
 
 part3: clean
-	g++ -std=c++11 part3.cpp  ./lib/card.h ./lib/card.cpp ./lib/player.h ./lib/player.cpp ./lib/dice.h ./lib/die.h ./lib/dice.cpp ./lib/die.cpp  ./lib/Maploader.h ./lib/Maploader.cpp ./lib/map.h ./lib/map.cpp utils.h utils.cpp -o part3
+	g++ -std=c++11 part3.cpp  ./lib/card.h ./lib/card.cpp ./lib/player.h ./lib/player.cpp ./lib/dice.h ./lib/die.h ./lib/dice.cpp ./lib/die.cpp  ./lib/Maploader.h ./lib/Maploader.cpp ./lib/map.h ./lib/map.cpp ./lib/game.h ./lib/game.cpp utils.h utils.cpp -o part3
 
 part4: clean
 	$(CC) $(OPTS) $(LIBS) part4.cpp -o part4

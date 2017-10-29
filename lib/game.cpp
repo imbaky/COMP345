@@ -41,10 +41,15 @@ bool Game::setPlayers(vector<Player *> players)
         this->players=players;
 }
 
+bool Game::setMap(Map *map){
+        this->map=map;
+}
+
 bool Game::hasWon(){
         if(this->map->countryCount()==this->players.at(this->currentPlayer)->getCountries().size()){
-                std::cout << "Congratulations "<< this->players.at(this->currentPlayer)->name << endl;
+                std::cout << "Congratulations "<< this->players.at(this->currentPlayer)->name << " you won the game !!" <<endl;
                 return true;
         }
         return false;
 }
+

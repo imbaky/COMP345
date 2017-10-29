@@ -70,7 +70,6 @@ void MapLoader::loadMap(string filename)
 			string name = splitstr[0];
 			Continent *continent = new Continent(name);
 			continents[name] = continent;
-			
 			map->addContinent(continent);
 			
 		} else if (current == "TERRITORIES") {

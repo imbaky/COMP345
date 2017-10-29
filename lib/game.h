@@ -18,6 +18,7 @@ class Game
         void turn();
         void nextTurn();
         bool setPlayers(vector<Player *> players);
+        bool setMap(Map *map);
         bool hasWon();
       private:
         vector<Player *> players;

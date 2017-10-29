@@ -123,7 +123,6 @@ vector<Continent *> Map::getContinents()
 
 void Map::addContinent(Continent *continent)
 {
-	this->country_count += continent->getCountries().size();
 	if (!hasContinent(continent))
 	{
 		continents.push_back(continent);
@@ -153,6 +152,15 @@ bool Map::hasContinent(string continent)
 }
 
 int Map::countryCount(){
+	if(this->country_count==0)
+	for (std::vector<Continent *>::iterator it = continents.begin(); it != continents.end(); ++it)
+        {
+                vector<Country *> countries = (*it)->getCountries();
+                for (std::vector<Country *>::iterator it2 = countries.begin(); it2 != countries.end(); ++it2)
+                {
+			this->country_count++;
+                }
+        }
 	return this->country_count;
 }
 
