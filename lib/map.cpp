@@ -152,6 +152,10 @@ bool Map::hasContinent(string continent)
 	return false;
 }
 
+int Map::countryCount(){
+	return this->country_count;
+}
+
 bool Country::setArmySize(int army_size)
 {
 	army = army_size;
@@ -162,3 +166,4 @@ int Country::getArmySize()
 {
 	return army;
 }
+
