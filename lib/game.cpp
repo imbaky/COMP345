@@ -26,7 +26,7 @@ void Game::fortifyCountry()
 
 void Game::turn()
 {
-        this->fortifyCountry();
+        this->reinforceCountry();
         this->attackCountry();
         this->fortifyCountry();
 }
