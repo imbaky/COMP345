@@ -14,10 +14,25 @@ int main()
 
         displayLogo();
         
+
+
         Game* game = game->getInstance();
-        
-        game->setMap(loadMap());
-        game->setPlayers(createPlayers());
+        Map* map=loadMap();
+       
+        //player 2 owns all the countries
+        vector<Player*> players=createPlayers();
+        vector<Continent *> continents=map->getContinents();
+        for (std::vector<Continent *>::iterator it = continents.begin(); it != continents.end(); ++it)
+        {
+                vector<Country *> countries= (*it)->getCountries();
+                for (std::vector<Country *>::iterator it2 = countries.begin(); it2 != countries.end(); ++it2){
+                        players.at(1)->addCountry(*it2);
+                }
+        }
+
+
+        game->setMap(map);
+        game->setPlayers(players);
 
         while(!(game->hasWon())){
                 game->turn();
