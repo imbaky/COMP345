@@ -13,15 +13,15 @@ Game *Game::getInstance()
 
 void Game::reinforceCountry()
 {
-        std::cout << "reinforceCountry" << endl;
+        std::cout << "Reinforce phase" << endl;
 }
 void Game::attackCountry()
 {
-        std::cout << "attackCountry" << endl;
+        std::cout << "Attack phase" << endl;
 }
 void Game::fortifyCountry()
 {
-        std::cout << "fortifyCountry" << endl;
+        std::cout << "Fortify phase" << endl;
 }
 
 void Game::turn()
@@ -41,13 +41,17 @@ bool Game::setPlayers(vector<Player *> players)
         this->players=players;
 }
 
+Player* Game::getCurrentPlayer()
+{
+        return this->players.at(this->currentPlayer);
+}
+
 bool Game::setMap(Map *map){
         this->map=map;
 }
 
 bool Game::hasWon(){
         if(this->map->countryCount()==this->players.at(this->currentPlayer)->getCountries().size()){
-                std::cout << "Congratulations "<< this->players.at(this->currentPlayer)->name << " you won the game !!" <<endl;
                 return true;
         }
         return false;

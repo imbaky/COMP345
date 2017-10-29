@@ -20,6 +20,7 @@ class Game
         bool setPlayers(vector<Player *> players);
         bool setMap(Map *map);
         bool hasWon();
+        Player* getCurrentPlayer();
       private:
         vector<Player *> players;
         int currentPlayer;
