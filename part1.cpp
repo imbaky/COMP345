@@ -21,10 +21,8 @@ int main()
         displayLogo();
         start_game();
 
+        
         Map *map = loadMap();
-        /* TODO check if map is valid 
-	 * Need to implement isValid()
-	 */
 
         int countriesCount = 0;
         vector<Continent *> continents = map->getContinents();

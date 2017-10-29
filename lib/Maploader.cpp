@@ -110,7 +110,10 @@ void MapLoader::displayMap()
 
 bool MapLoader::isValid()
 {
-// need to do loadmap to check for exception throwing
+	if(this->map->getContinents().size()==0){
+		cout<<"Invalid map"<<endl;
+		return false;
+	}
+	else
 	return true;
 }
-// Check lab for instruction

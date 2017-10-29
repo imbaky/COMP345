@@ -47,19 +47,7 @@ cards:
 	$(CC) $(CFLAGS) ./lib/card.cpp ./lib/card.h ./lib/card_test.cpp -o card_test
 
 clean:
-	rm -rf player.h.gch player_test
-	rm -rf Dice.h.gch Die.h.gch dice_test
-	rm -rf maploader_test
-	rm -rf map_test
-	rm -rf card.h.gch card_test
-	rm -rf risk
-	rm -rf utils.h.gch
-	rm -rf part1
-	rm -rf part2
-	rm -rf part3
-	rm -rf part4
-	rm -rf part5
-	rm -rf part6
+	rm -rf *.o
 
 
 .PHONY: clean all
