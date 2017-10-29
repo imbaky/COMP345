@@ -3,13 +3,28 @@
 
 #include <string>
 #include <vector>
+#include "player.h"
+#include "map.h"
 
-class Game{
-public:
-        Game(){}
-        ~Game() {};
-        static Game* getInstance();
-
+class Game
+{
+      public:
+        Game() {}
+        ~Game(){};
+        static Game *getInstance();
+        void reinforceCountry();
+	void attackCountry();
+        void fortifyCountry();
+        void turn();
+        void nextTurn();
+        bool setPlayers(vector<Player *> players);
+        bool setMap(Map *map);
+        bool hasWon();
+        Player* getCurrentPlayer();
+      private:
+        vector<Player *> players;
+        int currentPlayer;
+        Map *map = nullptr;
 };
 
 #endif

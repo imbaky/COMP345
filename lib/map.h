@@ -55,8 +55,10 @@ public:
 	void addContinent(Continent *continent);
 	bool hasContinent(Continent *continent);
 	bool hasContinent(string continent);
+	int countryCount();
 private:
 	vector<Continent *> continents;
+	int country_count=0;
 };
 
 #endif
