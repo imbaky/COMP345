@@ -1,8 +1,8 @@
 #include "map.h"
 
-Country::Country(string countryName, int x, int y) :
-	name(countryName), posX(x), posY(y),army(0)
-{}
+Country::Country(string countryName, int x, int y) : name(countryName), posX(x), posY(y), army(0)
+{
+}
 
 vector<Country *> Country::getNeighbors()
 {
@@ -11,7 +11,8 @@ vector<Country *> Country::getNeighbors()
 
 void Country::addNeighbor(Country *country)
 {
-	if (!hasNeighbor(country)) {
+	if (!hasNeighbor(country))
+	{
 		neighbors.push_back(country);
 		country->addNeighbor(this);
 	}
@@ -20,7 +21,8 @@ void Country::addNeighbor(Country *country)
 bool Country::hasNeighbor(Country *country)
 {
 	vector<Country *> neighbors = getNeighbors();
-	for (int i = 0; i < neighbors.size(); i++) {
+	for (int i = 0; i < neighbors.size(); i++)
+	{
 		if (neighbors[i] == country)
 			return true;
 	}
@@ -30,7 +32,8 @@ bool Country::hasNeighbor(Country *country)
 bool Country::hasNeighbor(string country)
 {
 	vector<Country *> neighbors = getNeighbors();
-	for (int i = 0; i < neighbors.size(); i++) {
+	for (int i = 0; i < neighbors.size(); i++)
+	{
 		if (neighbors[i]->name == country)
 			return true;
 	}
@@ -51,7 +54,8 @@ vector<Country *> Continent::getCountries()
 
 void Continent::addCountry(Country *country)
 {
-	if (!hasCountry(country)) {
+	if (!hasCountry(country))
+	{
 		countries.push_back(country);
 	}
 }
@@ -59,7 +63,8 @@ void Continent::addCountry(Country *country)
 bool Continent::hasCountry(Country *country)
 {
 	vector<Country *> countries = getCountries();
-	for (int i = 0; i < countries.size(); i++) {
+	for (int i = 0; i < countries.size(); i++)
+	{
 		if (countries[i] == country)
 			return true;
 	}
@@ -68,7 +73,8 @@ bool Continent::hasCountry(Country *country)
 bool Continent::hasCountry(string country)
 {
 	vector<Country *> countries = getCountries();
-	for (int i = 0; i < countries.size(); i++) {
+	for (int i = 0; i < countries.size(); i++)
+	{
 		if (countries[i]->name == country)
 			return true;
 	}
@@ -82,7 +88,8 @@ vector<Continent *> Continent::getNeighbors()
 
 void Continent::addNeighbor(Continent *continent)
 {
-	if (!hasNeighbor(continent)) {
+	if (!hasNeighbor(continent))
+	{
 		neighbors.push_back(continent);
 		continent->addNeighbor(this);
 	}
@@ -91,7 +98,8 @@ void Continent::addNeighbor(Continent *continent)
 bool Continent::hasNeighbor(Continent *continent)
 {
 	vector<Continent *> neighbors = getNeighbors();
-	for (int i = 0; i < neighbors.size(); i++) {
+	for (int i = 0; i < neighbors.size(); i++)
+	{
 		if (neighbors[i] == continent)
 			return true;
 	}
@@ -100,7 +108,8 @@ bool Continent::hasNeighbor(Continent *continent)
 bool Continent::hasNeighbor(string continent)
 {
 	vector<Continent *> neighbors = getNeighbors();
-	for (int i = 0; i < neighbors.size(); i++) {
+	for (int i = 0; i < neighbors.size(); i++)
+	{
 		if (neighbors[i]->name == continent)
 			return true;
 	}
@@ -114,7 +123,9 @@ vector<Continent *> Map::getContinents()
 
 void Map::addContinent(Continent *continent)
 {
-	if (!hasContinent(continent)) {
+	this->country_count += continent->getCountries().size();
+	if (!hasContinent(continent))
+	{
 		continents.push_back(continent);
 	}
 }
@@ -122,7 +133,8 @@ void Map::addContinent(Continent *continent)
 bool Map::hasContinent(Continent *continent)
 {
 	vector<Continent *> continents = getContinents();
-	for (int i = 0; i < continents.size(); i++) {
+	for (int i = 0; i < continents.size(); i++)
+	{
 		if (continents[i] == continent)
 			return true;
 	}
@@ -132,18 +144,21 @@ bool Map::hasContinent(Continent *continent)
 bool Map::hasContinent(string continent)
 {
 	vector<Continent *> continents = getContinents();
-	for (int i = 0; i < continents.size(); i++) {
+	for (int i = 0; i < continents.size(); i++)
+	{
 		if (continents[i]->name == continent)
 			return true;
 	}
 	return false;
 }
 
-bool  Country::setArmySize(int army_size){
-	army=army_size;
+bool Country::setArmySize(int army_size)
+{
+	army = army_size;
 	return true;
 }
 
-int  Country::getArmySize(){
+int Country::getArmySize()
+{
 	return army;
 }

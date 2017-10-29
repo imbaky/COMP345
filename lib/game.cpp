@@ -35,3 +35,12 @@ void Game::nextTurn()
 {
         currentPlayer = (currentPlayer + 1) % players.size();
 }
+
+bool Game::setPlayers(vector<Player *> players)
+{
+        this->players=players;
+}
+
+bool Game::hasWon(){
+        std::cout << "Congratulations "<< (this->players)->name << endl;
+}

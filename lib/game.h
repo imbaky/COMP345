@@ -17,7 +17,8 @@ class Game
         void fortifyCountry();
         void turn();
         void nextTurn();
-
+        bool setPlayers(vector<Player *> players);
+        bool hasWon();
       private:
         vector<Player *> players;
         int currentPlayer;

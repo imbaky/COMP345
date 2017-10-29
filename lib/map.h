@@ -57,6 +57,7 @@ public:
 	bool hasContinent(string continent);
 private:
 	vector<Continent *> continents;
+	int country_count=0;
 };
 
 #endif
