@@ -5,28 +5,30 @@ OPT=-O2
 
 CFLAGS=$(WARN) $(OPT)
 
-LIBS=./lib/card.h ./lib/card.cpp ./lib/Maploader.h ./lib/Maploader.cpp ./lib/map.h ./lib/map.cpp ./lib/player.h ./lib/player.cpp ./lib/dice.h ./lib/die.h ./lib/dice.cpp ./lib/die.cpp utils.h utils.cpp
+LIBS=./lib/card.h ./lib/card.cpp ./lib/Maploader.h ./lib/Maploader.cpp ./lib/map.h ./lib/map.cpp ./lib/player.h ./lib/player.cpp ./lib/dice.h ./lib/die.h ./lib/dice.cpp ./lib/die.cpp ./lib/game.h ./lib/game.cpp utils.h utils.cpp
+
+STD=-std=c++11
 
 all:
 
 # Assignment 2
 part1: clean
-	$(CC) $(OPTS) $(LIBS) part1.cpp -o part1
+	$(CC) $(STD) $(OPTS) $(LIBS) part1.cpp -o part1
 
 part2: clean
-	$(CC) $(OPTS) $(LIBS) part2.cpp -o part2
+	$(CC) $(STD) $(OPTS) $(LIBS) part2.cpp -o part2
 
 part3: clean
-	g++ -std=c++11 part3.cpp  ./lib/card.h ./lib/card.cpp ./lib/player.h ./lib/player.cpp ./lib/dice.h ./lib/die.h ./lib/dice.cpp ./lib/die.cpp  ./lib/Maploader.h ./lib/Maploader.cpp ./lib/map.h ./lib/map.cpp ./lib/game.h ./lib/game.cpp utils.h utils.cpp -o part3
+	$(CC) $(STD)  $(OPTS) $(LIBS) part3.cpp -o part3
 
 part4: clean
-	$(CC) $(OPTS) $(LIBS) part4.cpp -o part4
+	$(CC) $(STD) $(OPTS) $(LIBS) part4.cpp -o part4
 
 part5: clean
-	$(CC) $(OPTS) $(LIBS) part5.cpp -o part5
+	$(CC) $(STD) $(OPTS) $(LIBS) part5.cpp -o part5
 
 part6: clean
-	$(CC) $(OPTS) $(LIBS) part6.cpp -o part6
+	$(CC) $(STD) $(OPTS) $(LIBS) part6.cpp -o part6
 
 # Assignment 1
 player: 
@@ -52,5 +54,12 @@ clean:
 	rm -rf card.h.gch card_test
 	rm -rf risk
 	rm -rf utils.h.gch
+	rm -rf part1
+	rm -rf part2
+	rm -rf part3
+	rm -rf part4
+	rm -rf part5
+	rm -rf part6
+
 
 .PHONY: clean all

@@ -58,7 +58,7 @@ public:
 	int countryCount();
 private:
 	vector<Continent *> continents;
-	int country_count=0;
+	int country_count;
 };
 
 #endif

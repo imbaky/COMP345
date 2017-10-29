@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 
 #include "map.h"
 #include "dice.h"

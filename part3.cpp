@@ -5,7 +5,7 @@
 #include "./lib/player.h"
 #include "./lib/Maploader.h"
 #include "./lib/game.h"
-#include "utils.h"
+#include "./utils.h"
 
 void playerOwnsAll(Player* player, Map* map);
 int main()
