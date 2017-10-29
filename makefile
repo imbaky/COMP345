@@ -47,7 +47,7 @@ cards:
 	$(CC) $(CFLAGS) ./lib/card.cpp ./lib/card.h ./lib/card_test.cpp -o card_test
 
 clean:
-	rm -rf *.o
+	rm -rf part1 part2 part3 part4 part5 part6
 
 
 .PHONY: clean all
