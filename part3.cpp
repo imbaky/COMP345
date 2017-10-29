@@ -8,8 +8,7 @@
 
 int main()
 {
-        cout << "Part 3!\n"
-             << endl;
+        cout << "Part 3!\n" << endl;
 
         displayLogo();
 
