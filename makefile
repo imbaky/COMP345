@@ -25,6 +25,8 @@ part4: clean
 part5: clean
 	$(CC) $(OPTS) $(LIBS) part5.cpp -o part5
 
+part6: clean
+	$(CC) $(OPTS) $(LIBS) part6.cpp -o part6
 
 # Assignment 1
 player: 
