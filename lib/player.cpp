@@ -72,11 +72,44 @@ bool Player::reinforce(Country* country, int reinforcement){
 		return true;
 	}
 	else return false;
-
 }
+struct sorter {
+	bool operator() (int i,int j) { return (i<j);}
+      } sortInt;
 
-void Player::attack(){
+bool Player::attack(Country* attackingCountry, Country* defendingCountry){
+	Player* attacker=static_cast<Player*>(attackingCountry->owner);
+	Player* defender=static_cast<Player*>(defendingCountry->owner);
+	if(attacker->name==defender->name||attacker->name!=this->name||attackingCountry->getArmySize()<2)
+	return false;
+	int attackerArmy = attackingCountry->getArmySize();
+	int defenderArmy = defendingCountry->getArmySize();
+	int attackerDiceCount = 0;
+	int defenderDiceCount = 0;
 
+	attackerDiceCount = attackerArmy > 3 ? 3 : attackerArmy - 1;
+	defenderDiceCount = defenderArmy > 1 ? 2 : 1;
+
+	vector<int> attackerRolls= attacker->getDice()->roll(attackerDiceCount);
+	vector<int> defenderRolls= defender->getDice()->roll(attackerDiceCount);
+	std::sort(attackerRolls.begin(), attackerRolls.end(), sortInt);
+	std::sort(defenderRolls.begin(), defenderRolls.end(), sortInt);
+	for(int i=0;i<attackerDiceCount;i++){
+		if((i>defenderDiceCount-1)||(attackerRolls.at(i)>defenderRolls.at(i))){
+		defendingCountry->setArmySize(defendingCountry->getArmySize()-1);
+		if(defendingCountry->getArmySize()<1){
+			attackingCountry->setArmySize(attackingCountry->getArmySize()-1);
+			defendingCountry->setArmySize(1);
+			defendingCountry->owner=attacker;
+		}
+
+		}
+		else 
+		attackingCountry->setArmySize(attackingCountry->getArmySize()-1);
+	}
+
+
+	return true;
 }
 
 void Player::fortify(){
