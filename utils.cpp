@@ -27,7 +27,7 @@ Map *loadMap()
 	{
 		ml->loadMap(select_map());
 	} while (!ml->isValid());
-	
+
 	Map *map = ml->getMap();
 	return map;
 }
@@ -149,25 +149,21 @@ void reinforcementPhase(Player *player, Map *map)
 			{
 			case '0':
 				additionalArmies = player->getHand()->exchange(Infantry);
-				player->setArmies(player->getArmies() + additionalArmies);
 				validInput = true;
 
 				break;
 			case '1':
 				additionalArmies = player->getHand()->exchange(Cavalery);
-				player->setArmies(player->getArmies() + additionalArmies);
 				validInput = true;
 
 				break;
 			case '2':
 				additionalArmies = player->getHand()->exchange(Artillery);
-				player->setArmies(player->getArmies() + additionalArmies);
 				validInput = true;
 
 				break;
 			case '3':
 				additionalArmies = player->getHand()->exchange();
-				player->setArmies(player->getArmies() + additionalArmies);
 				validInput = true;
 				break;
 			default:
@@ -179,7 +175,14 @@ void reinforcementPhase(Player *player, Map *map)
 		if (input == 'n')
 			validInput = true;
 	}
-	player->setArmies(player->getArmies() + additionalArmies);
+	cout << player->name << " gets " << additionalArmies << " armies" << endl;
+	vector<Country *> countries = player->getCountries();
+	cout << "The player's armies will be distrubuted equally among their countries"<<endl;
+	for (int i = 0; i < additionalArmies ; i++)
+	{
+		player->reinforce(countries.at(i),1);
+		cout << countries.at(i%countries.size())->name << " now has "<< countries.at(i%countries.size())->getArmySize() << " armies " << endl;
+	}
 }
 
 void attackPhase(Player *player, Map *mp)

@@ -53,6 +53,19 @@ int main()
 		cout << "\n";
 	}
 
+	int num_player=players.size();
+	int index = 0;
+	for (std::vector<Continent *>::iterator it = continents.begin(); it != continents.end(); ++it)
+	{
+		vector<Country *> countries = (*it)->getCountries();
+		for (std::vector<Country *>::iterator it2 = countries.begin(); it2 != countries.end(); ++it2)
+		{
+			players.at(index)->addCountry((*it2));
+			(*it2)->owner = (players.at(index));
+			index = (index + 1) % num_player;
+		}
+	}
+
 	cout << "\n\n=======\nPLAYERS:\n=======\n";
 	for (int i = 0; i < players.size(); i++)
 	{
