@@ -177,11 +177,13 @@ void reinforcementPhase(Player *player, Map *map)
 	}
 	cout << player->name << " gets " << additionalArmies << " armies" << endl;
 	vector<Country *> countries = player->getCountries();
-	cout << "The player's armies will be distrubuted equally among their countries" << endl;
+	cout << "The player's armies will be distrubuted equally among their countries"<<endl;
 	for (int i = 0; i < additionalArmies; i++)
 	{
-		player->reinforce(countries.at(i), 1);
-		cout << countries.at(i % countries.size())->name << " now has " << countries.at(i % countries.size())->getArmySize() << " armies " << endl;
+		player->reinforce(countries.at(i % countries.size()) , 1);
+		cout << countries.at(i % countries.size())->name << " now has "
+		     << countries.at(i % countries.size())->getArmySize()
+		     << " armies " << endl;
 	}
 }
 
