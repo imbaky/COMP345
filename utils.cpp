@@ -177,10 +177,10 @@ void reinforcementPhase(Player *player, Map *map)
 	}
 	cout << player->name << " gets " << additionalArmies << " armies" << endl;
 	vector<Country *> countries = player->getCountries();
-	cout << "The player's armies will be distrubuted equally among their countries"<<endl;
+	cout << "The player's armies will be distrubuted equally among their countries" << endl;
 	for (int i = 0; i < additionalArmies; i++)
 	{
-		player->reinforce(countries.at(i % countries.size()) , 1);
+		player->reinforce(countries.at(i % countries.size()), 1);
 		cout << countries.at(i % countries.size())->name << " now has "
 		     << countries.at(i % countries.size())->getArmySize()
 		     << " armies " << endl;
@@ -205,18 +205,18 @@ void attackPhase(Player *player)
 			cout << "Select a country that you would like to attack from:" << endl;
 			for (int i = 0; i < player->getCountries().size(); i++)
 			{
-				cout << i << "- " << player->getCountries().at(i)->name  << " Army size:" <<  player->getCountries().at(i)->getArmySize()<< endl;
+				cout << i << "- " << player->getCountries().at(i)->name << " Army size:" << player->getCountries().at(i)->getArmySize() << endl;
 			}
 			int attackCountry;
-			cin>>attackCountry;
+			cin >> attackCountry;
 
 			cout << "Select a neighboring country that you would like to attack:" << endl;
 			for (int i = 0; i < player->getCountries().at(attackCountry)->getNeighbors().size(); i++)
 			{
-				cout << i << "- " << player->getCountries().at(attackCountry)->getNeighbors().at(i)->name << " Army size:" <<  player->getCountries().at(attackCountry)->getNeighbors().at(i)->getArmySize()<< endl;
+				cout << i << "- " << player->getCountries().at(attackCountry)->getNeighbors().at(i)->name << " Army size:" << player->getCountries().at(attackCountry)->getNeighbors().at(i)->getArmySize() << endl;
 			}
 			int enemyCountry;
-			cin>>enemyCountry;
+			cin >> enemyCountry;
 
 			int attackerDices, defenderDices;
 
@@ -226,14 +226,13 @@ void attackPhase(Player *player)
 			cout << static_cast<Player *>(player->getCountries().at(attackCountry)->getNeighbors().at(enemyCountry)->owner)->name << " Number of dices to defend (1 or 2)?" << endl;
 			cin >> defenderDices;
 
-			if(player->attack(player->getCountries().at(attackCountry), player->getCountries().at(attackCountry)->getNeighbors().at(enemyCountry), attackerDices,defenderDices))
-			validInput = true;
-			else {
+			if (player->attack(player->getCountries().at(attackCountry), player->getCountries().at(attackCountry)->getNeighbors().at(enemyCountry), attackerDices, defenderDices))
+				validInput = true;
+			else
+			{
 				validInput = false;
-				cout<<"invalid input";
+				cout << "invalid input";
 			}
-			
-
 		}
 		if (input == 'n')
 			validInput = true;
@@ -250,87 +249,44 @@ void fortificationPhase(Player *player)
 		cin >> input;
 		if (input == 'y')
 		{
-			// Hash of the countries and neightbors it can attack
-			map<string, vector<Country *>> validCountries;
-			// A player's countries
-			vector<Country *> countries = player->getCountries();
-
-			for (int i = 0; i < countries.size(); i++)
+			cout << "Select a country like to fortify:" << endl;
+			for (int i = 0; i < player->getCountries().size(); i++)
 			{
-				vector<Country *> ownNeighbors;
-				vector<Country *> neighbors = countries[i]->getNeighbors();
-
-				for (int j = 0; j < neighbors.size(); j++)
-				{
-					if (player->hasCountry(neighbors[i]->name) &&
-					    neighbors[i]->getArmySize() < 2)
-					{
-						ownNeighbors.push_back(neighbors[i]);
-					}
-				}
-
-				if (ownNeighbors.size() > 0)
-					validCountries[countries[i]->name] = ownNeighbors;
+				cout << i << "- " << player->getCountries().at(i)->name << " Army size:" << player->getCountries().at(i)->getArmySize() << endl;
 			}
+			int targetCountry;
+			cin >> targetCountry;
 
-			// Input country to fortify
-			string fortifiee;
-			cout << "Select country to fortify:\n";
-			map<string, vector<Country *>>::iterator it;
-			for (it = validCountries.begin(); it != validCountries.end(); it++)
+			if ((targetCountry < 0) || (targetCountry > player->getCountries().size()))
 			{
-				cout << it->first << ", ";
-			}
-			cin >> fortifiee;
-			if (validCountries.find(fortifiee) == validCountries.end())
-			{
-				cout << "invalid country\n";
 				continue;
 			}
 
-			// Input transferring country
-			string fortifier;
-			Country *fortifierPtr;
-			vector<Country *> fortifiers = validCountries[fortifier];
-			cout << "Select country to fortify from:\n";
-			for (int i = 0; i < validCountries[fortifiee].size(); i++)
+			vector<Country *> neighbors;
+			for (int i = 0; i < player->getCountries().at(targetCountry)->getNeighbors().size(); i++)
 			{
-				cout << validCountries[fortifiee][i]->name << ", ";
-			}
-			cin >> fortifier;
-			for (int i = 0; i < validCountries[fortifiee].size(); i++)
-			{
-				if (fortifiers[i]->name == fortifier)
-				{
-					fortifierPtr = validCountries[fortifiee][i];
-					validInput = true;
-					break;
-				}
+				if (static_cast<Player *>(player->getCountries().at(targetCountry)->getNeighbors().at(i)->owner)->name == static_cast<Player *>(player->getCountries().at(targetCountry)->owner)->name)
+					neighbors.push_back(player->getCountries().at(targetCountry)->getNeighbors().at(i));
 			}
 
-			if (!validInput)
+			cout << "Select a country that you want to move armies from:" << endl;
+			for (int i = 0; i < neighbors.size(); i++)
 			{
-				cout << "Invalid input\n";
-				continue;
+				cout << i << "- " << neighbors.at(i)->name << " Army size:" << neighbors.at(i)->getArmySize() << endl;
 			}
+			int sourceCountry;
+			cin >> sourceCountry;
 
-			// Transfer
-			int transferAmount;
-			int maxTransfer = fortifierPtr->getArmySize() - 1;
-			cout << "Enter amount to transfer from " << fortifier << " to " << fortifiee << " (1"
-			     << " to " << maxTransfer << ")\n";
-			cin >> transferAmount;
-			if (transferAmount > 0 && transferAmount <= maxTransfer)
+			cout << "How much of your army would you like to move ?" << endl;
+			int fortificationAmount;
+			cin >> fortificationAmount;
+
+			if(player->fortify(neighbors.at(sourceCountry) ,player->getCountries().at(targetCountry),fortificationAmount))
 			{
 				validInput = true;
-				Country *fortifieePtr;
-				for (int i = 0; i < countries.size(); i++)
-				{
-					if (countries[i]->name == fortifiee)
-						fortifieePtr = countries[i];
-				}
-				fortifieePtr->setArmySize(fortifieePtr->getArmySize() + transferAmount);
-				fortifierPtr->setArmySize(fortifierPtr->getArmySize() - transferAmount);
+			}
+			else{
+				cout<<"Invalid move"<<endl;
 			}
 		}
 		if (input == 'n')

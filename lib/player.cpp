@@ -143,5 +143,6 @@ bool Player::fortify(Country *source, Country *target, int fortificationAmount)
 	{
 		source->setArmySize(source->getArmySize() - fortificationAmount);
 		target->setArmySize(target->getArmySize() + fortificationAmount);
+		return true;
 	}
 }
