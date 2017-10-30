@@ -177,15 +177,15 @@ void reinforcementPhase(Player *player, Map *map)
 	}
 	cout << player->name << " gets " << additionalArmies << " armies" << endl;
 	vector<Country *> countries = player->getCountries();
-	cout << "The player's armies will be distrubuted equally among their countries"<<endl;
-	for (int i = 0; i < additionalArmies ; i++)
+	cout << "The player's armies will be distrubuted equally among their countries" << endl;
+	for (int i = 0; i < additionalArmies; i++)
 	{
-		player->reinforce(countries.at(i),1);
-		cout << countries.at(i%countries.size())->name << " now has "<< countries.at(i%countries.size())->getArmySize() << " armies " << endl;
+		player->reinforce(countries.at(i), 1);
+		cout << countries.at(i % countries.size())->name << " now has " << countries.at(i % countries.size())->getArmySize() << " armies " << endl;
 	}
 }
 
-void attackPhase(Player *player, Map *mp)
+void attackPhase(Player *player)
 {
 	char input;
 	bool validInput = false;
@@ -200,82 +200,41 @@ void attackPhase(Player *player, Map *mp)
 			// A player's countries
 			vector<Country *> countries = player->getCountries();
 
-			for (int i = 0; i < countries.size(); i++)
+			cout << "Select a country that you would like to attack from:" << endl;
+			for (int i = 0; i < player->getCountries().size(); i++)
 			{
-				if (countries[i]->getArmySize() < 2)
-					continue;
-				vector<Country *> enemyNeighbors;
-				vector<Country *> neighbors = countries[i]->getNeighbors();
+				cout << i << "- " << player->getCountries().at(i)->name  << " Army size:" <<  player->getCountries().at(i)->getArmySize()<< endl;
+			}
+			int attackCountry;
+			cin>>attackCountry;
 
-				for (int j = 0; j < neighbors.size(); j++)
-				{
-					if (!player->hasCountry(neighbors[i]->name))
-					{
-						enemyNeighbors.push_back(neighbors[i]);
-					}
-				}
+			cout << "Select a neighboring country that you would like to attack:" << endl;
+			for (int i = 0; i < player->getCountries().at(attackCountry)->getNeighbors().size(); i++)
+			{
+				cout << i << "- " << player->getCountries().at(attackCountry)->getNeighbors().at(i)->name << " Army size:" <<  player->getCountries().at(attackCountry)->getNeighbors().at(i)->getArmySize()<< endl;
+			}
+			int enemyCountry;
+			cin>>enemyCountry;
 
-				if (enemyNeighbors.size() > 0)
-					validCountries[countries[i]->name] = enemyNeighbors;
-			}
+			int attackerDices, defenderDices;
 
-			// Attacking country
-			string attackFrom;
-			cout << "Select country to attack from:\n";
-			map<string, vector<Country *>>::iterator it;
-			for (it = validCountries.begin(); it != validCountries.end(); it++)
-			{
-				cout << it->first << ", ";
-			}
-			cin >> attackFrom;
-			if (validCountries.find(attackFrom) == validCountries.end())
-			{
-				cout << "invalid country\n";
-				continue;
-			}
+			cout << static_cast<Player *>(player->getCountries().at(attackCountry)->owner)->name << " Number of dices to attack (1, 2 or 3)?" << endl;
+			cin >> attackerDices;
 
-			// Attack target
-			string attackTo;
-			vector<Country *> targetNeighbors = validCountries[attackTo];
-			cout << "Select country to attack:\n";
-			for (int i = 0; i < validCountries[attackFrom].size(); i++)
-			{
-				cout << validCountries[attackFrom][i]->name << ", ";
+			cout << static_cast<Player *>(player->getCountries().at(attackCountry)->getNeighbors().at(enemyCountry)->owner)->name << " Number of dices to defend (1 or 2)?" << endl;
+			cin >> defenderDices;
+
+			if(player->attack(player->getCountries().at(attackCountry), player->getCountries().at(attackCountry)->getNeighbors().at(enemyCountry), attackerDices,defenderDices))
+			validInput = true;
+			else {
+				validInput = false;
+				cout<<"invalid input";
 			}
-			cin >> attackTo;
-			for (int i = 0; i < validCountries[attackTo].size(); i++)
-			{
-				if (targetNeighbors[i]->name == attackTo)
-					validInput = true;
-				break;
-			}
+			
+
 		}
 		if (input == 'n')
 			validInput = true;
-	}
-}
-
-void attack(Player *attacker, Player *defender, Country *c1, Country *c2)
-{
-	bool validInput = false;
-	int attackerDices, defenderDices;
-	int maxAttackerDices = c1->getArmySize(), maxDefenderDices = c2->getArmySize();
-
-	while (!validInput)
-	{
-		cout << attacker->name << "Number of dices to attack (1, 2 or 3)?" << endl;
-		cin >> attackerDices;
-		if (attackerDices > '0' && attackerDices < '4' && attackerDices <= maxAttackerDices)
-		{
-			cout << defender->name << ": Number of dices to defend (1 or 2)?" << endl;
-			cin >> defenderDices;
-			if ((defenderDices == '1' || defenderDices == '2') && defenderDices <= maxDefenderDices)
-			{
-				validInput = true;
-				// TODO: ROLL DICES FOR EACH PLAYER
-				// COMPARE THE ROLLS
-			}
-		}
 	}
 }
 

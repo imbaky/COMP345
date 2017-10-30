@@ -67,21 +67,15 @@ int main()
                         {
                                 if (army_available-- > 0)
                                 {
-                                        //cout<<(static_cast<Player*>((*it2)->owner)->name)<<endl;
                                         (*it2)->setArmySize(((*it2)->getArmySize()) + 1);
                                 }
                                 else
                                         break;
                         }
         }
-        cout << "\n Number of armies per player: " << initial_army << endl;
 
-        cout << "\n\n=======\nPLAYERS:\n=======\n";
-        for (int i = 0; i < players.size(); i++)
-        {
-                printPlayerInfo(players[i]);
-        }
 
+        attackPhase(players[1]);
 
         return 0;
 }

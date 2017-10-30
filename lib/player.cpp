@@ -88,12 +88,13 @@ struct sorter
 	bool operator()(int i, int j) { return (i < j); }
 } sortInt;
 
-bool Player::attack(Country *attackingCountry, Country *defendingCountry,int attackerDiceCount,int defenderDiceCount)
+bool Player::attack(Country *attackingCountry, Country *defendingCountry, int attackerDiceCount, int defenderDiceCount)
 {
 	Player *attacker = static_cast<Player *>(attackingCountry->owner);
 	Player *defender = static_cast<Player *>(defendingCountry->owner);
-	if (attacker->name == defender->name || attacker->name != this->name || (attackingCountry->getArmySize() < 2)|| (attackerDiceCount > 3)||(attackerDiceCount > attackingCountry->getArmySize())|| (defenderDiceCount > 2)||(defenderDiceCount > attackingCountry->getArmySize()) )
+	if (attacker->name == defender->name || attacker->name != this->name || (attackingCountry->getArmySize() < 2) || (attackerDiceCount > 3) || (attackerDiceCount > attackingCountry->getArmySize()) || (defenderDiceCount > 2) || (defenderDiceCount > attackingCountry->getArmySize()))
 		return false;
+
 	// int attackerArmy = attackingCountry->getArmySize();
 	// int defenderArmy = defendingCountry->getArmySize();
 	// int attackerDiceCount = 0;
@@ -106,6 +107,9 @@ bool Player::attack(Country *attackingCountry, Country *defendingCountry,int att
 	vector<int> defenderRolls = defender->getDice()->roll(attackerDiceCount);
 	std::sort(attackerRolls.begin(), attackerRolls.end(), sortInt);
 	std::sort(defenderRolls.begin(), defenderRolls.end(), sortInt);
+	cout << attackingCountry->name << " is owned by " << static_cast<Player *>(attackingCountry->owner)->name << " and has an army of " << attackingCountry->getArmySize() << endl;
+	cout << defendingCountry->name << " is owned by " << static_cast<Player *>(defendingCountry->owner)->name << " and has an army of " << defendingCountry->getArmySize() << endl;
+	cout << attackingCountry->name << " is attacks " << defendingCountry->name << endl;
 	for (int i = 0; i < attackerDiceCount; i++)
 	{
 		if ((i > defenderDiceCount - 1) || (attackerRolls.at(i) > defenderRolls.at(i)))
@@ -122,17 +126,22 @@ bool Player::attack(Country *attackingCountry, Country *defendingCountry,int att
 		}
 		else
 			attackingCountry->setArmySize(attackingCountry->getArmySize() - 1);
-	}
 
+		if (attackingCountry->getArmySize() == 1)
+			break;
+	}
+	cout << attackingCountry->name << " is owned by " << static_cast<Player *>(attackingCountry->owner)->name << " and has an army of " << attackingCountry->getArmySize() << endl;
+	cout << defendingCountry->name << " is owned by " << static_cast<Player *>(defendingCountry->owner)->name << " and has an army of " << defendingCountry->getArmySize() << endl;
 	return true;
 }
 
 bool Player::fortify(Country *source, Country *target, int fortificationAmount)
 {
-	if (( static_cast<Player *>(source->owner)->name !=  static_cast<Player *>(target->owner)->name)||(target->getArmySize()-fortificationAmount)<2)
+	if ((static_cast<Player *>(source->owner)->name != static_cast<Player *>(target->owner)->name) || (target->getArmySize() - fortificationAmount) < 2)
 		return false;
-		else{
-			source->setArmySize(source->getArmySize()-fortificationAmount);
-			target->setArmySize(target->getArmySize()+fortificationAmount);
-		}
+	else
+	{
+		source->setArmySize(source->getArmySize() - fortificationAmount);
+		target->setArmySize(target->getArmySize() + fortificationAmount);
+	}
 }
