@@ -127,6 +127,12 @@ bool Player::attack(Country *attackingCountry, Country *defendingCountry)
 	return true;
 }
 
-void Player::fortify()
+bool Player::fortify(Country *source, Country *target, int fortificationAmount)
 {
+	if (( static_cast<Player *>(source->owner)->name !=  static_cast<Player *>(target->owner)->name)||(target->getArmySize()-fortificationAmount)<2)
+		return false;
+		else{
+			source->setArmySize(source->getArmySize()-fortificationAmount);
+			target->setArmySize(target->getArmySize()+fortificationAmount);
+		}
 }

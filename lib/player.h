@@ -23,12 +23,13 @@ public:
 	
 	bool reinforce(Country* country, int reinforcement);
 	bool attack(Country* attacker, Country* defender);
-	void fortify();
+	bool fortify(Country* source,Country* target, int fortificationAmount);
 
 	Hand *getHand();
 	Dice *getDice();
 	vector<Country *> getCountries();
 	void addCountry(Country* country);
+	void removeCountry(Country* country);
 	bool hasCountry(Country* country);
 	bool hasCountry(string name);
 private:
