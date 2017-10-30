@@ -21,7 +21,7 @@ public:
 	int getArmies();
 	void setArmies(int newArmies);
 	
-	void reinforce();
+	bool reinforce(Country* country, int reinforcement);
 	void attack();
 	void fortify();
 

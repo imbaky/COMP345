@@ -64,3 +64,22 @@ bool Player::hasCountry(string name)
 	}
 	return false;
 }
+
+
+bool Player::reinforce(Country* country, int reinforcement){
+	if(static_cast<Player*>(country->owner)->name==this->name){
+		country->setArmySize(country->getArmySize()+reinforcement);
+		return true;
+	}
+	else return false;
+
+}
+
+void Player::attack(){
+
+}
+
+void Player::fortify(){
+
+
+}

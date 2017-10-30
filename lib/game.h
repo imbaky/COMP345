@@ -12,9 +12,11 @@ class Game
         Game() {}
         ~Game(){};
         static Game *getInstance();
-        void reinforceCountry();
-	void attackCountry();
-        void fortifyCountry();
+        
+        void reinforcePhase();
+	      void attackPhase();
+        void fortifyPhase();
+
         void turn();
         void nextTurn();
         bool setPlayers(vector<Player *> players);

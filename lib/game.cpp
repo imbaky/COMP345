@@ -11,24 +11,24 @@ Game *Game::getInstance()
         return instance;
 }
 
-void Game::reinforceCountry()
+void Game::reinforcePhase()
 {
         std::cout << "Reinforce phase" << endl;
 }
-void Game::attackCountry()
+void Game::attackPhase()
 {
         std::cout << "Attack phase" << endl;
 }
-void Game::fortifyCountry()
+void Game::fortifyPhase()
 {
         std::cout << "Fortify phase" << endl;
 }
 
 void Game::turn()
 {
-        this->reinforceCountry();
-        this->attackCountry();
-        this->fortifyCountry();
+        this->reinforcePhase();
+        this->attackPhase();
+        this->fortifyPhase();
 }
 
 void Game::nextTurn()
