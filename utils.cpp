@@ -215,10 +215,17 @@ void attackPhase(Player *player)
 			int attackCountry;
 			cin >> attackCountry;
 
-			cout << "Select a neighboring country that you would like to attack:" << endl;
+			vector<Country *> neighbors;
 			for (int i = 0; i < player->getCountries().at(attackCountry)->getNeighbors().size(); i++)
 			{
-				cout << i << "- " << player->getCountries().at(attackCountry)->getNeighbors().at(i)->name << " Army size:" << player->getCountries().at(attackCountry)->getNeighbors().at(i)->getArmySize() << endl;
+				if (static_cast<Player *>(player->getCountries().at(attackCountry)->getNeighbors().at(i)->owner)->name != static_cast<Player *>(player->getCountries().at(attackCountry)->owner)->name)
+					neighbors.push_back(player->getCountries().at(attackCountry)->getNeighbors().at(i));
+			}
+
+			cout << "Select a neighboring country that you would like to attack:" << endl;
+			for (int i = 0; i < neighbors.size(); i++)
+			{
+				cout << i << "- " << neighbors.at(i)->name << " Army size:" <<neighbors.at(i)->getArmySize() << endl;
 			}
 			int enemyCountry;
 			cin >> enemyCountry;
@@ -228,11 +235,11 @@ void attackPhase(Player *player)
 			cout << static_cast<Player *>(player->getCountries().at(attackCountry)->owner)->name << " Number of dices to attack (1, 2 or 3)?" << endl;
 			cin >> attackerDices;
 
-			cout << static_cast<Player *>(player->getCountries().at(attackCountry)->getNeighbors().at(enemyCountry)->owner)->name << " Number of dices to defend (1 or 2)?" << endl;
+			cout << static_cast<Player *>(neighbors.at(enemyCountry)->owner)->name << " Number of dices to defend (1 or 2)?" << endl;
 			cin >> defenderDices;
 
-			if (player->attack(player->getCountries().at(attackCountry), player->getCountries().at(attackCountry)->getNeighbors().at(enemyCountry), attackerDices, defenderDices))
-				validInput = true;
+			if (player->attack(player->getCountries().at(attackCountry), neighbors.at(enemyCountry), attackerDices, defenderDices))
+			cout<<"Attack successful!!"<<endl;
 			else
 			{
 				validInput = false;
