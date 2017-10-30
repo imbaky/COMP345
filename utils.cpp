@@ -100,8 +100,13 @@ string select_map()
 		{
 			valid_input = true;
 		}
-		else
+		else{
+			cin.clear();
+			cin.ignore(100,'\n');
 			cerr << "invalid input !!" << endl;
+
+		}
+			
 	}
 	return "./maps/" + files.at(input - 1);
 }
@@ -118,8 +123,12 @@ int players_number()
 		{
 			valid_input = true;
 		}
-		else
+		else{
+			cin.clear();
+			cin.ignore(100,'\n');
 			cerr << "invalid input !!" << endl;
+		}
+
 	}
 	return input;
 }
