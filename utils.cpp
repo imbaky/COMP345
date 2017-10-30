@@ -249,7 +249,7 @@ void fortificationPhase(Player *player)
 		cin >> input;
 		if (input == 'y')
 		{
-			cout << "Select a country like to fortify:" << endl;
+			cout << "Select one of your countries that you would like to fortify:" << endl;
 			for (int i = 0; i < player->getCountries().size(); i++)
 			{
 				cout << i << "- " << player->getCountries().at(i)->name << " Army size:" << player->getCountries().at(i)->getArmySize() << endl;
@@ -269,7 +269,7 @@ void fortificationPhase(Player *player)
 					neighbors.push_back(player->getCountries().at(targetCountry)->getNeighbors().at(i));
 			}
 
-			cout << "Select a country that you want to move armies from:" << endl;
+			cout << "Select a neighboring country that you want to move armies from:" << endl;
 			for (int i = 0; i < neighbors.size(); i++)
 			{
 				cout << i << "- " << neighbors.at(i)->name << " Army size:" << neighbors.at(i)->getArmySize() << endl;
@@ -284,6 +284,11 @@ void fortificationPhase(Player *player)
 			if(player->fortify(neighbors.at(sourceCountry) ,player->getCountries().at(targetCountry),fortificationAmount))
 			{
 				validInput = true;
+				cout<<"--- Your countries after fortification----"<<endl;
+				for (int i = 0; i < player->getCountries().size(); i++)
+				{
+					cout << i << "- " << player->getCountries().at(i)->name << " Army size:" << player->getCountries().at(i)->getArmySize() << endl;
+				}
 			}
 			else{
 				cout<<"Invalid move"<<endl;
