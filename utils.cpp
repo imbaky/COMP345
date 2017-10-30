@@ -148,22 +148,22 @@ void reinforcementPhase(Player *player, Map *map)
 			switch (input)
 			{
 			case '0':
-				additionalArmies = player->getHand()->exchange(Infantry);
+				additionalArmies += player->getHand()->exchange(Infantry);
 				validInput = true;
 
 				break;
 			case '1':
-				additionalArmies = player->getHand()->exchange(Cavalery);
+				additionalArmies += player->getHand()->exchange(Cavalery);
 				validInput = true;
 
 				break;
 			case '2':
-				additionalArmies = player->getHand()->exchange(Artillery);
+				additionalArmies += player->getHand()->exchange(Artillery);
 				validInput = true;
 
 				break;
 			case '3':
-				additionalArmies = player->getHand()->exchange();
+				additionalArmies += player->getHand()->exchange();
 				validInput = true;
 				break;
 			default:
@@ -181,9 +181,14 @@ void reinforcementPhase(Player *player, Map *map)
 	for (int i = 0; i < additionalArmies; i++)
 	{
 		player->reinforce(countries.at(i % countries.size()), 1);
-		cout << countries.at(i % countries.size())->name << " now has "
-		     << countries.at(i % countries.size())->getArmySize()
-		     << " armies " << endl;
+
+	}
+	//prints all countries that th eplayer owns with army sizes
+	for (int i = 0; i < countries.size(); i++)
+	{
+	cout << countries.at(i)->name << " now has "
+	<< countries.at(i)->getArmySize()
+	<< " armies " << endl;
 	}
 }
 
