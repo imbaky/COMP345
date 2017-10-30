@@ -20,9 +20,6 @@ int main()
 	start_game();
 
 	Map *map = loadMap();
-	/* TODO check if map is valid 
-	 * Need to implement isValid()
-	 */
 
 	int countriesCount = 0;
 	vector<Continent *> continents = map->getContinents();
@@ -52,7 +49,7 @@ int main()
 		}
 		cout << "\n";
 	}
-
+        //Distribute countries between players
 	int num_player=players.size();
 	int index = 0;
 	for (std::vector<Continent *>::iterator it = continents.begin(); it != continents.end(); ++it)
