@@ -22,7 +22,7 @@ public:
 	void setArmies(int newArmies);
 	
 	bool reinforce(Country* country, int reinforcement);
-	bool attack(Country* attacker, Country* defender);
+	bool attack(Country* attacker, Country* defender,int attackerDiceCount,int defenderDiceCount);
 	bool fortify(Country* source,Country* target, int fortificationAmount);
 
 	Hand *getHand();
