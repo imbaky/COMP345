@@ -117,7 +117,7 @@ Deck* Game::createDeck(int countries)
 }
 
 
-vector<Player *> Game::createPlayers()
+void Game::createPlayers()
 {
 	int playerCount = players_number();
 	vector<Player *> players;
@@ -126,7 +126,7 @@ vector<Player *> Game::createPlayers()
 		Player *newPlayer = new Player("Player " + to_string(i + 1), 3);
 		players.push_back(newPlayer);
 	}
-	return players;
+	this->players=players;
 }
 
 void Game::start_game()

@@ -23,7 +23,7 @@ class Game
         Map *loadMap();
         string select_map();
         Deck* createDeck(int countries);
-        vector<Player *> createPlayers();
+        void createPlayers();
         void start_game();
         int players_number();
         void reinforcementPhase(Player *player, Map *map);
