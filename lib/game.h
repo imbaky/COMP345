@@ -23,15 +23,15 @@ class Game
         Map *loadMap();
         string select_map();
         Deck* createDeck(int countries);
-        vector<Player *> Game::createPlayers();
-        void Game::start_game();
-        int Game::players_number();
-        void Game::reinforcementPhase(Player *player, Map *map);
-        void Game::attackPhase(Player *player);
-        void Game::fortificationPhase(Player *player);
-        int Game::numOfContinents(Player *player, Map *map);
-        void Game::printPlayerInfo(Player *player);
-        void Game::displayLogo();
+        vector<Player *> createPlayers();
+        void start_game();
+        int players_number();
+        void reinforcementPhase(Player *player, Map *map);
+        void attackPhase(Player *player);
+        void fortificationPhase(Player *player);
+        int numOfContinents(Player *player, Map *map);
+        void printPlayerInfo(Player *player);
+        void displayLogo();
 
       private:
         vector<Player *> players;
