@@ -26,9 +26,9 @@ class Game
         void createPlayers();
         void start_game();
         int players_number();
-        void reinforcementPhase(Player *player, Map *map);
-        void attackPhase(Player *player);
-        void fortificationPhase(Player *player);
+        void reinforcementPhase();
+        void attackPhase();
+        void fortificationPhase();
         int numOfContinents(Player *player, Map *map);
         void printPlayerInfo(Player *player);
         void displayLogo();

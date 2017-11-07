@@ -170,15 +170,17 @@ int Game::players_number()
 	return input;
 }
 
-void Game::reinforcementPhase(Player *player, Map *map)
+void Game::reinforcementPhase()
 {
+        Player *player=this->players.at(this->currentPlayer);
+
 	char input;
 	bool validInput = false;
 	int owned = player->getCountries().size();
 	int additionalArmies = owned / 3;
 	if (additionalArmies < 3)
 		additionalArmies = 3;
-	additionalArmies += numOfContinents(player, map);
+	additionalArmies += numOfContinents(player, this->map);
 
 	while (!validInput)
 	{
@@ -238,8 +240,10 @@ void Game::reinforcementPhase(Player *player, Map *map)
 	}
 }
 
-void Game::attackPhase(Player *player)
+void Game::attackPhase()
 {
+        Player *player=this->players.at(this->currentPlayer);
+        
 	char input;
 	bool validInput = false;
 	while (!validInput)
@@ -297,8 +301,10 @@ void Game::attackPhase(Player *player)
 	}
 }
 
-void Game::fortificationPhase(Player *player)
+void Game::fortificationPhase()
 {
+        Player *player=this->players.at(this->currentPlayer);
+        
 	char input;
 	bool validInput = false;
 	while (!validInput)
