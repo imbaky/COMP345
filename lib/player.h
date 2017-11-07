@@ -32,6 +32,7 @@ public:
 	void removeCountry(Country* country);
 	bool hasCountry(Country* country);
 	bool hasCountry(string name);
+	int numOfContinents(Map *map);
 private:
 	int armies;
 	Hand *hand;

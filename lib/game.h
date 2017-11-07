@@ -29,7 +29,6 @@ class Game
         void reinforcementPhase();
         void attackPhase();
         void fortificationPhase();
-        int numOfContinents(Player *player, Map *map);
         void printPlayerInfo(Player *player);
         void displayLogo();
 

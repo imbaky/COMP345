@@ -363,31 +363,6 @@ void Game::fortificationPhase()
 	}
 }
 
-int Game::numOfContinents(Player *player, Map *map)
-{
-	int owned = 0;
-	vector<Continent *> continents = map->getContinents();
-	vector<Country *> countries = player->getCountries();
-
-	for (int i = 0; i < continents.size(); i++)
-	{
-		vector<Country *> continentCountries = continents[i]->getCountries();
-		for (int j = 0; j < continentCountries.size(); j++)
-		{
-			vector<Country *>::iterator it = find(countries.begin(), countries.end(), continentCountries[j]);
-			if (it == countries.end())
-			{
-				break;
-			}
-			if (j == continentCountries.size() - 1)
-			{
-				owned++;
-			}
-		}
-	}
-
-	return owned;
-}
 
 void Game::printPlayerInfo(Player *player)
 {
