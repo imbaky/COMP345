@@ -19,18 +19,6 @@ Game *Game::getInstance()
         return instance;
 }
 
-void Game::reinforcePhase()
-{
-        std::cout << "Reinforce phase" << endl;
-}
-void Game::attackPhase()
-{
-        std::cout << "Attack phase" << endl;
-}
-void Game::fortifyPhase()
-{
-        std::cout << "Fortify phase" << endl;
-}
 
 void Game::turn()
 {
