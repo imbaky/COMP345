@@ -10,6 +10,10 @@
 class Game
 {
       public:
+        enum PlayerType
+        {
+            Human, aggressive_computer,  benevolent_computer 
+        };
         Game() {}
         ~Game(){};
         static Game *getInstance();

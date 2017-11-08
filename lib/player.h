@@ -40,4 +40,36 @@ private:
 	vector<Country *> countries;
 };
 
+class Human: public Player
+{
+  public:
+	Human(string name, int numberOfDices):Player( name,  numberOfDices){};
+	Human(string name, int numberOfDices, int initArmies):Player(name, numberOfDices, initArmies){};
+
+	bool reinforce(Country* country, int reinforcement);
+	bool attack(Country* attacker, Country* defender,int attackerDiceCount,int defenderDiceCount);
+	bool fortify(Country* source,Country* target, int fortificationAmount);
+};
+
+class AggressiveComputer: public Player
+{
+  public:
+	AggressiveComputer(string name, int numberOfDices):Player( name,  numberOfDices){};
+	AggressiveComputer(string name, int numberOfDices, int initArmies):Player(name, numberOfDices, initArmies){};
+
+	bool reinforce(Country* country, int reinforcement);
+	bool attack(Country* attacker, Country* defender,int attackerDiceCount,int defenderDiceCount);
+	bool fortify(Country* source,Country* target, int fortificationAmount);
+};
+
+class BenevolentComputer: public Player
+{
+  public:
+	BenevolentComputer(string name, int numberOfDices):Player( name,  numberOfDices){};
+	BenevolentComputer(string name, int numberOfDices, int initArmies):Player(name, numberOfDices, initArmies){};
+
+	bool reinforce(Country* country, int reinforcement);
+	bool attack(Country* attacker, Country* defender,int attackerDiceCount,int defenderDiceCount);
+	bool fortify(Country* source,Country* target, int fortificationAmount);
+};
 #endif
