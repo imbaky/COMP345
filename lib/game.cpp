@@ -411,3 +411,22 @@ void Game::displayLogo()
 	     << "╚═╝  ╚═╝╚═╝╚══════╝╚═╝  ╚═╝\n\n"
 	     << endl;
 }
+
+void Game::registerObserver(Observer *observer) {
+	if (find(observers.begin(), observers.end(), observer) != observers.end()) {
+		return;
+	}
+	observers.push_back(observer);
+}
+
+void Game::notify_current_player() {
+	for (int i = 0; i < observers.size(); i++) {
+		observers[i]->notify("Current Player: " + to_string(currentPlayer));
+	}
+}
+
+void Game::notify_current_phase(string phase) {
+	for (int i = 0; i < observers.size(); i++) {
+		observers[i]->notify("Current Phase: " + phase);
+	}
+}

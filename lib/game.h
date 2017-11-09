@@ -5,14 +5,15 @@
 #include <vector>
 #include "player.h"
 #include "map.h"
+#include "observer.h"
 
 
 class Game
 {
-      public:
+public:
         enum PlayerType
         {
-            Human, aggressive_computer,  benevolent_computer 
+		Human, aggressive_computer,  benevolent_computer 
         };
         Game() {}
         ~Game(){};
@@ -36,10 +37,16 @@ class Game
         void printPlayerInfo(Player *player);
         void displayLogo();
 
-      private:
+	void registerObserver(Observer *observer);
+	void notify_current_player();
+	void notify_current_phase(string phase);
+
+private:
         vector<Player *> players;
         int currentPlayer;
         Map *map = nullptr;
+
+	vector<Observer *> observers;
 };
 
 #endif
