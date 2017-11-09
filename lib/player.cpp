@@ -95,13 +95,6 @@ bool Player::attack(Country *attackingCountry, Country *defendingCountry, int at
 	if (attacker->name == defender->name || attacker->name != this->name || (attackingCountry->getArmySize() < 2) || (attackerDiceCount > 3) || (attackerDiceCount > attackingCountry->getArmySize()) || (defenderDiceCount > 2) || (defenderDiceCount > attackingCountry->getArmySize()))
 		return false;
 
-	// int attackerArmy = attackingCountry->getArmySize();
-	// int defenderArmy = defendingCountry->getArmySize();
-	// int attackerDiceCount = 0;
-	// int defenderDiceCount = 0;
-
-	// attackerDiceCount = attackerArmy > 3 ? 3 : attackerArmy - 1;
-	// defenderDiceCount = defenderArmy > 1 ? 2 : 1;
 
 	vector<int> attackerRolls = attacker->getDice()->roll(attackerDiceCount);
 	vector<int> defenderRolls = defender->getDice()->roll(attackerDiceCount);
