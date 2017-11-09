@@ -124,10 +124,10 @@ void Game::createPlayers()
 {
 	int playerCount = players_number();
 	vector<Player *> players;
-	Player *newPlayer;
+
 	for (int i = 0; i < playerCount; i++)
 	{
-		delete newPlayer;
+		Player *newPlayer;
 		bool valid_input = false;
 		int input;
 		while (!valid_input)
@@ -155,6 +155,7 @@ void Game::createPlayers()
 			default:
 				break;
 			}
+			players.push_back(newPlayer);
 		}
 		// newPlayer = new Player("Player " + to_string(i + 1), 3);
 	}

@@ -20,7 +20,7 @@ int main() {
 	
 	Deck *deck = game->createDeck(countriesCount);
 
-	game->createPlayers();
+        game->createPlayers();
 
 	//Distribute countries between players
         int num_player = game->get_players().size();
