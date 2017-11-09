@@ -1,6 +1,7 @@
 #include "game.h"
 #include "Maploader.h"
 #include "player.h"
+#include <typeinfo>
 
 #include <stdio.h>
 #include <cstdlib>
@@ -10,54 +11,55 @@
 #include <dirent.h>
 #include <vector>
 
-
 using namespace std;
 
 Game *Game::getInstance()
 {
-        static Game *instance = nullptr;
-        if (instance == nullptr)
-        {
-                instance = new Game();
-        }
-        return instance;
+	static Game *instance = nullptr;
+	if (instance == nullptr)
+	{
+		instance = new Game();
+	}
+	return instance;
 }
-
 
 void Game::turn()
 {
-        this->reinforcementPhase();
-        this->attackPhase();
-        this->fortificationPhase();
+	this->reinforcementPhase();
+	this->attackPhase();
+	this->fortificationPhase();
 }
 
 void Game::nextTurn()
 {
-        currentPlayer = (currentPlayer + 1) % players.size();
+	currentPlayer = (currentPlayer + 1) % players.size();
 }
 
 bool Game::setPlayers(vector<Player *> players)
 {
-        this->players=players;
+	this->players = players;
 }
 
-Player* Game::getCurrentPlayer()
+Player *Game::getCurrentPlayer()
 {
-        return this->players.at(this->currentPlayer);
+	return this->players.at(this->currentPlayer);
 }
 
-bool Game::setMap(Map *map){
-        this->map=map;
+bool Game::setMap(Map *map)
+{
+	this->map = map;
 }
 
-bool Game::hasWon(){
-        if(this->map->countryCount()==this->players.at(this->currentPlayer)->getCountries().size()){
-                return true;
-        }
-        return false;
+bool Game::hasWon()
+{
+	if (this->map->countryCount() == this->players.at(this->currentPlayer)->getCountries().size())
+	{
+		return true;
+	}
+	return false;
 }
 
-Map* Game::loadMap()
+Map *Game::loadMap()
 {
 	MapLoader *ml = new MapLoader();
 	do
@@ -102,24 +104,21 @@ string Game::select_map()
 		{
 			valid_input = true;
 		}
-		else{
+		else
+		{
 			cin.clear();
-			cin.ignore(100,'\n');
+			cin.ignore(100, '\n');
 			cerr << "invalid input !!" << endl;
-
 		}
-			
 	}
 	return "./maps/" + files.at(input - 1);
 }
 
-
-Deck* Game::createDeck(int countries)
+Deck *Game::createDeck(int countries)
 {
 	Deck *deck = new Deck(countries);
 	return deck;
 }
-
 
 void Game::createPlayers()
 {
@@ -129,7 +128,7 @@ void Game::createPlayers()
 	for (int i = 0; i < playerCount; i++)
 	{
 		delete newPlayer;
-		bool valid_input=false;
+		bool valid_input = false;
 		int input;
 		while (!valid_input)
 		{
@@ -139,27 +138,27 @@ void Game::createPlayers()
 			cout << "3) Benevolent Computer" << endl;
 			cin >> input;
 
-			switch(input){
-				case 1:
+			switch (input)
+			{
+			case 1:
 				newPlayer = new Human("Player " + to_string(i + 1), 3);
 				valid_input = true;
 				break;
-				case 2:
-				newPlayer =  new AggressiveComputer("Player " + to_string(i + 1), 3);
+			case 2:
+				newPlayer = new AggressiveComputer("Player " + to_string(i + 1), 3);
 				valid_input = true;
 				break;
-				case 3:
-				newPlayer =  new BenevolentComputer("Player " + to_string(i + 1), 3);
+			case 3:
+				newPlayer = new BenevolentComputer("Player " + to_string(i + 1), 3);
 				valid_input = true;
 				break;
-				default:
+			default:
 				break;
 			}
 		}
 		// newPlayer = new Player("Player " + to_string(i + 1), 3);
-		
 	}
-	this->players=players;
+	this->players = players;
 }
 
 void Game::start_game()
@@ -179,8 +178,6 @@ void Game::start_game()
 	}
 }
 
-
-
 int Game::players_number()
 {
 	bool valid_input = false;
@@ -193,20 +190,21 @@ int Game::players_number()
 		{
 			valid_input = true;
 		}
-		else{
+		else
+		{
 			cin.clear();
-			cin.ignore(100,'\n');
+			cin.ignore(100, '\n');
 			cerr << "invalid input !!" << endl;
 		}
-
 	}
 	return input;
 }
 
-
 void Game::reinforcementPhase()
 {
-        Player *player=this->players.at(this->currentPlayer);
+	Player *player = this->players.at(this->currentPlayer);
+	string player_type = typeid(player).name();
+	vector<Country *> countries = player->getCountries();
 
 	char input;
 	bool validInput = false;
@@ -216,128 +214,187 @@ void Game::reinforcementPhase()
 		additionalArmies = 3;
 	additionalArmies += player->numOfContinents(this->map);
 
-	while (!validInput)
+	if (player_type == typeid(Human).name())
 	{
-		cout << "Exchange cards? (y/n)\n";
-		cin >> input;
-		if (input == 'y')
+
+		while (!validInput)
 		{
-			cout << "(0) Echange infantries\n";
-			cout << "(1) Echange cavaleries\n";
-			cout << "(2) Echange artilleries\n";
-			cout << "(3) Echange all\n";
+			cout << "Exchange cards? (y/n)\n";
 			cin >> input;
-			switch (input)
+			if (input == 'y')
 			{
-			case '0':
-				additionalArmies += player->getHand()->exchange(Infantry);
-				validInput = true;
+				cout << "(0) Echange infantries\n";
+				cout << "(1) Echange cavaleries\n";
+				cout << "(2) Echange artilleries\n";
+				cout << "(3) Echange all\n";
+				cin >> input;
+				switch (input)
+				{
+				case '0':
+					additionalArmies += player->getHand()->exchange(Infantry);
+					validInput = true;
 
-				break;
-			case '1':
-				additionalArmies += player->getHand()->exchange(Cavalery);
-				validInput = true;
+					break;
+				case '1':
+					additionalArmies += player->getHand()->exchange(Cavalery);
+					validInput = true;
 
-				break;
-			case '2':
-				additionalArmies += player->getHand()->exchange(Artillery);
-				validInput = true;
+					break;
+				case '2':
+					additionalArmies += player->getHand()->exchange(Artillery);
+					validInput = true;
 
-				break;
-			case '3':
-				additionalArmies += player->getHand()->exchange();
+					break;
+				case '3':
+					additionalArmies += player->getHand()->exchange();
+					validInput = true;
+					break;
+				default:
+					cout << "Invalid input\n";
+					validInput = false;
+					break;
+				}
+			}
+			if (input == 'n')
 				validInput = true;
-				break;
-			default:
-				cout << "Invalid input\n";
-				validInput = false;
-				break;
+		}
+
+		cout << player->name << " gets " << additionalArmies << " armies" << endl;
+
+		cout << "The player's armies will be distrubuted equally among their countries" << endl;
+		for (int i = 0; i < additionalArmies; i++)
+		{
+			player->reinforce(countries.at(i % countries.size()), 1);
+		}
+	}
+	else if (player_type == typeid(AggressiveComputer).name())
+	{
+		additionalArmies += player->getHand()->exchange();
+		cout << player->name << " gets " << additionalArmies << " armies" << endl;
+		Country *strongestCountry = countries.at(0);
+		for (int i = 0; i < countries.size(); i++)
+		{
+			if ((countries.at(i)->armies >= strongestCountry->armies))
+			{
+				for (int j = 0; j < countries.at(i)->neighbors.size(); j++)
+				{
+					if (static_cast<Player *>(countries.at(i)->neighbors.at(j)->owner)->name == static_cast<Player *>(countries.at(i)->owner)->name)
+					{
+						strongestCountry = countries.at(i);
+						break;
+					}
+				}
 			}
 		}
-		if (input == 'n')
-			validInput = true;
+		player->reinforce(strongestCountry, additionalArmies);
 	}
-	cout << player->name << " gets " << additionalArmies << " armies" << endl;
-	vector<Country *> countries = player->getCountries();
-	cout << "The player's armies will be distrubuted equally among their countries" << endl;
-	for (int i = 0; i < additionalArmies; i++)
+	else if (player_type == typeid(BenevolentComputer).name())
 	{
-		player->reinforce(countries.at(i % countries.size()), 1);
-
+		additionalArmies += player->getHand()->exchange();
+		cout << player->name << " gets " << additionalArmies << " armies" << endl;
+		Country *weakestCountry = countries.at(0);
+		for (int i = 0; i < countries.size(); i++)
+		{
+			if ((countries.at(i)->armies <= weakestCountry->armies))
+			{
+				for (int j = 0; j < countries.at(i)->neighbors.size(); j++)
+				{
+					if (static_cast<Player *>(countries.at(i)->neighbors.at(j)->owner)->name == static_cast<Player *>(countries.at(i)->owner)->name)
+					{
+						weakestCountry = countries.at(i);
+						break;
+					}
+				}
+			}
+		}
+		player->reinforce(weakestCountry, additionalArmies);
 	}
+
 	//prints all countries that th eplayer owns with army sizes
 	for (int i = 0; i < countries.size(); i++)
 	{
-	cout << countries.at(i)->name << " now has "
-	<< countries.at(i)->getArmySize()
-	<< " armies " << endl;
+		cout << countries.at(i)->name << " now has "
+		     << countries.at(i)->getArmySize()
+		     << " armies " << endl;
 	}
 }
 
 void Game::attackPhase()
 {
-        Player *player=this->players.at(this->currentPlayer);
-        
-	char input;
-	bool validInput = false;
-	while (!validInput)
+	Player *player = this->players.at(this->currentPlayer);
+
+	if (player_type == typeid(Human).name())
 	{
-		cout << "Attack? (y/n)\n";
-		cin >> input;
-		if (input == 'y')
+
+		char input;
+		bool validInput = false;
+		// A player's countries
+		vector<Country *> countries = player->getCountries();
+
+		cout << "Select a country that you would like to attack from:" << endl;
+		for (int i = 0; i < player->getCountries().size(); i++)
 		{
-			// Hash of the countries and neightbors it can attack
-			// A player's countries
-			vector<Country *> countries = player->getCountries();
-
-			cout << "Select a country that you would like to attack from:" << endl;
-			for (int i = 0; i < player->getCountries().size(); i++)
-			{
-				cout << i << "- " << player->getCountries().at(i)->name << " Army size:" << player->getCountries().at(i)->getArmySize() << endl;
-			}
-			int attackCountry;
-			cin >> attackCountry;
-
-			vector<Country *> neighbors;
-			for (int i = 0; i < player->getCountries().at(attackCountry)->getNeighbors().size(); i++)
-			{
-				if (static_cast<Player *>(player->getCountries().at(attackCountry)->getNeighbors().at(i)->owner)->name != static_cast<Player *>(player->getCountries().at(attackCountry)->owner)->name)
-					neighbors.push_back(player->getCountries().at(attackCountry)->getNeighbors().at(i));
-			}
-
-			cout << "Select a neighboring country that you would like to attack:" << endl;
-			for (int i = 0; i < neighbors.size(); i++)
-			{
-				cout << i << "- " << neighbors.at(i)->name << " Army size:" <<neighbors.at(i)->getArmySize() << endl;
-			}
-			int enemyCountry;
-			cin >> enemyCountry;
-
-			int attackerDices, defenderDices;
-
-			cout << static_cast<Player *>(player->getCountries().at(attackCountry)->owner)->name << " Number of dices to attack (1, 2 or 3)?" << endl;
-			cin >> attackerDices;
-
-			cout << static_cast<Player *>(neighbors.at(enemyCountry)->owner)->name << " Number of dices to defend (1 or 2)?" << endl;
-			cin >> defenderDices;
-
-			if (player->attack(player->getCountries().at(attackCountry), neighbors.at(enemyCountry), attackerDices, defenderDices))
-			cout<<"Attack successful!!"<<endl;
-			else
-			{
-				validInput = false;
-				cout << "invalid input";
-			}
+			cout << i << "- " << player->getCountries().at(i)->name << " Army size:" << player->getCountries().at(i)->getArmySize() << endl;
 		}
-		if (input == 'n')
-			validInput = true;
+
+		while (!validInput)
+		{
+			cout << "Attack? (y/n)\n";
+			cin >> input;
+			if (input == 'y')
+			{
+
+				int attackCountry;
+				cin >> attackCountry;
+
+				vector<Country *> neighbors;
+				for (int i = 0; i < player->getCountries().at(attackCountry)->getNeighbors().size(); i++)
+				{
+					if (static_cast<Player *>(player->getCountries().at(attackCountry)->getNeighbors().at(i)->owner)->name != static_cast<Player *>(player->getCountries().at(attackCountry)->owner)->name)
+						neighbors.push_back(player->getCountries().at(attackCountry)->getNeighbors().at(i));
+				}
+
+				cout << "Select a neighboring country that you would like to attack:" << endl;
+				for (int i = 0; i < neighbors.size(); i++)
+				{
+					cout << i << "- " << neighbors.at(i)->name << " Army size:" << neighbors.at(i)->getArmySize() << endl;
+				}
+				int enemyCountry;
+				cin >> enemyCountry;
+
+				int attackerDices, defenderDices;
+
+				cout << static_cast<Player *>(player->getCountries().at(attackCountry)->owner)->name << " Number of dices to attack (1, 2 or 3)?" << endl;
+				cin >> attackerDices;
+
+				cout << static_cast<Player *>(neighbors.at(enemyCountry)->owner)->name << " Number of dices to defend (1 or 2)?" << endl;
+				cin >> defenderDices;
+
+				if (player->attack(player->getCountries().at(attackCountry), neighbors.at(enemyCountry), attackerDices, defenderDices))
+					cout << "Attack successful!!" << endl;
+				else
+				{
+					validInput = false;
+					cout << "invalid input";
+				}
+			}
+			if (input == 'n')
+				validInput = true;
+		}
+	}
+	else if (player_type == typeid(AggressiveComputer).name())
+	{
+		
+	}
+	else if (player_type == typeid(BenevolentComputer).name())
+	{
 	}
 }
 
 void Game::fortificationPhase()
 {
-        Player *player=this->players.at(this->currentPlayer);
-        
+	Player *player = this->players.at(this->currentPlayer);
+
 	char input;
 	bool validInput = false;
 	while (!validInput)
@@ -378,24 +435,24 @@ void Game::fortificationPhase()
 			int fortificationAmount;
 			cin >> fortificationAmount;
 
-			if(player->fortify(neighbors.at(sourceCountry) ,player->getCountries().at(targetCountry),fortificationAmount))
+			if (player->fortify(neighbors.at(sourceCountry), player->getCountries().at(targetCountry), fortificationAmount))
 			{
 				validInput = true;
-				cout<<"--- Your countries after fortification----"<<endl;
+				cout << "--- Your countries after fortification----" << endl;
 				for (int i = 0; i < player->getCountries().size(); i++)
 				{
 					cout << i << "- " << player->getCountries().at(i)->name << " Army size:" << player->getCountries().at(i)->getArmySize() << endl;
 				}
 			}
-			else{
-				cout<<"Invalid move"<<endl;
+			else
+			{
+				cout << "Invalid move" << endl;
 			}
 		}
 		if (input == 'n')
 			validInput = true;
 	}
 }
-
 
 void Game::printPlayerInfo(Player *player)
 {
@@ -414,21 +471,27 @@ void Game::displayLogo()
 	     << endl;
 }
 
-void Game::registerObserver(Observer *observer) {
-	if (find(observers.begin(), observers.end(), observer) != observers.end()) {
+void Game::registerObserver(Observer *observer)
+{
+	if (find(observers.begin(), observers.end(), observer) != observers.end())
+	{
 		return;
 	}
 	observers.push_back(observer);
 }
 
-void Game::notify_current_player() {
-	for (int i = 0; i < observers.size(); i++) {
+void Game::notify_current_player()
+{
+	for (int i = 0; i < observers.size(); i++)
+	{
 		observers[i]->notify("Current Player: " + to_string(currentPlayer));
 	}
 }
 
-void Game::notify_current_phase(string phase) {
-	for (int i = 0; i < observers.size(); i++) {
+void Game::notify_current_phase(string phase)
+{
+	for (int i = 0; i < observers.size(); i++)
+	{
 		observers[i]->notify("Current Phase: " + phase);
 	}
 }
