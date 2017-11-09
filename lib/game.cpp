@@ -285,7 +285,6 @@ void Game::attackPhase()
 		if (input == 'y')
 		{
 			// Hash of the countries and neightbors it can attack
-			map <string , vector<Country *>> validCountries;
 			// A player's countries
 			vector<Country *> countries = player->getCountries();
 
