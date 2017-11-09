@@ -1,11 +1,16 @@
 
 
 #include "./lib/game.h"
+#include "./lib/observer.h"
 
 using namespace std;
 
 int main() {
 	Game *game = new Game();
+
+	Observer *obs1 = new Observer();
+	game->register_observer(obs1);
+	
 
 	game->displayLogo();
 	game->start_game();

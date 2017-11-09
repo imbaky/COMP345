@@ -7,9 +7,7 @@
 using namespace std;
 
 
-Observer::Observer(Game game) {
-	// observable.registerObserver();
-}
+Observer::Observer() {}
 
 void Observer::notify(string msg) {
 	cout << "Msg from observable => " << msg << endl;
