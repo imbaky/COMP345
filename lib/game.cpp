@@ -1,5 +1,6 @@
 #include "game.h"
 #include "Maploader.h"
+#include "player.h"
 
 #include <stdio.h>
 #include <cstdlib>
@@ -127,34 +128,35 @@ void Game::createPlayers()
 	Player *newPlayer;
 	for (int i = 0; i < playerCount; i++)
 	{
-		// bool valid_input=false;
-		// int input;
-		// while (!valid_input)
-		// {
-		// 	cout << "What type of player should Player , choose 1, 2 or 3" + to_string(i + 1) << " be ?" << endl;
-		// 	cout << "1) Human" << endl;
-		// 	cout << "2) Agressive Computer" << endl;
-		// 	cout << "3) Benevolent Computer" << endl;
-		// 	cin >> input;
+		delete newPlayer;
+		bool valid_input=false;
+		int input;
+		while (!valid_input)
+		{
+			cout << "What type of player should Player , choose 1, 2 or 3" + to_string(i + 1) << " be ?" << endl;
+			cout << "1) Human" << endl;
+			cout << "2) Agressive Computer" << endl;
+			cout << "3) Benevolent Computer" << endl;
+			cin >> input;
 
-		// 	switch(input){
-		// 		case 1:
-		// 		newPlayer = new Human("Player " + to_string(i + 1), 3);
-		// 		valid_input = true;
-		// 		break;
-		// 		case 2:
-		// 		newPlayer =  new AggressiveComputer("Player " + to_string(i + 1), 3);
-		// 		valid_input = true;
-		// 		break;
-		// 		case 3:
-		// 		newPlayer =  new BenevolentComputer("Player " + to_string(i + 1), 3);
-		// 		valid_input = true;
-		// 		break;
-		// 		default:
-		// 		break;
-		// 	}
-		// }
-		newPlayer = new Player("Player " + to_string(i + 1), 3);
+			switch(input){
+				case 1:
+				newPlayer = new Human("Player " + to_string(i + 1), 3);
+				valid_input = true;
+				break;
+				case 2:
+				newPlayer =  new AggressiveComputer("Player " + to_string(i + 1), 3);
+				valid_input = true;
+				break;
+				case 3:
+				newPlayer =  new BenevolentComputer("Player " + to_string(i + 1), 3);
+				valid_input = true;
+				break;
+				default:
+				break;
+			}
+		}
+		// newPlayer = new Player("Player " + to_string(i + 1), 3);
 		
 	}
 	this->players=players;
