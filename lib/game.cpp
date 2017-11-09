@@ -202,9 +202,13 @@ int Game::players_number()
 
 void Game::reinforcementPhase()
 {
-	Player *player = this->players.at(this->currentPlayer);
-	string player_type = typeid(player).name();
+
+	notify_current_player();
+	notify_current_phase("Reinforcement");
+	Player *player=this->players.at(this->currentPlayer);
+		string player_type = typeid(player).name();
 	vector<Country *> countries = player->getCountries();
+
 
 	char input;
 	bool validInput = false;
@@ -218,47 +222,54 @@ void Game::reinforcementPhase()
 	{
 
 		while (!validInput)
+	{
+		cout << "Exchange cards? (y/n)\n";
+		cin >> input;
+		if (input == 'y')
 		{
-			cout << "Exchange cards? (y/n)\n";
+			cout << "(0) Echange infantries\n";
+			cout << "(1) Echange cavaleries\n";
+			cout << "(2) Echange artilleries\n";
+			cout << "(3) Echange all\n";
 			cin >> input;
-			if (input == 'y')
+			switch (input)
 			{
-				cout << "(0) Echange infantries\n";
-				cout << "(1) Echange cavaleries\n";
-				cout << "(2) Echange artilleries\n";
-				cout << "(3) Echange all\n";
-				cin >> input;
-				switch (input)
-				{
-				case '0':
-					additionalArmies += player->getHand()->exchange(Infantry);
-					validInput = true;
-
-					break;
-				case '1':
-					additionalArmies += player->getHand()->exchange(Cavalery);
-					validInput = true;
-
-					break;
-				case '2':
-					additionalArmies += player->getHand()->exchange(Artillery);
-					validInput = true;
-
-					break;
-				case '3':
-					additionalArmies += player->getHand()->exchange();
-					validInput = true;
-					break;
-				default:
-					cout << "Invalid input\n";
-					validInput = false;
-					break;
-				}
-			}
-			if (input == 'n')
+			case '0':
+				additionalArmies += player->getHand()->exchange(Infantry);
+				notify_msg("Player " + to_string(currentPlayer) + "exchanged his infantry for " +
+					   to_string(additionalArmies) + "armies.");
 				validInput = true;
-		}
 
+				break;
+			case '1':
+				additionalArmies += player->getHand()->exchange(Cavalery);
+				notify_msg("Player " + to_string(currentPlayer) + "exchanged his cavalery for " +
+					   to_string(additionalArmies) + "armies.");
+				validInput = true;
+
+				break;
+			case '2':
+				additionalArmies += player->getHand()->exchange(Artillery);
+				notify_msg("Player " + to_string(currentPlayer) + "exchanged his artillery for " +
+					   to_string(additionalArmies) + "armies.");
+				validInput = true;
+
+				break;
+			case '3':
+				additionalArmies += player->getHand()->exchange();
+				notify_msg("Player " + to_string(currentPlayer) + "exchanged his cards for " +
+					   to_string(additionalArmies) + "armies.");
+				validInput = true;
+				break;
+			default:
+				cout << "Invalid input\n";
+				validInput = false;
+				break;
+			}
+		}
+		if (input == 'n')
+			validInput = true;
+	}
 		cout << player->name << " gets " << additionalArmies << " armies" << endl;
 
 		cout << "The player's armies will be distrubuted equally among their countries" << endl;
@@ -317,12 +328,15 @@ void Game::reinforcementPhase()
 		     << countries.at(i)->getArmySize()
 		     << " armies " << endl;
 	}
+	
+	notify_msg("Reinforcement phase over");
 }
 
 void Game::attackPhase()
 {
 	Player *player = this->players.at(this->currentPlayer);
-
+	notify_current_player();
+	notify_current_phase("Attack");
 	if (player_type == typeid(Human).name())
 	{
 
@@ -369,7 +383,7 @@ void Game::attackPhase()
 
 				cout << static_cast<Player *>(neighbors.at(enemyCountry)->owner)->name << " Number of dices to defend (1 or 2)?" << endl;
 				cin >> defenderDices;
-
+				notify_msg("Attacking from" + player->getCountries().at(attackCountry)->name + " to " + player->getCountries().at(attackCountry)->name);
 				if (player->attack(player->getCountries().at(attackCountry), neighbors.at(enemyCountry), attackerDices, defenderDices))
 					cout << "Attack successful!!" << endl;
 				else
@@ -389,12 +403,14 @@ void Game::attackPhase()
 	else if (player_type == typeid(BenevolentComputer).name())
 	{
 	}
+	notify_msg("Attack phase over");
 }
 
 void Game::fortificationPhase()
 {
 	Player *player = this->players.at(this->currentPlayer);
-
+	notify_current_player();
+	notify_current_phase("Fortification");
 	char input;
 	bool validInput = false;
 	while (!validInput)
@@ -431,6 +447,8 @@ void Game::fortificationPhase()
 			int sourceCountry;
 			cin >> sourceCountry;
 
+			notify_msg("Fortifying " + sourceCountry);
+
 			cout << "How much of your army would you like to move ?" << endl;
 			int fortificationAmount;
 			cin >> fortificationAmount;
@@ -438,7 +456,8 @@ void Game::fortificationPhase()
 			if (player->fortify(neighbors.at(sourceCountry), player->getCountries().at(targetCountry), fortificationAmount))
 			{
 				validInput = true;
-				cout << "--- Your countries after fortification----" << endl;
+				notify_msg("Adding " + to_string(fortificationAmount));
+				cout<<"--- Your countries after fortification----"<<endl;
 				for (int i = 0; i < player->getCountries().size(); i++)
 				{
 					cout << i << "- " << player->getCountries().at(i)->name << " Army size:" << player->getCountries().at(i)->getArmySize() << endl;
@@ -452,6 +471,7 @@ void Game::fortificationPhase()
 		if (input == 'n')
 			validInput = true;
 	}
+	notify_msg("Fortification phase over");
 }
 
 void Game::printPlayerInfo(Player *player)
@@ -494,4 +514,14 @@ void Game::notify_current_phase(string phase)
 	{
 		observers[i]->notify("Current Phase: " + phase);
 	}
+}
+
+void Game::notify_msg(string msg) {
+	for (int i = 0; i < observers.size(); i++) {
+		observers[i]->notify(msg);
+	}
+}
+
+vector<Player *> Game::get_players() {
+	return players;
 }

@@ -33,10 +33,12 @@ public:
         void fortificationPhase();
         void printPlayerInfo(Player *player);
         void displayLogo();
+	vector<Player *> get_players();
 
 	void registerObserver(Observer *observer);
 	void notify_current_player();
 	void notify_current_phase(string phase);
+	void notify_msg(string msg);
 
 private:
         vector<Player *> players;
