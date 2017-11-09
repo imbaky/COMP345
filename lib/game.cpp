@@ -9,6 +9,9 @@
 #include <dirent.h>
 #include <vector>
 
+
+using namespace std;
+
 Game *Game::getInstance()
 {
         static Game *instance = nullptr;
@@ -121,37 +124,38 @@ void Game::createPlayers()
 {
 	int playerCount = players_number();
 	vector<Player *> players;
+	Player *newPlayer;
 	for (int i = 0; i < playerCount; i++)
 	{
-		bool valid_input=false;
-		int input;
-		while (!valid_input)
-		{
-			cout << "What type of player should Player , choose 1, 2 or 3" + to_string(i + 1) << " be ?" << endl;
-			cout << "1) Human" << endl;
-			cout << "2) Agressive Computer" << endl;
-			cout << "3) Benevolent Computer" << endl;
-			cin >> input;
-			Player *newPlayer;
-			switch(input){
-				case 1:
-				newPlayer = new Human("Player " + to_string(i + 1), 3);
-				valid_input = true;
-				break;
-				case 2:
-				newPlayer =  new AggressiveComputer("Player " + to_string(i + 1), 3);
-				valid_input = true;
-				break;
-				case 3:
-				newPlayer =  new BenevolentComputer("Player " + to_string(i + 1), 3);
-				valid_input = true;
-				break;
-				default:
-				break;
-			}
-		}
+		// bool valid_input=false;
+		// int input;
+		// while (!valid_input)
+		// {
+		// 	cout << "What type of player should Player , choose 1, 2 or 3" + to_string(i + 1) << " be ?" << endl;
+		// 	cout << "1) Human" << endl;
+		// 	cout << "2) Agressive Computer" << endl;
+		// 	cout << "3) Benevolent Computer" << endl;
+		// 	cin >> input;
+
+		// 	switch(input){
+		// 		case 1:
+		// 		newPlayer = new Human("Player " + to_string(i + 1), 3);
+		// 		valid_input = true;
+		// 		break;
+		// 		case 2:
+		// 		newPlayer =  new AggressiveComputer("Player " + to_string(i + 1), 3);
+		// 		valid_input = true;
+		// 		break;
+		// 		case 3:
+		// 		newPlayer =  new BenevolentComputer("Player " + to_string(i + 1), 3);
+		// 		valid_input = true;
+		// 		break;
+		// 		default:
+		// 		break;
+		// 	}
+		// }
+		newPlayer = new Player("Player " + to_string(i + 1), 3);
 		
-		players.push_back(newPlayer);
 	}
 	this->players=players;
 }
@@ -208,7 +212,7 @@ void Game::reinforcementPhase()
 	int additionalArmies = owned / 3;
 	if (additionalArmies < 3)
 		additionalArmies = 3;
-	additionalArmies += numOfContinents(player, this->map);
+	additionalArmies += player->numOfContinents(this->map);
 
 	while (!validInput)
 	{
@@ -281,7 +285,7 @@ void Game::attackPhase()
 		if (input == 'y')
 		{
 			// Hash of the countries and neightbors it can attack
-			map<string, vector<Country *>> validCountries;
+			map <string , vector<Country *>> validCountries;
 			// A player's countries
 			vector<Country *> countries = player->getCountries();
 
