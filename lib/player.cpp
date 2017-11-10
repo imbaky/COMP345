@@ -276,7 +276,7 @@ bool Human::fortify()
 			{
 				validInput = true;
 				// notify_msg("Adding " + to_string(fortificationAmount) + " to " +
-					//    this->getCountries().at(targetCountry)->name);
+				//    this->getCountries().at(targetCountry)->name);
 				cout << "--- Your countries after fortification----" << endl;
 				for (int i = 0; i < this->getCountries().size(); i++)
 				{
@@ -291,4 +291,140 @@ bool Human::fortify()
 		if (input == 'n')
 			validInput = true;
 	}
+}
+
+bool Human::reinforce(Map *map)
+{
+
+	vector<Country *> countries = this->getCountries();
+
+	char input;
+	bool validInput = false;
+	int owned = this->getCountries().size();
+
+	int additionalArmies = owned / 3;
+	if (additionalArmies < 3)
+		additionalArmies = 3;
+	additionalArmies += this->numOfContinents(map);
+	while (!validInput)
+	{
+		cout << "Exchange cards? (y/n)\n";
+		cin >> input;
+		if (input == 'y')
+		{
+			cout << "(0) Echange infantries\n";
+			cout << "(1) Echange cavaleries\n";
+			cout << "(2) Echange artilleries\n";
+			cout << "(3) Echange all\n";
+			cin >> input;
+			switch (input)
+			{
+			case '0':
+				additionalArmies += this->getHand()->exchange(Infantry);
+				// notify_msg("Player " + to_string(currentPlayer) + "exchanged his infantry for " +
+				// 	   to_string(additionalArmies) + "armies.");
+				validInput = true;
+
+				break;
+			case '1':
+				additionalArmies += this->getHand()->exchange(Cavalery);
+				// notify_msg("Player " + to_string(currentPlayer) + "exchanged his cavalery for " +
+				// 	   to_string(additionalArmies) + "armies.");
+				validInput = true;
+
+				break;
+			case '2':
+				additionalArmies += this->getHand()->exchange(Artillery);
+				// notify_msg("Player " + to_string(currentPlayer) + "exchanged his artillery for " +
+				// 	   to_string(additionalArmies) + "armies.");
+				validInput = true;
+
+				break;
+			case '3':
+				additionalArmies += this->getHand()->exchange();
+				// notify_msg("Player " + to_string(currentPlayer) + "exchanged his cards for " +
+				// 	   to_string(additionalArmies) + "armies.");
+				validInput = true;
+				break;
+			default:
+				cout << "Invalid input\n";
+				validInput = false;
+				break;
+			}
+		}
+		if (input == 'n')
+			validInput = true;
+	}
+	cout << this->name << " gets " << additionalArmies << " armies" << endl;
+
+	cout << "The player's armies will be distrubuted equally among their countries" << endl;
+	for (int i = 0; i < additionalArmies; i++)
+	{
+		Player::reinforce(countries.at(i % countries.size()), 1);
+	}
+
+	return true;
+}
+
+bool AggressiveComputer::reinforce(Map *map)
+{
+	vector<Country *> countries = this->getCountries();
+
+	char input;
+	bool validInput = false;
+	int owned = this->getCountries().size();
+
+	int additionalArmies = owned / 3;
+	if (additionalArmies < 3)
+		additionalArmies = 3;
+	additionalArmies += this->numOfContinents(map);
+	additionalArmies += this->getHand()->exchange();
+	cout << this->name << " gets " << additionalArmies << " armies" << endl;
+	Country *strongestCountry = countries.at(0);
+	for (int i = 0; i < countries.size(); i++)
+	{
+		if ((countries.at(i)->getArmySize() >= strongestCountry->getArmySize()))
+		{
+			for (int j = 0; j < countries.at(i)->getNeighbors().size(); j++)
+			{
+				if (static_cast<Player *>(countries.at(i)->getNeighbors().at(j)->owner)->name == static_cast<Player *>(countries.at(i)->owner)->name)
+				{
+					strongestCountry = countries.at(i);
+					break;
+				}
+			}
+		}
+	}
+	Player::reinforce(strongestCountry, additionalArmies);
+}
+
+bool BenevolentComputer::reinforce(Map *map){
+	vector<Country *> countries = this->getCountries();
+
+	char input;
+	bool validInput = false;
+	int owned = this->getCountries().size();
+
+	int additionalArmies = owned / 3;
+	if (additionalArmies < 3)
+		additionalArmies = 3;
+	additionalArmies += this->numOfContinents(map);
+	additionalArmies += this->getHand()->exchange();
+	cout << this->name << " gets " << additionalArmies << " armies" << endl;
+	Country *weakestCountry = countries.at(0);
+	for (int i = 0; i < countries.size(); i++)
+	{
+		if ((countries.at(i)->getArmySize() <= weakestCountry->getArmySize()))
+		{
+			for (int j = 0; j < countries.at(i)->getNeighbors().size(); j++)
+			{
+				if (static_cast<Player *>(countries.at(i)->getNeighbors().at(j)->owner)->name == static_cast<Player *>(countries.at(i)->owner)->name)
+				{
+					weakestCountry = countries.at(i);
+					break;
+				}
+			}
+		}
+	}
+	Player::reinforce(weakestCountry, additionalArmies);
 }
