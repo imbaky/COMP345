@@ -56,7 +56,7 @@ int main() {
 		while (army_available > 0)
                         for (int j = 0; j < countries.size(); j++) {
                                 if (army_available-- > 0) {
-                                        countries[i]->setArmySize((countries[i]->getArmySize()) + 1);
+                                        countries[j]->setArmySize((countries[j]->getArmySize()) + 1);
                                 }
                                 else
                                         break;
@@ -65,15 +65,15 @@ int main() {
 	
 	cout << "DEBUGGING..." << num_player << endl;
 	
-	game->reinforcementPhase();
-
-	cout << "DEBUGGING..." << num_player << endl;
-
-	game->fortificationPhase();
+//	game->reinforcementPhase();
 
 	cout << "DEBUGGING..." << num_player << endl;
 
 	game->attackPhase();
+
+	cout << "DEBUGGING..." << num_player << endl;
+
+	game->fortificationPhase();
 
 	cout << "DEBUGGING..." << num_player << endl;
 	
