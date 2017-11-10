@@ -58,7 +58,7 @@ int main() {
                         }
 	}
 	
-//	game->reinforcementPhase();
+	game->reinforcementPhase();
 
 	game->attackPhase();
 
