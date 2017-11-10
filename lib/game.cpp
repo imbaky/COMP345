@@ -204,119 +204,19 @@ void Game::reinforcementPhase()
 	notify_current_phase("Reinforcement");
 	Player *player = this->players.at(this->currentPlayer);
 
-	vector<Country *> countries = player->getCountries();
-
-	char input;
-	bool validInput = false;
-	int owned = player->getCountries().size();
-
-	int additionalArmies = owned / 3;
-	if (additionalArmies < 3)
-		additionalArmies = 3;
-
-	additionalArmies += player->numOfContinents(this->map);
 	if (player->type == 0)
 	{
-
-		while (!validInput)
-		{
-			cout << "Exchange cards? (y/n)\n";
-			cin >> input;
-			if (input == 'y')
-			{
-				cout << "(0) Echange infantries\n";
-				cout << "(1) Echange cavaleries\n";
-				cout << "(2) Echange artilleries\n";
-				cout << "(3) Echange all\n";
-				cin >> input;
-				switch (input)
-				{
-				case '0':
-					additionalArmies += player->getHand()->exchange(Infantry);
-					notify_msg("Player " + to_string(currentPlayer) + "exchanged his infantry for " +
-						   to_string(additionalArmies) + "armies.");
-					validInput = true;
-
-					break;
-				case '1':
-					additionalArmies += player->getHand()->exchange(Cavalery);
-					notify_msg("Player " + to_string(currentPlayer) + "exchanged his cavalery for " +
-						   to_string(additionalArmies) + "armies.");
-					validInput = true;
-
-					break;
-				case '2':
-					additionalArmies += player->getHand()->exchange(Artillery);
-					notify_msg("Player " + to_string(currentPlayer) + "exchanged his artillery for " +
-						   to_string(additionalArmies) + "armies.");
-					validInput = true;
-
-					break;
-				case '3':
-					additionalArmies += player->getHand()->exchange();
-					notify_msg("Player " + to_string(currentPlayer) + "exchanged his cards for " +
-						   to_string(additionalArmies) + "armies.");
-					validInput = true;
-					break;
-				default:
-					cout << "Invalid input\n";
-					validInput = false;
-					break;
-				}
-			}
-			if (input == 'n')
-				validInput = true;
-		}
-		cout << player->name << " gets " << additionalArmies << " armies" << endl;
-
-		cout << "The player's armies will be distrubuted equally among their countries" << endl;
-		for (int i = 0; i < additionalArmies; i++)
-		{
-			player->reinforce(countries.at(i % countries.size()), 1);
-		}
+	static_cast<Human*>(player)->reinforce(this->map);	
 	}
 	else if (player->type == 1)
 	{
-		additionalArmies += player->getHand()->exchange();
-		cout << player->name << " gets " << additionalArmies << " armies" << endl;
-		Country *strongestCountry = countries.at(0);
-		for (int i = 0; i < countries.size(); i++)
-		{
-			if ((countries.at(i)->getArmySize() >= strongestCountry->getArmySize()))
-			{
-				for (int j = 0; j < countries.at(i)->getNeighbors().size(); j++)
-				{
-					if (static_cast<Player *>(countries.at(i)->getNeighbors().at(j)->owner)->name == static_cast<Player *>(countries.at(i)->owner)->name)
-					{
-						strongestCountry = countries.at(i);
-						break;
-					}
-				}
-			}
-		}
-		player->reinforce(strongestCountry, additionalArmies);
+	static_cast<AggressiveComputer*>(player)->reinforce(this->map);	
 	}
 	else if (player->type == 2)
 	{
-		additionalArmies += player->getHand()->exchange();
-		cout << player->name << " gets " << additionalArmies << " armies" << endl;
-		Country *weakestCountry = countries.at(0);
-		for (int i = 0; i < countries.size(); i++)
-		{
-			if ((countries.at(i)->getArmySize() <= weakestCountry->getArmySize()))
-			{
-				for (int j = 0; j < countries.at(i)->getNeighbors().size(); j++)
-				{
-					if (static_cast<Player *>(countries.at(i)->getNeighbors().at(j)->owner)->name == static_cast<Player *>(countries.at(i)->owner)->name)
-					{
-						weakestCountry = countries.at(i);
-						break;
-					}
-				}
-			}
-		}
-		player->reinforce(weakestCountry, additionalArmies);
+	static_cast<BenevolentComputer*>(player)->reinforce(this->map);		
 	}
+	vector<Country *> countries = player->getCountries();	
 
 	//prints all countries that th eplayer owns with army sizes
 	for (int i = 0; i < countries.size(); i++)

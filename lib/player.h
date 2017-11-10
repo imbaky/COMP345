@@ -57,7 +57,7 @@ class Human : public Player
 	Human(string name, int numberOfDices) : Player(name, numberOfDices){ this->type=0;};
 	Human(string name, int numberOfDices, int initArmies) : Player(name, numberOfDices, initArmies){this->type=0;};
 
-	bool reinforce();
+	bool reinforce(Map* map);
 	bool attack();
 	bool fortify();
 };
@@ -68,7 +68,7 @@ class AggressiveComputer : public Player
 	AggressiveComputer(string name, int numberOfDices) : Player(name, numberOfDices){this->type=1;};
 	AggressiveComputer(string name, int numberOfDices, int initArmies) : Player(name, numberOfDices, initArmies){this->type=1;};
 
-	bool reinforce();
+	bool reinforce(Map* map);
 	bool attack();
 	bool fortify();
 };
@@ -79,7 +79,7 @@ class BenevolentComputer : public Player
 	BenevolentComputer(string name, int numberOfDices) : Player(name, numberOfDices){this->type=2;};
 	BenevolentComputer(string name, int numberOfDices, int initArmies) : Player(name, numberOfDices, initArmies){this->type=2;};
 
-	bool reinforce();
+	bool reinforce(Map* map);
 	bool attack();
 	bool fortify();
 };
