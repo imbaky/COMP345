@@ -443,7 +443,7 @@ void Game::fortificationPhase()
 			int sourceCountry;
 			cin >> sourceCountry;
 
-			notify_msg("Fortifying " + sourceCountry);
+			notify_msg("Fortifying from " + neighbors.at(sourceCountry)->name);
 
 			cout << "How much of your army would you like to move ?" << endl;
 			int fortificationAmount;
@@ -452,7 +452,8 @@ void Game::fortificationPhase()
 			if (player->fortify(neighbors.at(sourceCountry), player->getCountries().at(targetCountry), fortificationAmount))
 			{
 				validInput = true;
-				notify_msg("Adding " + to_string(fortificationAmount));
+				notify_msg("Adding " + to_string(fortificationAmount) + " to " +
+					   player->getCountries().at(targetCountry)->name);
 				cout << "--- Your countries after fortification----" << endl;
 				for (int i = 0; i < player->getCountries().size(); i++)
 				{
