@@ -127,7 +127,6 @@ void Game::createPlayers()
 
 	for (int i = 0; i < playerCount; i++)
 	{
-		Player *newPlayer;
 		bool valid_input = false;
 		int input;
 		while (!valid_input)
@@ -137,27 +136,24 @@ void Game::createPlayers()
 			cout << "2) Agressive Computer" << endl;
 			cout << "3) Benevolent Computer" << endl;
 			cin >> input;
-
 			switch (input)
 			{
 			case 1:
-				newPlayer = new Human("Player " + to_string(i + 1), 3);
+				players.push_back(new Human("Player " + to_string(i + 1), 3));
 				valid_input = true;
 				break;
 			case 2:
-				newPlayer = new AggressiveComputer("Player " + to_string(i + 1), 3);
+				players.push_back(new AggressiveComputer("Player " + to_string(i + 1), 3));
 				valid_input = true;
 				break;
 			case 3:
-				newPlayer = new BenevolentComputer("Player " + to_string(i + 1), 3);
+				players.push_back(new BenevolentComputer("Player " + to_string(i + 1), 3));
 				valid_input = true;
 				break;
 			default:
 				break;
 			}
-			players.push_back(newPlayer);
 		}
-		// newPlayer = new Player("Player " + to_string(i + 1), 3);
 	}
 	this->players = players;
 }

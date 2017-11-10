@@ -31,6 +31,7 @@ int main() {
                 for (std::vector<Country *>::iterator it2 = countries.begin(); it2 != countries.end(); ++it2)
                 {
                         game->get_players().at(index)->addCountry((*it2));
+
                         (*it2)->owner = (game->get_players().at(index));
                         index = (index + 1) % num_player;
                 }
