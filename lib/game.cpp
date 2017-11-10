@@ -222,7 +222,6 @@ void Game::reinforcementPhase()
 	}
 
 	notify_msg("Reinforcement phase over");
-	notify_game_stats();
 }
 
 void Game::attackPhase()
@@ -243,7 +242,6 @@ void Game::attackPhase()
 		static_cast<BenevolentComputer *>(player)->attack();
 	}
 	notify_msg("Attack phase over");
-	notify_game_stats();
 }
 
 void Game::fortificationPhase()

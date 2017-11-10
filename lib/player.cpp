@@ -175,18 +175,17 @@ bool Human::attack()
 	// A player's countries
 	vector<Country *> countries = this->getCountries();
 
-	cout << "Select a country that you would like to attack from:" << endl;
-	for (int i = 0; i < this->getCountries().size(); i++)
-	{
-		cout << i << "- " << this->getCountries().at(i)->name << " Army size:" << this->getCountries().at(i)->getArmySize() << endl;
-	}
-
 	while (!validInput)
 	{
 		cout << "Attack? (y/n)\n";
 		cin >> input;
 		if (input == 'y')
 		{
+			cout << "Select a country that you would like to attack from:" << endl;
+			for (int i = 0; i < this->getCountries().size(); i++)
+			{
+				cout << i << "- " << this->getCountries().at(i)->name << " Army size:" << this->getCountries().at(i)->getArmySize() << endl;
+			}
 
 			int attackCountry;
 			cin >> attackCountry;
