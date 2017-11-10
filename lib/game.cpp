@@ -265,7 +265,7 @@ void Game::fortificationPhase()
 	}
 	else if (player->type == 2)
 	{
-		static_cast<Human *>(player)->fortify();
+		static_cast<BenevolentComputer *>(player)->fortify();
 	}
 	notify_msg("Fortification phase over");
 }
