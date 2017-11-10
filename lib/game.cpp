@@ -72,6 +72,7 @@ Map *Game::loadMap()
 	} while (!ml->isValid());
 
 	Map *map = ml->getMap();
+	this->map=map;
 	return map;
 }
 
