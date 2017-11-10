@@ -356,67 +356,7 @@ void Game::fortificationPhase()
 
 	if (player->type == 0)
 	{
-		char input;
-		bool validInput = false;
-		while (!validInput)
-		{
-			cout << "Fortify? (y/n)\n";
-			cin >> input;
-			if (input == 'y')
-			{
-				cout << "Select one of your countries that you would like to fortify:" << endl;
-				for (int i = 0; i < player->getCountries().size(); i++)
-				{
-					cout << i << "- " << player->getCountries().at(i)->name << " Army size:" << player->getCountries().at(i)->getArmySize() << endl;
-				}
-				int targetCountry;
-				cin >> targetCountry;
-
-				if ((targetCountry < 0) || (targetCountry > player->getCountries().size()))
-				{
-					continue;
-				}
-
-				vector<Country *> neighbors;
-				for (int i = 0; i < player->getCountries().at(targetCountry)->getNeighbors().size(); i++)
-				{
-					if (static_cast<Player *>(player->getCountries().at(targetCountry)->getNeighbors().at(i)->owner)->name == static_cast<Player *>(player->getCountries().at(targetCountry)->owner)->name)
-						neighbors.push_back(player->getCountries().at(targetCountry)->getNeighbors().at(i));
-				}
-
-				cout << "Select a neighboring country that you want to move armies from:" << endl;
-				for (int i = 0; i < neighbors.size(); i++)
-				{
-					cout << i << "- " << neighbors.at(i)->name << " Army size:" << neighbors.at(i)->getArmySize() << endl;
-				}
-				int sourceCountry;
-				cin >> sourceCountry;
-
-				notify_msg("Fortifying from " + neighbors.at(sourceCountry)->name);
-
-				cout << "How much of your army would you like to move ?" << endl;
-				int fortificationAmount;
-				cin >> fortificationAmount;
-
-				if (player->fortify(neighbors.at(sourceCountry), player->getCountries().at(targetCountry), fortificationAmount))
-				{
-					validInput = true;
-					notify_msg("Adding " + to_string(fortificationAmount) + " to " +
-						   player->getCountries().at(targetCountry)->name);
-					cout << "--- Your countries after fortification----" << endl;
-					for (int i = 0; i < player->getCountries().size(); i++)
-					{
-						cout << i << "- " << player->getCountries().at(i)->name << " Army size:" << player->getCountries().at(i)->getArmySize() << endl;
-					}
-				}
-				else
-				{
-					cout << "Invalid move" << endl;
-				}
-			}
-			if (input == 'n')
-				validInput = true;
-		}
+	static_cast<Human*>(player)->fortify();	
 	}
 	else if (player->type == 1)
 	{

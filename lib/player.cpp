@@ -95,7 +95,6 @@ bool Player::attack(Country *attackingCountry, Country *defendingCountry, int at
 	if (attacker->name == defender->name || attacker->name != this->name || (attackingCountry->getArmySize() < 2) || (attackerDiceCount > 3) || (attackerDiceCount > attackingCountry->getArmySize()) || (defenderDiceCount > 2) || (defenderDiceCount > attackingCountry->getArmySize()))
 		return false;
 
-
 	vector<int> attackerRolls = attacker->getDice()->roll(attackerDiceCount);
 	vector<int> defenderRolls = defender->getDice()->roll(attackerDiceCount);
 	std::sort(attackerRolls.begin(), attackerRolls.end(), sortInt);
@@ -142,8 +141,8 @@ bool Player::fortify(Country *source, Country *target, int fortificationAmount)
 
 int Player::numOfContinents(Map *map)
 {
-	Player *player=this;
-	
+	Player *player = this;
+
 	int owned = 0;
 	vector<Continent *> continents = map->getContinents();
 	vector<Country *> countries = player->getCountries();
@@ -168,67 +167,128 @@ int Player::numOfContinents(Map *map)
 	return owned;
 }
 
-bool Human::attack(){
+bool Human::attack()
+{
 
-char input;
-		bool validInput = false;
-		// A player's countries
-		vector<Country *> countries = this->getCountries();
+	char input;
+	bool validInput = false;
+	// A player's countries
+	vector<Country *> countries = this->getCountries();
 
-		cout << "Select a country that you would like to attack from:" << endl;
-		for (int i = 0; i < this->getCountries().size(); i++)
+	cout << "Select a country that you would like to attack from:" << endl;
+	for (int i = 0; i < this->getCountries().size(); i++)
+	{
+		cout << i << "- " << this->getCountries().at(i)->name << " Army size:" << this->getCountries().at(i)->getArmySize() << endl;
+	}
+
+	while (!validInput)
+	{
+		cout << "Attack? (y/n)\n";
+		cin >> input;
+		if (input == 'y')
 		{
-			cout << i << "- " << this->getCountries().at(i)->name << " Army size:" << this->getCountries().at(i)->getArmySize() << endl;
-		}
 
-		while (!validInput)
-		{
-			cout << "Attack? (y/n)\n";
-			cin >> input;
-			if (input == 'y')
+			int attackCountry;
+			cin >> attackCountry;
+
+			vector<Country *> neighbors;
+			for (int i = 0; i < this->getCountries().at(attackCountry)->getNeighbors().size(); i++)
 			{
-
-				int attackCountry;
-				cin >> attackCountry;
-
-				vector<Country *> neighbors;
-				for (int i = 0; i < this->getCountries().at(attackCountry)->getNeighbors().size(); i++)
-				{
-					if (static_cast<Player *>(this->getCountries().at(attackCountry)->getNeighbors().at(i)->owner)->name != static_cast<Player *>(this->getCountries().at(attackCountry)->owner)->name)
-						neighbors.push_back(this->getCountries().at(attackCountry)->getNeighbors().at(i));
-				}
-
-				cout << "Select a neighboring country that you would like to attack:" << endl;
-				for (int i = 0; i < neighbors.size(); i++)
-				{
-					cout << i << "- " << neighbors.at(i)->name << " Army size:" << neighbors.at(i)->getArmySize() << endl;
-				}
-				int enemyCountry;
-				cin >> enemyCountry;
-
-				int attackerDices, defenderDices;
-
-				cout << static_cast<Player *>(this->getCountries().at(attackCountry)->owner)->name << " Number of dices to attack (1, 2 or 3)?" << endl;
-				cin >> attackerDices;
-
-				cout << static_cast<Player *>(neighbors.at(enemyCountry)->owner)->name << " Number of dices to defend (1 or 2)?" << endl;
-				cin >> defenderDices;
-				// notify_msg("Attacking from" + this->getCountries().at(attackCountry)->name + " to " + this->getCountries().at(attackCountry)->name);
-				if (Player::attack(this->getCountries().at(attackCountry), neighbors.at(enemyCountry), attackerDices, defenderDices))
-					cout << "Attack successful!!" << endl;
-				else
-				{
-					validInput = false;
-					cout << "invalid input";
-				}
+				if (static_cast<Player *>(this->getCountries().at(attackCountry)->getNeighbors().at(i)->owner)->name != static_cast<Player *>(this->getCountries().at(attackCountry)->owner)->name)
+					neighbors.push_back(this->getCountries().at(attackCountry)->getNeighbors().at(i));
 			}
-			if (input == 'n')
-				validInput = true;
+
+			cout << "Select a neighboring country that you would like to attack:" << endl;
+			for (int i = 0; i < neighbors.size(); i++)
+			{
+				cout << i << "- " << neighbors.at(i)->name << " Army size:" << neighbors.at(i)->getArmySize() << endl;
+			}
+			int enemyCountry;
+			cin >> enemyCountry;
+
+			int attackerDices, defenderDices;
+
+			cout << static_cast<Player *>(this->getCountries().at(attackCountry)->owner)->name << " Number of dices to attack (1, 2 or 3)?" << endl;
+			cin >> attackerDices;
+
+			cout << static_cast<Player *>(neighbors.at(enemyCountry)->owner)->name << " Number of dices to defend (1 or 2)?" << endl;
+			cin >> defenderDices;
+			// notify_msg("Attacking from" + this->getCountries().at(attackCountry)->name + " to " + this->getCountries().at(attackCountry)->name);
+			if (Player::attack(this->getCountries().at(attackCountry), neighbors.at(enemyCountry), attackerDices, defenderDices))
+				cout << "Attack successful!!" << endl;
+			else
+			{
+				validInput = false;
+				cout << "invalid input";
+			}
 		}
-return true;
+		if (input == 'n')
+			validInput = true;
+	}
+	return true;
 }
 
-bool attack(){
+bool Human::fortify()
+{
+	char input;
+	bool validInput = false;
+	while (!validInput)
+	{
+		cout << "Fortify? (y/n)\n";
+		cin >> input;
+		if (input == 'y')
+		{
+			cout << "Select one of your countries that you would like to fortify:" << endl;
+			for (int i = 0; i < this->getCountries().size(); i++)
+			{
+				cout << i << "- " << this->getCountries().at(i)->name << " Army size:" << this->getCountries().at(i)->getArmySize() << endl;
+			}
+			int targetCountry;
+			cin >> targetCountry;
 
-	
+			if ((targetCountry < 0) || (targetCountry > this->getCountries().size()))
+			{
+				continue;
+			}
+
+			vector<Country *> neighbors;
+			for (int i = 0; i < this->getCountries().at(targetCountry)->getNeighbors().size(); i++)
+			{
+				if (static_cast<Player *>(this->getCountries().at(targetCountry)->getNeighbors().at(i)->owner)->name == static_cast<Player *>(this->getCountries().at(targetCountry)->owner)->name)
+					neighbors.push_back(this->getCountries().at(targetCountry)->getNeighbors().at(i));
+			}
+
+			cout << "Select a neighboring country that you want to move armies from:" << endl;
+			for (int i = 0; i < neighbors.size(); i++)
+			{
+				cout << i << "- " << neighbors.at(i)->name << " Army size:" << neighbors.at(i)->getArmySize() << endl;
+			}
+			int sourceCountry;
+			cin >> sourceCountry;
+
+			// notify_msg("Fortifying from " + neighbors.at(sourceCountry)->name);
+
+			cout << "How much of your army would you like to move ?" << endl;
+			int fortificationAmount;
+			cin >> fortificationAmount;
+
+			if (Player::fortify(neighbors.at(sourceCountry), this->getCountries().at(targetCountry), fortificationAmount))
+			{
+				validInput = true;
+				// notify_msg("Adding " + to_string(fortificationAmount) + " to " +
+					//    this->getCountries().at(targetCountry)->name);
+				cout << "--- Your countries after fortification----" << endl;
+				for (int i = 0; i < this->getCountries().size(); i++)
+				{
+					cout << i << "- " << this->getCountries().at(i)->name << " Army size:" << this->getCountries().at(i)->getArmySize() << endl;
+				}
+			}
+			else
+			{
+				cout << "Invalid move" << endl;
+			}
+		}
+		if (input == 'n')
+			validInput = true;
+	}
 }
