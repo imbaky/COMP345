@@ -131,7 +131,7 @@ void Game::createPlayers()
 		int input;
 		while (!valid_input)
 		{
-			cout << "What type of player should Player , choose 1, 2 or 3" + to_string(i + 1) << " be ?" << endl;
+			cout << "What type of player should Player "+ to_string(i + 1)+", choose 1, 2 or 3"  << " be ?" << endl;
 			cout << "1) Human" << endl;
 			cout << "2) Agressive Computer" << endl;
 			cout << "3) Benevolent Computer" << endl;
