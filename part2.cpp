@@ -27,12 +27,9 @@ int main() {
 
         game->createPlayers();
 
-	cout << "DEBUGGING..." << endl;
-
 	//Distribute countries between players
         int num_player = game->get_players().size();
         int index = 0;
-	cout << "DEBUGGING..." << num_player << endl;
         for (std::vector<Continent *>::iterator it = continents.begin(); it != continents.end(); ++it)
         {
                 vector<Country *> countries = (*it)->getCountries();
@@ -45,8 +42,6 @@ int main() {
                 }
         }
 
-	cout << "DEBUGGING..." << num_player << endl;
-	
 	int initial_army = 40 - ((num_player - 2) * 5);
         //Distribute a players armies among their countries
 	for (int i = 0; i < game->get_players().size(); i++) {
@@ -63,19 +58,11 @@ int main() {
                         }
 	}
 	
-	cout << "DEBUGGING..." << num_player << endl;
-	
 //	game->reinforcementPhase();
-
-	cout << "DEBUGGING..." << num_player << endl;
 
 	game->attackPhase();
 
-	cout << "DEBUGGING..." << num_player << endl;
-
 	game->fortificationPhase();
 
-	cout << "DEBUGGING..." << num_player << endl;
-	
 	return 0;
 }
