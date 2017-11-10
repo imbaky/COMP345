@@ -58,11 +58,13 @@ int main() {
                         }
 	}
 	
-//	game->reinforcementPhase();
+	while (!game->hasWon()) {
+		//	game->reinforcementPhase();
+		game->attackPhase();
+		game->fortificationPhase();
 
-	game->attackPhase();
-
-	game->fortificationPhase();
+		game->nextTurn();
+	}
 
 	return 0;
 }

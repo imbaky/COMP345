@@ -52,7 +52,11 @@ bool Game::setMap(Map *map)
 
 bool Game::hasWon()
 {
-	if (this->map->countryCount() == this->players.at(this->currentPlayer)->getCountries().size())
+	int totalCountries = 0;
+	for (int i = 0; i < players.size(); i++) {
+		totalCountries += players[i]->getCountries().size();
+	}
+	if (totalCountries == players[currentPlayer]->getCountries().size())
 	{
 		return true;
 	}
