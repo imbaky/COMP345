@@ -206,17 +206,17 @@ void Game::reinforcementPhase()
 
 	if (player->type == 0)
 	{
-	static_cast<Human*>(player)->reinforce(this->map);	
+		static_cast<Human *>(player)->reinforce(this->map);
 	}
 	else if (player->type == 1)
 	{
-	static_cast<AggressiveComputer*>(player)->reinforce(this->map);	
+		static_cast<AggressiveComputer *>(player)->reinforce(this->map);
 	}
 	else if (player->type == 2)
 	{
-	static_cast<BenevolentComputer*>(player)->reinforce(this->map);		
+		static_cast<BenevolentComputer *>(player)->reinforce(this->map);
 	}
-	vector<Country *> countries = player->getCountries();	
+	vector<Country *> countries = player->getCountries();
 
 	//prints all countries that th eplayer owns with army sizes
 	for (int i = 0; i < countries.size(); i++)
@@ -236,14 +236,15 @@ void Game::attackPhase()
 	notify_current_phase("Attack");
 	if (player->type == 0)
 	{
-	static_cast<Human*>(player)->attack();	
+		static_cast<Human *>(player)->attack();
 	}
 	else if (player->type == 1)
 	{
+		static_cast<AggressiveComputer *>(player)->attack();
 	}
 	else if (player->type == 2)
 	{
-
+		static_cast<BenevolentComputer *>(player)->attack();
 	}
 	notify_msg("Attack phase over");
 }
@@ -256,13 +257,15 @@ void Game::fortificationPhase()
 
 	if (player->type == 0)
 	{
-	static_cast<Human*>(player)->fortify();	
+		static_cast<Human *>(player)->fortify();
 	}
 	else if (player->type == 1)
 	{
+		static_cast<AggressiveComputer *>(player)->fortify();
 	}
 	else if (player->type == 2)
 	{
+		static_cast<Human *>(player)->fortify();
 	}
 	notify_msg("Fortification phase over");
 }
