@@ -167,3 +167,68 @@ int Player::numOfContinents(Map *map)
 
 	return owned;
 }
+
+bool Human::attack(){
+
+char input;
+		bool validInput = false;
+		// A player's countries
+		vector<Country *> countries = this->getCountries();
+
+		cout << "Select a country that you would like to attack from:" << endl;
+		for (int i = 0; i < this->getCountries().size(); i++)
+		{
+			cout << i << "- " << this->getCountries().at(i)->name << " Army size:" << this->getCountries().at(i)->getArmySize() << endl;
+		}
+
+		while (!validInput)
+		{
+			cout << "Attack? (y/n)\n";
+			cin >> input;
+			if (input == 'y')
+			{
+
+				int attackCountry;
+				cin >> attackCountry;
+
+				vector<Country *> neighbors;
+				for (int i = 0; i < this->getCountries().at(attackCountry)->getNeighbors().size(); i++)
+				{
+					if (static_cast<Player *>(this->getCountries().at(attackCountry)->getNeighbors().at(i)->owner)->name != static_cast<Player *>(this->getCountries().at(attackCountry)->owner)->name)
+						neighbors.push_back(this->getCountries().at(attackCountry)->getNeighbors().at(i));
+				}
+
+				cout << "Select a neighboring country that you would like to attack:" << endl;
+				for (int i = 0; i < neighbors.size(); i++)
+				{
+					cout << i << "- " << neighbors.at(i)->name << " Army size:" << neighbors.at(i)->getArmySize() << endl;
+				}
+				int enemyCountry;
+				cin >> enemyCountry;
+
+				int attackerDices, defenderDices;
+
+				cout << static_cast<Player *>(this->getCountries().at(attackCountry)->owner)->name << " Number of dices to attack (1, 2 or 3)?" << endl;
+				cin >> attackerDices;
+
+				cout << static_cast<Player *>(neighbors.at(enemyCountry)->owner)->name << " Number of dices to defend (1 or 2)?" << endl;
+				cin >> defenderDices;
+				// notify_msg("Attacking from" + this->getCountries().at(attackCountry)->name + " to " + this->getCountries().at(attackCountry)->name);
+				if (Player::attack(this->getCountries().at(attackCountry), neighbors.at(enemyCountry), attackerDices, defenderDices))
+					cout << "Attack successful!!" << endl;
+				else
+				{
+					validInput = false;
+					cout << "invalid input";
+				}
+			}
+			if (input == 'n')
+				validInput = true;
+		}
+return true;
+}
+
+bool attack(){
+
+	
+}

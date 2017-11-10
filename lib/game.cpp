@@ -131,7 +131,8 @@ void Game::createPlayers()
 		int input;
 		while (!valid_input)
 		{
-			cout << "What type of player should Player "+ to_string(i + 1)+", choose 1, 2 or 3"  << " be ?" << endl;
+			cout << "What type of player should Player " + to_string(i + 1) + ", choose 1, 2 or 3"
+			     << " be ?" << endl;
 			cout << "1) Human" << endl;
 			cout << "2) Agressive Computer" << endl;
 			cout << "3) Benevolent Computer" << endl;
@@ -205,17 +206,16 @@ void Game::reinforcementPhase()
 
 	vector<Country *> countries = player->getCountries();
 
-
 	char input;
 	bool validInput = false;
 	int owned = player->getCountries().size();
-		
+
 	int additionalArmies = owned / 3;
 	if (additionalArmies < 3)
 		additionalArmies = 3;
 
 	additionalArmies += player->numOfContinents(this->map);
-	if (player->type==0)
+	if (player->type == 0)
 	{
 
 		while (!validInput)
@@ -275,7 +275,7 @@ void Game::reinforcementPhase()
 			player->reinforce(countries.at(i % countries.size()), 1);
 		}
 	}
-	else if (player->type==1)
+	else if (player->type == 1)
 	{
 		additionalArmies += player->getHand()->exchange();
 		cout << player->name << " gets " << additionalArmies << " armies" << endl;
@@ -296,7 +296,7 @@ void Game::reinforcementPhase()
 		}
 		player->reinforce(strongestCountry, additionalArmies);
 	}
-	else if (player->type==2)
+	else if (player->type == 2)
 	{
 		additionalArmies += player->getHand()->exchange();
 		cout << player->name << " gets " << additionalArmies << " armies" << endl;
@@ -336,68 +336,14 @@ void Game::attackPhase()
 	notify_current_phase("Attack");
 	if (player->type == 0)
 	{
-
-		char input;
-		bool validInput = false;
-		// A player's countries
-		vector<Country *> countries = player->getCountries();
-
-		cout << "Select a country that you would like to attack from:" << endl;
-		for (int i = 0; i < player->getCountries().size(); i++)
-		{
-			cout << i << "- " << player->getCountries().at(i)->name << " Army size:" << player->getCountries().at(i)->getArmySize() << endl;
-		}
-
-		while (!validInput)
-		{
-			cout << "Attack? (y/n)\n";
-			cin >> input;
-			if (input == 'y')
-			{
-
-				int attackCountry;
-				cin >> attackCountry;
-
-				vector<Country *> neighbors;
-				for (int i = 0; i < player->getCountries().at(attackCountry)->getNeighbors().size(); i++)
-				{
-					if (static_cast<Player *>(player->getCountries().at(attackCountry)->getNeighbors().at(i)->owner)->name != static_cast<Player *>(player->getCountries().at(attackCountry)->owner)->name)
-						neighbors.push_back(player->getCountries().at(attackCountry)->getNeighbors().at(i));
-				}
-
-				cout << "Select a neighboring country that you would like to attack:" << endl;
-				for (int i = 0; i < neighbors.size(); i++)
-				{
-					cout << i << "- " << neighbors.at(i)->name << " Army size:" << neighbors.at(i)->getArmySize() << endl;
-				}
-				int enemyCountry;
-				cin >> enemyCountry;
-
-				int attackerDices, defenderDices;
-
-				cout << static_cast<Player *>(player->getCountries().at(attackCountry)->owner)->name << " Number of dices to attack (1, 2 or 3)?" << endl;
-				cin >> attackerDices;
-
-				cout << static_cast<Player *>(neighbors.at(enemyCountry)->owner)->name << " Number of dices to defend (1 or 2)?" << endl;
-				cin >> defenderDices;
-				notify_msg("Attacking from" + player->getCountries().at(attackCountry)->name + " to " + player->getCountries().at(attackCountry)->name);
-				if (player->attack(player->getCountries().at(attackCountry), neighbors.at(enemyCountry), attackerDices, defenderDices))
-					cout << "Attack successful!!" << endl;
-				else
-				{
-					validInput = false;
-					cout << "invalid input";
-				}
-			}
-			if (input == 'n')
-				validInput = true;
-		}
+	static_cast<Human*>(player)->attack();	
 	}
-	else if (player->type==1)
+	else if (player->type == 1)
 	{
 	}
-	else if (player->type==2)
+	else if (player->type == 2)
 	{
+
 	}
 	notify_msg("Attack phase over");
 }
@@ -407,66 +353,76 @@ void Game::fortificationPhase()
 	Player *player = this->players.at(this->currentPlayer);
 	notify_current_player();
 	notify_current_phase("Fortification");
-	char input;
-	bool validInput = false;
-	while (!validInput)
+
+	if (player->type == 0)
 	{
-		cout << "Fortify? (y/n)\n";
-		cin >> input;
-		if (input == 'y')
+		char input;
+		bool validInput = false;
+		while (!validInput)
 		{
-			cout << "Select one of your countries that you would like to fortify:" << endl;
-			for (int i = 0; i < player->getCountries().size(); i++)
+			cout << "Fortify? (y/n)\n";
+			cin >> input;
+			if (input == 'y')
 			{
-				cout << i << "- " << player->getCountries().at(i)->name << " Army size:" << player->getCountries().at(i)->getArmySize() << endl;
-			}
-			int targetCountry;
-			cin >> targetCountry;
-
-			if ((targetCountry < 0) || (targetCountry > player->getCountries().size()))
-			{
-				continue;
-			}
-
-			vector<Country *> neighbors;
-			for (int i = 0; i < player->getCountries().at(targetCountry)->getNeighbors().size(); i++)
-			{
-				if (static_cast<Player *>(player->getCountries().at(targetCountry)->getNeighbors().at(i)->owner)->name == static_cast<Player *>(player->getCountries().at(targetCountry)->owner)->name)
-					neighbors.push_back(player->getCountries().at(targetCountry)->getNeighbors().at(i));
-			}
-
-			cout << "Select a neighboring country that you want to move armies from:" << endl;
-			for (int i = 0; i < neighbors.size(); i++)
-			{
-				cout << i << "- " << neighbors.at(i)->name << " Army size:" << neighbors.at(i)->getArmySize() << endl;
-			}
-			int sourceCountry;
-			cin >> sourceCountry;
-
-			notify_msg("Fortifying from " + neighbors.at(sourceCountry)->name);
-
-			cout << "How much of your army would you like to move ?" << endl;
-			int fortificationAmount;
-			cin >> fortificationAmount;
-
-			if (player->fortify(neighbors.at(sourceCountry), player->getCountries().at(targetCountry), fortificationAmount))
-			{
-				validInput = true;
-				notify_msg("Adding " + to_string(fortificationAmount) + " to " +
-					   player->getCountries().at(targetCountry)->name);
-				cout << "--- Your countries after fortification----" << endl;
+				cout << "Select one of your countries that you would like to fortify:" << endl;
 				for (int i = 0; i < player->getCountries().size(); i++)
 				{
 					cout << i << "- " << player->getCountries().at(i)->name << " Army size:" << player->getCountries().at(i)->getArmySize() << endl;
 				}
+				int targetCountry;
+				cin >> targetCountry;
+
+				if ((targetCountry < 0) || (targetCountry > player->getCountries().size()))
+				{
+					continue;
+				}
+
+				vector<Country *> neighbors;
+				for (int i = 0; i < player->getCountries().at(targetCountry)->getNeighbors().size(); i++)
+				{
+					if (static_cast<Player *>(player->getCountries().at(targetCountry)->getNeighbors().at(i)->owner)->name == static_cast<Player *>(player->getCountries().at(targetCountry)->owner)->name)
+						neighbors.push_back(player->getCountries().at(targetCountry)->getNeighbors().at(i));
+				}
+
+				cout << "Select a neighboring country that you want to move armies from:" << endl;
+				for (int i = 0; i < neighbors.size(); i++)
+				{
+					cout << i << "- " << neighbors.at(i)->name << " Army size:" << neighbors.at(i)->getArmySize() << endl;
+				}
+				int sourceCountry;
+				cin >> sourceCountry;
+
+				notify_msg("Fortifying from " + neighbors.at(sourceCountry)->name);
+
+				cout << "How much of your army would you like to move ?" << endl;
+				int fortificationAmount;
+				cin >> fortificationAmount;
+
+				if (player->fortify(neighbors.at(sourceCountry), player->getCountries().at(targetCountry), fortificationAmount))
+				{
+					validInput = true;
+					notify_msg("Adding " + to_string(fortificationAmount) + " to " +
+						   player->getCountries().at(targetCountry)->name);
+					cout << "--- Your countries after fortification----" << endl;
+					for (int i = 0; i < player->getCountries().size(); i++)
+					{
+						cout << i << "- " << player->getCountries().at(i)->name << " Army size:" << player->getCountries().at(i)->getArmySize() << endl;
+					}
+				}
+				else
+				{
+					cout << "Invalid move" << endl;
+				}
 			}
-			else
-			{
-				cout << "Invalid move" << endl;
-			}
+			if (input == 'n')
+				validInput = true;
 		}
-		if (input == 'n')
-			validInput = true;
+	}
+	else if (player->type == 1)
+	{
+	}
+	else if (player->type == 2)
+	{
 	}
 	notify_msg("Fortification phase over");
 }
