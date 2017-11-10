@@ -227,6 +227,39 @@ bool Human::attack()
 	}
 	return true;
 }
+bool AggressiveComputer::attack()
+{
+	vector<Country *> countries = this->getCountries();
+
+	Country *strongestCountry = countries.at(0);
+	for (int i = 0; i < countries.size(); i++)
+	{
+		if ((countries.at(i)->getArmySize() >= strongestCountry->getArmySize()))
+		{
+			for (int j = 0; j < countries.at(i)->getNeighbors().size(); j++)
+			{
+				if (static_cast<Player *>(countries.at(i)->getNeighbors().at(j)->owner)->name != static_cast<Player *>(countries.at(i)->owner)->name)
+				{
+					strongestCountry = countries.at(i);
+					break;
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < strongestCountry->getNeighbors().size(); i++)
+	{
+		if (static_cast<Player *>(strongestCountry->getNeighbors().at(i)->owner)->name != static_cast<Player *>(strongestCountry->owner)->name)
+		{
+			Player::attack(strongestCountry, strongestCountry->getNeighbors().at(i), (strongestCountry->getArmySize() > 3 ? 3 : strongestCountry->getArmySize() - 1), (strongestCountry->getNeighbors().at(i)->getArmySize() > 1 ? 2 : 1));
+		}
+	}
+}
+
+bool BenevolentComputer::attack()
+{
+	// never attacks
+}
 
 bool Human::fortify()
 {
@@ -290,6 +323,61 @@ bool Human::fortify()
 		}
 		if (input == 'n')
 			validInput = true;
+	}
+}
+
+bool AggressiveComputer::fortify()
+{
+	vector<Country *> countries = this->getCountries();
+	Country *strongestCountry = countries.at(0);
+	for (int i = 0; i < countries.size(); i++)
+	{
+		if ((countries.at(i)->getArmySize() >= strongestCountry->getArmySize()))
+		{
+			for (int j = 0; j < countries.at(i)->getNeighbors().size(); j++)
+			{
+				if (static_cast<Player *>(countries.at(i)->getNeighbors().at(j)->owner)->name == static_cast<Player *>(countries.at(i)->owner)->name)
+				{
+					strongestCountry = countries.at(i);
+					break;
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < strongestCountry->getNeighbors().size(); i++)
+	{
+		if (static_cast<Player *>(strongestCountry->getNeighbors().at(i)->owner)->name == static_cast<Player *>(strongestCountry->owner)->name)
+		{
+			Player::fortify(strongestCountry->getNeighbors().at(i),strongestCountry, (strongestCountry->getNeighbors().at(i)->getArmySize() > 1 ? strongestCountry->getNeighbors().at(i)->getArmySize()-1 : 0));
+		}
+	}
+}
+
+bool BenevolentComputer::fortify()
+{
+	vector<Country *> countries = this->getCountries();
+	Country *weakestCountry = countries.at(0);
+	for (int i = 0; i < countries.size(); i++)
+	{
+		if ((countries.at(i)->getArmySize() <= weakestCountry->getArmySize()))
+		{
+			for (int j = 0; j < countries.at(i)->getNeighbors().size(); j++)
+			{
+				if (static_cast<Player *>(countries.at(i)->getNeighbors().at(j)->owner)->name == static_cast<Player *>(countries.at(i)->owner)->name)
+				{
+					weakestCountry = countries.at(i);
+					break;
+				}
+			}
+		}
+	}
+		for (int i = 0; i < weakestCountry->getNeighbors().size(); i++)
+	{
+		if (static_cast<Player *>(weakestCountry->getNeighbors().at(i)->owner)->name == static_cast<Player *>(weakestCountry->owner)->name)
+		{
+			Player::fortify(weakestCountry->getNeighbors().at(i),weakestCountry, (weakestCountry->getNeighbors().at(i)->getArmySize() > 1 ? weakestCountry->getNeighbors().at(i)->getArmySize()-1 : 0));
+		}
 	}
 }
 
@@ -398,7 +486,8 @@ bool AggressiveComputer::reinforce(Map *map)
 	Player::reinforce(strongestCountry, additionalArmies);
 }
 
-bool BenevolentComputer::reinforce(Map *map){
+bool BenevolentComputer::reinforce(Map *map)
+{
 	vector<Country *> countries = this->getCountries();
 
 	char input;

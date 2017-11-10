@@ -204,30 +204,21 @@ int Game::players_number()
 
 void Game::reinforcementPhase()
 {
+	Player *player = this->players.at(this->currentPlayer);
 	notify_current_player();
 	notify_current_phase("Reinforcement");
-	Player *player = this->players.at(this->currentPlayer);
 
 	if (player->type == 0)
 	{
-	static_cast<Human*>(player)->reinforce(this->map);	
+		static_cast<Human *>(player)->reinforce(this->map);
 	}
 	else if (player->type == 1)
 	{
-	static_cast<AggressiveComputer*>(player)->reinforce(this->map);	
+		static_cast<AggressiveComputer *>(player)->reinforce(this->map);
 	}
 	else if (player->type == 2)
 	{
-	static_cast<BenevolentComputer*>(player)->reinforce(this->map);		
-	}
-	vector<Country *> countries = player->getCountries();	
-
-	//prints all countries that th eplayer owns with army sizes
-	for (int i = 0; i < countries.size(); i++)
-	{
-		cout << countries.at(i)->name << " now has "
-		     << countries.at(i)->getArmySize()
-		     << " armies " << endl;
+		static_cast<BenevolentComputer *>(player)->reinforce(this->map);
 	}
 
 	notify_msg("Reinforcement phase over");
@@ -241,14 +232,15 @@ void Game::attackPhase()
 	notify_current_phase("Attack");
 	if (player->type == 0)
 	{
-	static_cast<Human*>(player)->attack();	
+		static_cast<Human *>(player)->attack();
 	}
 	else if (player->type == 1)
 	{
+		static_cast<AggressiveComputer *>(player)->attack();
 	}
 	else if (player->type == 2)
 	{
-
+		static_cast<BenevolentComputer *>(player)->attack();
 	}
 	notify_msg("Attack phase over");
 	notify_game_stats();
@@ -262,13 +254,15 @@ void Game::fortificationPhase()
 
 	if (player->type == 0)
 	{
-	static_cast<Human*>(player)->fortify();	
+		static_cast<Human *>(player)->fortify();
 	}
 	else if (player->type == 1)
 	{
+		static_cast<AggressiveComputer *>(player)->fortify();
 	}
 	else if (player->type == 2)
 	{
+		static_cast<BenevolentComputer *>(player)->fortify();
 	}
 	notify_msg("Fortification phase over");
 	notify_game_stats();
@@ -324,7 +318,8 @@ void Game::notify_msg(string msg)
 	}
 }
 
-void Game::notify_game_stats() {
+void Game::notify_game_stats()
+{
 	for (int i = 0; i < observers.size(); i++)
 	{
 		observers[i]->print_game_stats(players);

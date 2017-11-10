@@ -59,7 +59,7 @@ int main() {
 	}
 	
 	while (!game->hasWon()) {
-		//	game->reinforcementPhase();
+		game->reinforcementPhase();
 		game->attackPhase();
 		game->fortificationPhase();
 
