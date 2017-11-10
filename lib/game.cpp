@@ -199,7 +199,6 @@ int Game::players_number()
 
 void Game::reinforcementPhase()
 {
-
 	notify_current_player();
 	notify_current_phase("Reinforcement");
 	Player *player = this->players.at(this->currentPlayer);
