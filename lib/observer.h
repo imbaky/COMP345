@@ -12,7 +12,7 @@ class Game;
 class Observer
 {
 public:
-	Observer(Game game);
+	Observer();
 	
 	void notify(string msg);
 };
