@@ -142,7 +142,8 @@ bool Player::fortify(Country *source, Country *target, int fortificationAmount)
 
 int Player::numOfContinents(Map *map)
 {
-        Player *player=this;
+	Player *player=this;
+	
 	int owned = 0;
 	vector<Continent *> continents = map->getContinents();
 	vector<Country *> countries = player->getCountries();

@@ -202,18 +202,20 @@ void Game::reinforcementPhase()
 	notify_current_player();
 	notify_current_phase("Reinforcement");
 	Player *player = this->players.at(this->currentPlayer);
-	string player_type = typeid(player).name();
+
 	vector<Country *> countries = player->getCountries();
+
 
 	char input;
 	bool validInput = false;
 	int owned = player->getCountries().size();
+		
 	int additionalArmies = owned / 3;
 	if (additionalArmies < 3)
 		additionalArmies = 3;
-	additionalArmies += player->numOfContinents(this->map);
 
-	if (player_type == typeid(Human).name())
+	additionalArmies += player->numOfContinents(this->map);
+	if (player->type==0)
 	{
 
 		while (!validInput)
@@ -273,7 +275,7 @@ void Game::reinforcementPhase()
 			player->reinforce(countries.at(i % countries.size()), 1);
 		}
 	}
-	else if (player_type == typeid(AggressiveComputer).name())
+	else if (player->type==1)
 	{
 		additionalArmies += player->getHand()->exchange();
 		cout << player->name << " gets " << additionalArmies << " armies" << endl;
@@ -294,7 +296,7 @@ void Game::reinforcementPhase()
 		}
 		player->reinforce(strongestCountry, additionalArmies);
 	}
-	else if (player_type == typeid(BenevolentComputer).name())
+	else if (player->type==2)
 	{
 		additionalArmies += player->getHand()->exchange();
 		cout << player->name << " gets " << additionalArmies << " armies" << endl;
@@ -332,8 +334,7 @@ void Game::attackPhase()
 	Player *player = this->players.at(this->currentPlayer);
 	notify_current_player();
 	notify_current_phase("Attack");
-	string player_type = typeid(player).name();
-	if (player_type == typeid(Human).name())
+	if (player->type == 0)
 	{
 
 		char input;
@@ -392,10 +393,10 @@ void Game::attackPhase()
 				validInput = true;
 		}
 	}
-	else if (player_type == typeid(AggressiveComputer).name())
+	else if (player->type==1)
 	{
 	}
-	else if (player_type == typeid(BenevolentComputer).name())
+	else if (player->type==2)
 	{
 	}
 	notify_msg("Attack phase over");

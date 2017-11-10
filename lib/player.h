@@ -1,7 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-
 #include <vector>
 #include <string>
 #include <iostream>
@@ -12,64 +11,75 @@
 
 using namespace std;
 
-class Player {
-public:
+class Player
+{
+
+      public:
+	enum PlayerType
+	{
+		Human,
+		AggressiveComputer,
+		BenevolentComputer
+	};
 	string name;
+	int type;
 	Player(string name, int numberOfDices);
 	Player(string name, int numberOfDices, int initArmies);
 
 	int getArmies();
 	void setArmies(int newArmies);
-	
-	bool reinforce(Country* country, int reinforcement);
-	bool attack(Country* attacker, Country* defender,int attackerDiceCount,int defenderDiceCount);
-	bool fortify(Country* source,Country* target, int fortificationAmount);
+
+	bool reinforce(Country *country, int reinforcement);
+	bool attack(Country *attacker, Country *defender, int attackerDiceCount, int defenderDiceCount);
+	bool fortify(Country *source, Country *target, int fortificationAmount);
 
 	Hand *getHand();
 	Dice *getDice();
 	vector<Country *> getCountries();
-	void addCountry(Country* country);
-	void removeCountry(Country* country);
-	bool hasCountry(Country* country);
+	void addCountry(Country *country);
+	void removeCountry(Country *country);
+	bool hasCountry(Country *country);
 	bool hasCountry(string name);
 	int numOfContinents(Map *map);
+
 private:
+
 	int armies;
 	Hand *hand;
 	Dice *dice;
 	vector<Country *> countries;
 };
 
-class Human: public Player
+class Human : public Player
 {
-  public:
-	Human(string name, int numberOfDices):Player( name,  numberOfDices){};
-	Human(string name, int numberOfDices, int initArmies):Player(name, numberOfDices, initArmies){};
+      public:
+	Human(string name, int numberOfDices) : Player(name, numberOfDices){ this->type=0;};
+	Human(string name, int numberOfDices, int initArmies) : Player(name, numberOfDices, initArmies){this->type=0;};
 
-	bool reinforce(Country* country, int reinforcement);
-	bool attack(Country* attacker, Country* defender,int attackerDiceCount,int defenderDiceCount);
-	bool fortify(Country* source,Country* target, int fortificationAmount);
+	bool reinforce(Country *country, int reinforcement);
+	bool attack(Country *attacker, Country *defender, int attackerDiceCount, int defenderDiceCount);
+	bool fortify(Country *source, Country *target, int fortificationAmount);
 };
 
-class AggressiveComputer: public Player
+class AggressiveComputer : public Player
 {
-  public:
-	AggressiveComputer(string name, int numberOfDices):Player( name,  numberOfDices){};
-	AggressiveComputer(string name, int numberOfDices, int initArmies):Player(name, numberOfDices, initArmies){};
+      public:
+	AggressiveComputer(string name, int numberOfDices) : Player(name, numberOfDices){this->type=1;};
+	AggressiveComputer(string name, int numberOfDices, int initArmies) : Player(name, numberOfDices, initArmies){this->type=1;};
 
-	bool reinforce(Country* country, int reinforcement);
-	bool attack(Country* attacker, Country* defender,int attackerDiceCount,int defenderDiceCount);
-	bool fortify(Country* source,Country* target, int fortificationAmount);
+	bool reinforce(Country *country, int reinforcement);
+	bool attack(Country *attacker, Country *defender, int attackerDiceCount, int defenderDiceCount);
+	bool fortify(Country *source, Country *target, int fortificationAmount);
 };
 
-class BenevolentComputer: public Player
+class BenevolentComputer : public Player
 {
-  public:
-	BenevolentComputer(string name, int numberOfDices):Player( name,  numberOfDices){};
-	BenevolentComputer(string name, int numberOfDices, int initArmies):Player(name, numberOfDices, initArmies){};
+      public:
+	BenevolentComputer(string name, int numberOfDices) : Player(name, numberOfDices){this->type=2;};
+	BenevolentComputer(string name, int numberOfDices, int initArmies) : Player(name, numberOfDices, initArmies){this->type=2;};
 
-	bool reinforce(Country* country, int reinforcement);
-	bool attack(Country* attacker, Country* defender,int attackerDiceCount,int defenderDiceCount);
-	bool fortify(Country* source,Country* target, int fortificationAmount);
+	bool reinforce(Country *country, int reinforcement);
+	bool attack(Country *attacker, Country *defender, int attackerDiceCount, int defenderDiceCount);
+	bool fortify(Country *source, Country *target, int fortificationAmount);
 };
 #endif
