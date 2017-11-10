@@ -383,7 +383,6 @@ bool BenevolentComputer::fortify()
 
 bool Human::reinforce(Map *map)
 {
-
 	vector<Country *> countries = this->getCountries();
 
 	char input;
@@ -393,7 +392,7 @@ bool Human::reinforce(Map *map)
 	int additionalArmies = owned / 3;
 	if (additionalArmies < 3)
 		additionalArmies = 3;
-	additionalArmies += this->numOfContinents(map);
+	// additionalArmies += this->numOfContinents(map);
 	while (!validInput)
 	{
 		cout << "Exchange cards? (y/n)\n";
@@ -465,7 +464,7 @@ bool AggressiveComputer::reinforce(Map *map)
 	int additionalArmies = owned / 3;
 	if (additionalArmies < 3)
 		additionalArmies = 3;
-	additionalArmies += this->numOfContinents(map);
+	// additionalArmies += this->numOfContinents(map);
 	additionalArmies += this->getHand()->exchange();
 	cout << this->name << " gets " << additionalArmies << " armies" << endl;
 	Country *strongestCountry = countries.at(0);
@@ -497,7 +496,7 @@ bool BenevolentComputer::reinforce(Map *map)
 	int additionalArmies = owned / 3;
 	if (additionalArmies < 3)
 		additionalArmies = 3;
-	additionalArmies += this->numOfContinents(map);
+	// additionalArmies += this->numOfContinents(map);
 	additionalArmies += this->getHand()->exchange();
 	cout << this->name << " gets " << additionalArmies << " armies" << endl;
 	Country *weakestCountry = countries.at(0);
