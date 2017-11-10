@@ -327,6 +327,7 @@ void Game::reinforcementPhase()
 	}
 
 	notify_msg("Reinforcement phase over");
+	notify_game_stats();
 }
 
 void Game::attackPhase()
@@ -346,6 +347,7 @@ void Game::attackPhase()
 
 	}
 	notify_msg("Attack phase over");
+	notify_game_stats();
 }
 
 void Game::fortificationPhase()
@@ -365,6 +367,7 @@ void Game::fortificationPhase()
 	{
 	}
 	notify_msg("Fortification phase over");
+	notify_game_stats();
 }
 
 void Game::printPlayerInfo(Player *player)
@@ -414,6 +417,13 @@ void Game::notify_msg(string msg)
 	for (int i = 0; i < observers.size(); i++)
 	{
 		observers[i]->notify(msg);
+	}
+}
+
+void Game::notify_game_stats() {
+	for (int i = 0; i < observers.size(); i++)
+	{
+		observers[i]->print_game_stats(players);
 	}
 }
 

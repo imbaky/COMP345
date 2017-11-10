@@ -39,6 +39,7 @@ public:
 	void notify_current_player();
 	void notify_current_phase(string phase);
 	void notify_msg(string msg);
+	void notify_game_stats();
 
 private:
         vector<Player *> players;
