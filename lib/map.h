@@ -22,6 +22,7 @@ public:
 	bool hasNeighbor(Country *country);
 	bool hasNeighbor(string country);
 	bool hasNeighbor();
+	bool isOwner(Player *player);
 	bool setArmySize(int army_size);
 	int getArmySize();
 private:

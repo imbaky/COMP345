@@ -18,6 +18,10 @@ void Country::addNeighbor(Country *country)
 	}
 }
 
+bool Country::isOwner(Player *player){
+	return static_cast<Player *>(this->owner)->name == static_cast<Player *>(player->owner)->name;	
+}
+
 bool Country::hasNeighbor(Country *country)
 {
 	vector<Country *> neighbors = getNeighbors();
