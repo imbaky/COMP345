@@ -24,7 +24,7 @@ public:
         Player* getCurrentPlayer();
         Map *loadMap();
         string select_map();
-        Deck* createDeck(int countries);
+        void createDeck(int countries);
         void createPlayers();
         void start_game();
         int players_number();
@@ -36,6 +36,7 @@ public:
 	vector<Player *> get_players();
 	int getTurnNumber();
 	Map *getMap();
+	Deck *getDeck();
 
 	void register_observer(AbstractObserver *observer);
 	void notify_current_player();
@@ -48,6 +49,7 @@ private:
         vector<Player *> players;
         int currentPlayer;
         Map *map = nullptr;
+	Deck *deck;
 
 	vector<AbstractObserver *> observers;
 };

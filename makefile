@@ -5,7 +5,7 @@ OPT=-O2
 
 CFLAGS=$(WARN) $(OPT)
 
-LIBS=./lib/card.h ./lib/card.cpp ./lib/Maploader.h ./lib/Maploader.cpp ./lib/map.h ./lib/map.cpp ./lib/player.h ./lib/player.cpp ./lib/dice.h ./lib/die.h ./lib/dice.cpp ./lib/die.cpp ./lib/game.h ./lib/game.cpp ./lib/observer.h ./lib/observer.cpp
+LIBS=./lib/card.h ./lib/card.cpp ./lib/Maploader.h ./lib/Maploader.cpp ./lib/map.h ./lib/map.cpp ./lib/player.h ./lib/player.cpp ./lib/dice.h ./lib/die.h ./lib/dice.cpp ./lib/die.cpp ./lib/game.h ./lib/game.cpp ./lib/observer.h ./lib/observer.cpp ./lib/tournament.h ./lib/tournament.cpp
 
 STD=-std=c++11
 

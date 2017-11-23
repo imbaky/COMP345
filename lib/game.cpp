@@ -1,8 +1,5 @@
-#include "game.h"
-#include "Maploader.h"
-#include "player.h"
-#include <typeinfo>
 
+#include <typeinfo>
 #include <stdio.h>
 #include <cstdlib>
 #include <iostream>
@@ -10,6 +7,10 @@
 #include <fstream>
 #include <dirent.h>
 #include <vector>
+
+#include "Maploader.h"
+#include "game.h"
+#include "player.h"
 
 using namespace std;
 
@@ -120,10 +121,10 @@ string Game::select_map()
 	return "./maps/" + files.at(input - 1);
 }
 
-Deck *Game::createDeck(int countries)
+void Game::createDeck(int countries)
 {
-	Deck *deck = new Deck(countries);
-	return deck;
+	Deck *d = new Deck(countries);
+	deck = d;
 }
 
 void Game::createPlayers()
@@ -338,4 +339,8 @@ int Game::getTurnNumber()
 
 Map *Game::getMap() {
 	return map;
+}
+
+Deck *Game::getDeck() {
+	return deck;
 }

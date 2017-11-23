@@ -27,8 +27,7 @@ int main() {
                 countriesCount += continents[i]->getCountries().size();
         }
 	
-	Deck *deck = game->createDeck(countriesCount);
-
+	game->createDeck(countriesCount);
         game->createPlayers();
 
 	//Distribute countries between players
@@ -63,6 +62,7 @@ int main() {
 	}
 	
 	while (!game->hasWon()) {
+		game->getCurrentPlayer()->getHand()->drawCard(game->getDeck());
 		game->reinforcementPhase();
 		game->attackPhase();
 		game->fortificationPhase();
