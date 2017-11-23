@@ -11,6 +11,15 @@ STD=-std=c++11
 
 all:
 
+a4part1: clean
+	$(CC) $(STD) $(OPTS) $(LIBS) part1.cpp -o part1
+
+a4part2: clean
+	$(CC) $(STD) $(OPTS) $(LIBS) part2.cpp -o part2
+
+a4part3: clean
+	$(CC) $(STD) $(OPTS) $(LIBS) part3.cpp -o part3
+
 # Assignment 3
 a3part2: clean
 	$(CC) $(STD) $(OPTS) $(LIBS) part2.cpp -o part2

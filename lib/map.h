@@ -7,12 +7,14 @@
 
 using namespace std;
 
+class Player;
+
 class Country {
 public:
 	string name;
 	int posX;
 	int posY;
-	void *owner;
+	Player *owner;
 
 
 	Country(string name, int posX, int posY);
@@ -22,7 +24,7 @@ public:
 	bool hasNeighbor(Country *country);
 	bool hasNeighbor(string country);
 	bool hasNeighbor();
-	bool isOwner(Player *player);
+	// bool isOwner(Player *player);
 	bool setArmySize(int army_size);
 	int getArmySize();
 private:

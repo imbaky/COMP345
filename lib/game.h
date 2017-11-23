@@ -34,6 +34,8 @@ public:
         void printPlayerInfo(Player *player);
         void displayLogo();
 	vector<Player *> get_players();
+	int getTurnNumber();
+	Map *getMap();
 
 	void register_observer(Observer *observer);
 	void notify_current_player();
@@ -42,6 +44,7 @@ public:
 	void notify_game_stats();
 
 private:
+	int turnNumber;
         vector<Player *> players;
         int currentPlayer;
         Map *map = nullptr;

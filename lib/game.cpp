@@ -33,6 +33,7 @@ void Game::turn()
 void Game::nextTurn()
 {
 	currentPlayer = (currentPlayer + 1) % players.size();
+	turnNumber++;
 }
 
 bool Game::setPlayers(vector<Player *> players)
@@ -328,4 +329,13 @@ void Game::notify_game_stats()
 vector<Player *> Game::get_players()
 {
 	return players;
+}
+
+int Game::getTurnNumber()
+{
+	return turnNumber;
+}
+
+Map *Game::getMap() {
+	return map;
 }
