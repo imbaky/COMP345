@@ -15,6 +15,8 @@ class Player;
 class AbstractObserver
 {
 public:
+	virtual void notify(string msg) {};
+	virtual void print_game_stats(vector<Player *> players) {};
  	virtual void info(Game *game) {};
 };
 
@@ -26,7 +28,7 @@ public:
 	
 	void notify(string msg);
 
-	void print_game_stats(vector<Player *> players);
+	void print_game_stats(vector<Player *> playersx);
 
 	void info(Game *game);
 };
@@ -36,7 +38,10 @@ class ObserverDecorator: public AbstractObserver
 {
 public:
 	ObserverDecorator(AbstractObserver *obs);
+	void notify(string msg);
+	void print_game_stats(vector<Player *> players);
 	void info(Game *game); // Delegate to Decorator implementations
+	
 private:
 	AbstractObserver *wrapped_obs;
 };
@@ -45,7 +50,7 @@ private:
 class PlayerDominationObserver: public ObserverDecorator
 {
 public:
-	PlayerDominationObserver(ObserverDecorator *obs);
+	PlayerDominationObserver(AbstractObserver *obs);
 	
 	void info(Game *game);
 };
@@ -53,7 +58,7 @@ public:
 class PlayerHandObserver: public ObserverDecorator
 {
 public:
-	PlayerHandObserver(ObserverDecorator *obs);
+	PlayerHandObserver(AbstractObserver *obs);
 	
 	void info(Game *game);
 };
@@ -61,7 +66,7 @@ public:
 class ContinentControlObserver: public ObserverDecorator
 {
 public:
-	ContinentControlObserver(ObserverDecorator *obs);
+	ContinentControlObserver(AbstractObserver *obs);
 	
 	void info(Game *game);
 };

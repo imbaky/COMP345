@@ -285,7 +285,7 @@ void Game::displayLogo()
 	     << endl;
 }
 
-void Game::register_observer(Observer *observer)
+void Game::register_observer(AbstractObserver *observer)
 {
 	if (find(observers.begin(), observers.end(), observer) != observers.end())
 	{
