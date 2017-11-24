@@ -7,6 +7,7 @@
 #include <fstream>
 #include <dirent.h>
 #include <vector>
+#include <ctime>
 
 #include "Maploader.h"
 #include "game.h"
@@ -161,6 +162,30 @@ void Game::createPlayers()
 			default:
 				break;
 			}
+		}
+	}
+	this->players = players;
+}
+
+void Game::createPlayers(int numOfPlayers)
+{
+	vector<Player *> players;
+	
+	for (int i = 0; i < numOfPlayers; i++) {
+		int type = rand() % 3 + 1;
+
+		switch (type) {
+		case 1:
+			players.push_back(new Human("Player " + to_string(i + 1), 3));
+			break;
+		case 2:
+			players.push_back(new AggressiveComputer("Player " + to_string(i + 1), 3));
+			break;
+		case 3:
+			players.push_back(new BenevolentComputer("Player " + to_string(i + 1), 3));
+			break;
+		default:
+			break;
 		}
 	}
 	this->players = players;

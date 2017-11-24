@@ -12,11 +12,13 @@ class Tournament {
 public:
 	void setup();
 	void start();
-
+	int getTurns();
 private:
 	vector<Map *> maps;
 	vector<Game *> games;
-	vector<Deck *> decks;
+	int turns;
 };
 	
 #endif
+
+

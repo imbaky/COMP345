@@ -26,6 +26,7 @@ public:
         string select_map();
         void createDeck(int countries);
         void createPlayers();
+	void createPlayers(int numOfPlayers);
         void start_game();
         int players_number();
         void reinforcementPhase();
