@@ -6,16 +6,18 @@
 
 using namespace std;
 
-Die::Die() : totalRolls(0) {}
+Die::Die() : totalRolls(0) {
+	srand(clock());
+}
 
 Die::~Die() {}
 
 int Die::roll()
 {
 	totalRolls++;
-	srand(clock());
 	int value = (rand() % 6) + 1;	
 	valueCount[value]++;
+	cout<<"Rolling "<< value <<endl;
 	return value;
 }
 

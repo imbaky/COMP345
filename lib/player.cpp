@@ -166,7 +166,8 @@ bool Player::attack(Country *attackingCountry, Country *defendingCountry, int at
 {
 	Player *attacker = static_cast<Player *>(attackingCountry->owner);
 	Player *defender = static_cast<Player *>(defendingCountry->owner);
-	if (attacker->name == defender->name || attacker->name != this->name || (attackingCountry->getArmySize() < 2) || (attackerDiceCount > 3) || (attackerDiceCount > attackingCountry->getArmySize()) || (defenderDiceCount > 2) || (defenderDiceCount > attackingCountry->getArmySize()))
+
+	if (attacker->name == defender->name || (attackingCountry->getArmySize() < 2) || (attackerDiceCount > 3) || (attackerDiceCount > attackingCountry->getArmySize()) || (defenderDiceCount > 2) || (defenderDiceCount > attackingCountry->getArmySize()))
 		return false;
 
 	vector<int> attackerRolls = attacker->getDice()->roll(attackerDiceCount);
