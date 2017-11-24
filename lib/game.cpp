@@ -55,7 +55,8 @@ bool Game::setMap(Map *map)
 bool Game::hasWon()
 {
 	int totalCountries = 0;
-	for (int i = 0; i < players.size(); i++) {
+	for (int i = 0; i < players.size(); i++)
+	{
 		totalCountries += players[i]->getCountries().size();
 	}
 	if (totalCountries == players[currentPlayer]->getCountries().size())
@@ -74,7 +75,7 @@ Map *Game::loadMap()
 	} while (!ml->isValid());
 
 	Map *map = ml->getMap();
-	this->map=map;
+	this->map = map;
 	return map;
 }
 
@@ -143,6 +144,8 @@ void Game::createPlayers()
 			cout << "1) Human" << endl;
 			cout << "2) Agressive Computer" << endl;
 			cout << "3) Benevolent Computer" << endl;
+			cout << "4) Random Computer" << endl;
+			cout << "5) Cheater Computer" << endl;
 			cin >> input;
 			switch (input)
 			{
@@ -156,6 +159,14 @@ void Game::createPlayers()
 				break;
 			case 3:
 				players.push_back(new BenevolentComputer("Player " + to_string(i + 1), 3));
+				valid_input = true;
+				break;
+			case 4:
+				players.push_back(new RandomComputer("Player " + to_string(i + 1), 3));
+				valid_input = true;
+				break;
+			case 5:
+				players.push_back(new CheaterComputer("Player " + to_string(i + 1), 3));
 				valid_input = true;
 				break;
 			default:
@@ -337,10 +348,12 @@ int Game::getTurnNumber()
 	return turnNumber;
 }
 
-Map *Game::getMap() {
+Map *Game::getMap()
+{
 	return map;
 }
 
-Deck *Game::getDeck() {
+Deck *Game::getDeck()
+{
 	return deck;
 }
