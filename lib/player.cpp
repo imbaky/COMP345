@@ -534,9 +534,9 @@ bool RandomComputer::attack()
 	srand(clock());
 	vector<Country *> countries = this->getCountries();
 
-	Country *randomCountry =  countries.at((rand() % countries.size()));
-	int numOfAttacks=(rand() % randomCountry->getNeighbors().size());
-	for (int i = 0; i < numOfAttacks ; i++)
+	Country *randomCountry = countries.at((rand() % countries.size()));
+	int numOfAttacks = (rand() % randomCountry->getNeighbors().size());
+	for (int i = 0; i < numOfAttacks; i++)
 	{
 		if (static_cast<Player *>(randomCountry->getNeighbors().at(i)->owner)->name != static_cast<Player *>(randomCountry->owner)->name)
 		{
@@ -577,4 +577,50 @@ bool RandomComputer::reinforce(Map *map)
 	Country *randomCountry = countries.at((rand() % countries.size()));
 
 	Player::reinforce(randomCountry, additionalArmies);
+}
+
+// Cheater computer implementation
+bool CheaterComputer::attack()
+{
+	vector<Country *> countries = this->getCountries();
+	for (int i = 0; i < countries.size(); i++)
+	{
+		for (int j = 0; j < countries.at(i)->getNeighbors().size(); j++)
+		{
+			if (static_cast<Player *>(countries.at(i)->getNeighbors().at(j)->owner)->name != static_cast<Player *>(countries.at(i)->owner)->name)
+			{
+				//owns country
+				countries.at(i)->getNeighbors().at(j)->owner = randomCountry->owner;
+				//automatically subtracts attacking army
+				countries.at(i)->getNeighbors().at(j)->setArmySize(1));
+			}
+		}
+	}
+}
+
+bool CheaterComputer::fortify()
+{
+	vector<Country *> countries = this->getCountries();
+	for (int i = 0; i < countries.size(); i++)
+	{
+		for (int j = 0; j < countries.at(i)->getNeighbors().size(); j++)
+		{
+			if (static_cast<Player *>(countries.at(i)->getNeighbors().at(j)->owner)->name != static_cast<Player *>(countries.at(i)->owner)->name)
+			{
+				//Doubles country's army
+				countries.at(i)->setArmySize(countries.at(i)->getArmySize()*2);
+				break;
+			}
+		}
+	}
+}
+
+bool CheaterComputer::reinforce(Map *map)
+{
+	vector<Country *> countries = this->getCountries();
+	for (int i = 0; i < countries.size(); i++)
+	{
+		//Doubles country's army
+		countries.at(i)->setArmySize(countries.at(i)->getArmySize()*2);
+	}
 }
