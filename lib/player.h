@@ -33,7 +33,8 @@ class Player
 	bool reinforce(Country *country, int reinforcement);
 	bool attack(Country *attacker, Country *defender, int attackerDiceCount, int defenderDiceCount);
 	bool fortify(Country *source, Country *target, int fortificationAmount);
-
+	Country *getStrongestCountry();
+	Country *getWeakestCountry();
 	Hand *getHand();
 	Dice *getDice();
 	vector<Country *> getCountries();
@@ -78,6 +79,27 @@ class BenevolentComputer : public Player
       public:
 	BenevolentComputer(string name, int numberOfDices) : Player(name, numberOfDices){this->type=2;};
 	BenevolentComputer(string name, int numberOfDices, int initArmies) : Player(name, numberOfDices, initArmies){this->type=2;};
+
+	bool reinforce(Map* map);
+	bool attack();
+	bool fortify();
+};
+
+class  RandomComputer : public Player
+{
+      public:
+	RandomComputer(string name, int numberOfDices) : Player(name, numberOfDices){this->type=3;};
+	RandomComputer(string name, int numberOfDices, int initArmies) : Player(name, numberOfDices, initArmies){this->type=3;};
+
+	bool reinforce(Map* map);
+	bool attack();
+	bool fortify();
+};
+class CheaterComputer : public Player
+{
+      public:
+	CheaterComputer(string name, int numberOfDices) : Player(name, numberOfDices){this->type=4;};
+	CheaterComputer(string name, int numberOfDices, int initArmies) : Player(name, numberOfDices, initArmies){this->type=4;};
 
 	bool reinforce(Map* map);
 	bool attack();
