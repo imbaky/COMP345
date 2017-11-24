@@ -60,6 +60,7 @@ bool Game::hasWon()
 	{
 		totalCountries += players[i]->getCountries().size();
 	}
+
 	if (totalCountries == players[currentPlayer]->getCountries().size())
 	{
 		return true;

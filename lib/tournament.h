@@ -14,8 +14,10 @@ public:
 	void start();
 	int getTurns();
 private:
-	vector<vector<Game *>> mapGames;
-	int turns;
+	int numberOfMaps;
+	int numberOfComputers;
+	int numberOfGames;
+	int numberOfTurns;
 };
 	
 #endif

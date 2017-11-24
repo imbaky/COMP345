@@ -46,9 +46,9 @@ public:
 	void notify_game_stats();
 
 private:
-	int turnNumber;
+	int turnNumber = 0;
         vector<Player *> players;
-        int currentPlayer;
+        int currentPlayer = 0;
         Map *map = nullptr;
 	Deck *deck;
 

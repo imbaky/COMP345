@@ -14,53 +14,119 @@
 static string select_map_();
 
 void Tournament::start() {
+	
 	setup();
 
-	vector<vector<string>> tourneyResults;
-	for (int i = 0; i < mapGames.size(); i++) {
-		vector<string> results;
+	string maps[numberOfMaps];
+	Game *games[numberOfMaps][numberOfGames];
+	string results[numberOfMaps][numberOfGames];
 
-		for (int j = 0; j < mapGames[i].size(); j++) {
-			
-			while (!mapGames[i][j]->hasWon() &&
-			       mapGames[i][j]->getTurnNumber() <= turns) {
-							
-				mapGames[i][j]->getCurrentPlayer()->getHand()->drawCard(mapGames[i][j]->getDeck());
-				mapGames[i][j]->reinforcementPhase();
-				mapGames[i][j]->attackPhase();
-				mapGames[i][j]->fortificationPhase();
-				mapGames[i][j]->nextTurn();
-				cout << "===================================================================" << endl;
+	AbstractObserver *observers[numberOfMaps][numberOfGames];
+
+	cout << "TOURNAMENT\n" << "==========\n"
+	     << "Number of maps: " << numberOfMaps << "\n"
+	     << "Number of games per map: " << numberOfGames << "\n"
+	     << "Number of players: " << numberOfComputers << "\n"
+	     << "Number of turns per game: " << numberOfTurns << endl;
+
+	for (int i = 0; i < numberOfMaps; ++i) {
+		maps[i] = select_map_();
+	}
+
+	for (int i = 0; i < numberOfMaps; ++i) {
+		cout << maps[i] << " ";
+		for (int j = 0; j < numberOfGames; ++j) {
+			games[i][j] = new Game();
+
+			observers[i][j] = new Observer();
+			games[i][j]->register_observer(observers[i][j]);
+
+			MapLoader *ml = new MapLoader();
+			ml->loadMap(maps[i]);
+			Map *map = ml->getMap();
+
+			int countriesCount = 0;
+			vector<Continent *> continents = map->getContinents();
+			for (int k = 0; k < continents.size(); k++) {
+				countriesCount += continents[k]->getCountries().size();
 			}
-			if (!mapGames[i][j]->hasWon() &&
-			    mapGames[i][j]->getTurnNumber() > turns) {
+
+			games[i][j]->createDeck(countriesCount);
+			games[i][j]->createPlayers(numberOfComputers);
+
+			//Distribute countries between players
+			int num_player = games[i][j]->get_players().size();
+			int index = 0;
+			for (std::vector<Continent *>::iterator it = continents.begin(); it != continents.end(); ++it)
+			{
+				vector<Country *> countries = (*it)->getCountries();
+				for (std::vector<Country *>::iterator it2 = countries.begin(); it2 != countries.end(); ++it2)
+				{
+					games[i][j]->get_players().at(index)->addCountry((*it2));
+
+
+					(*it2)->owner = (games[i][j]->get_players().at(index));
+					index = (index + 1) % num_player;
+				}
+			}
+
+			int initial_army = 40 - ((num_player - 2) * 5);
+			//Distribute a players armies among their countries
+			for (int k = 0; k < games[i][j]->get_players().size(); k++) {
+				int army_available = initial_army;
+				vector<Country *> countries = games[i][j]->get_players()[k]->getCountries();
+
+				while (army_available > 0)
+					for (int l = 0; l < countries.size(); l++) {
+						if (army_available-- > 0) {
+							countries[l]->setArmySize((countries[l]->getArmySize()) + 1);
+						}
+						else
+							break;
+					}
+			}
+		}
+	}
+
+	cout << "STARTING TOURNAMENT..." << endl;
+
+	for (int i = 0; i < numberOfMaps; ++i) {
+		for (int j = 0; j < numberOfGames; ++j) {
+			while (!games[i][j]->hasWon() && this->numberOfTurns <= numberOfTurns) {
+				games[i][j]->getCurrentPlayer()->getHand()->drawCard(games[i][j]->getDeck());
+				games[i][j]->reinforcementPhase();
+				games[i][j]->attackPhase();
+				games[i][j]->fortificationPhase();
+				games[i][j]->nextTurn();
+				observers[i][j]->info(games[i][j]);
+				cout << "====================================================================" << endl;
+			}
+			if (!games[i][j]->hasWon() &&
+			    games[i][j]->getTurnNumber() > numberOfTurns) {
 				
-				results.push_back("Draw");
+				results[i][j] = "Draw";
 			} else {
 
-				switch (mapGames[i][j]->getCurrentPlayer()->type) {
+				switch (games[i][j]->getCurrentPlayer()->type) {
 				case 1:
-					results.push_back("Aggressive");
+					results[i][j] = "Aggressive";
 					break;
 				case 2:
-					results.push_back("Benevolent");
+					results[i][j] = "Benevolent";
 					break;
 				default:
 					break;
 				}
 			}
 		}
-
-		tourneyResults.push_back(results);
 	}
 
-	for (int i = 0; i < tourneyResults.size(); i++) {
-		cout << "Map " << i + 1 << " results: ";
 
-		for (int j = 0; j < tourneyResults[i].size(); j++) {
-			cout << "Game " << j + 1 << "->" << tourneyResults[i][j] << ", ";
+	cout << "RESULTS\n" << "=======\n";
+	for (int i = 0; i < numberOfMaps; ++i) {
+		for (int j = 0; j < numberOfGames; ++j) {
+			cout << results[i][j] << "  ";
 		}
-		
 		cout << endl;
 	}
 }
@@ -74,6 +140,7 @@ void Tournament::setup() {
 		cin >> numberOfMaps;
 		if ((numberOfMaps >= 1) && (numberOfMaps <= 5))
 		{
+			this->numberOfMaps = numberOfMaps;
 			valid_input = true;
 		}
 		else
@@ -90,6 +157,7 @@ void Tournament::setup() {
 		cin >> numberOfComputers;
 		if ((numberOfComputers >= 2) && (numberOfComputers <= 4))
 		{
+			this->numberOfComputers = numberOfComputers;
 			valid_input = true;
 		}
 		else
@@ -106,6 +174,7 @@ void Tournament::setup() {
 		cin >> numberOfGames;
 		if ((numberOfGames >= 1) && (numberOfGames <= 5))
 		{
+			this->numberOfGames = numberOfGames;
 			valid_input = true;
 		}
 		else
@@ -122,7 +191,7 @@ void Tournament::setup() {
 		cin >> numberOfTurns;
 		if ((numberOfTurns >= 10) && (numberOfTurns <= 50))
 		{
-			this->turns = numberOfTurns;
+			this->numberOfTurns = numberOfTurns;
 			valid_input = true;
 		}
 		else
@@ -131,60 +200,7 @@ void Tournament::setup() {
 			cin.ignore(100, '\n');
 			cerr << "invalid input !!" << endl;
 		}
-	}
-
-	for (int i = 0; i < numberOfMaps; i++) {
-		vector<Game *> games(numberOfGames);
-		mapGames.push_back(games);
-
-		MapLoader *ml = new MapLoader();
-		ml->loadMap(select_map_());
-
-		for (int j = 0; j < numberOfGames; j++) {
-			Game *g = new Game();
-			g->setMap(ml->getMap());
-
-
-			int countriesCount = 0;
-			vector<Continent *> continents = g->getMap()->getContinents();
-			for (int k = 0; k < continents.size(); k++) {
-				countriesCount += continents[k]->getCountries().size();
-			}
-	
-			g->createDeck(countriesCount);
-			g->createPlayers(numberOfComputers);
-
-			//Distribute countries between players
-			int num_player = g->get_players().size();
-			int index = 0;
-			for (int k = 0; k < continents.size(); k++) {
-				vector<Country *> countries = continents[k]->getCountries();
-				for (int l = 0; l < countries.size(); l++) {
-				 	g->get_players().at(index)->addCountry(countries[l]);
-
-					countries[l]->owner = (g->get_players().at(index));
-					index = (index + 1) % num_player;
-				}
-			}
-
-			int initial_army = 40 - ((num_player - 2) * 5);
-			//Distribute a players armies among their countries
-			for (int k = 0; k < g->get_players().size(); k++) {
-				int army_available = initial_army;
-				vector<Country *> countries = g->get_players()[k]->getCountries();
-
-				while (army_available > 0)
-					for (int l = 0; l < countries.size(); l++) {
-						if (army_available-- > 0) {
-							countries[l]->setArmySize((countries[l]->getArmySize()) + 1);
-						}
-						else
-							break;
-					}
-			}
-		 	mapGames[j].push_back(g);
-		}
-	}
+	}	
 }
 
 static string select_map_()
