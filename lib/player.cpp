@@ -19,10 +19,10 @@ Player::Player(string playerName, int numberOfDices, int initArmies)
 Country *Player::getStrongestCountry(){
 vector<Country *> countries = this->getCountries();
 
-	Country *strongestCountry;
+	Country *strongestCountry=NULL;
 	for (int i = 0; i < countries.size(); i++)
 	{
-		if (strongestCountry != nullptr)
+		if (strongestCountry != NULL)
 		{
 			if ((countries.at(i)->getArmySize() >= strongestCountry->getArmySize()))
 			{
