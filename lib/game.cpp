@@ -183,16 +183,28 @@ void Game::createPlayers()
 void Game::createPlayers(int numOfPlayers)
 {
 	vector<Player *> players;
-	
-	for (int i = 0; i < numOfPlayers; i++) {
-		int type = rand() % 2 + 1;
 
-		switch (type) {
+	for (int i = 0; i < numOfPlayers; i++)
+	{
+		int type = rand() % 4 + 1;
+
+		switch (type)
+		{
 		case 1:
+			cout << "Aggressive Computer created" << endl;
 			players.push_back(new AggressiveComputer("Player " + to_string(i + 1), 3));
 			break;
 		case 2:
+			cout << "Benevolent Computer created" << endl;
 			players.push_back(new BenevolentComputer("Player " + to_string(i + 1), 3));
+			break;
+		case 3:
+			cout << "Random Computer created" << endl;
+			players.push_back(new RandomComputer("Player " + to_string(i + 1), 3));
+			break;
+		case 4:
+			cout << "Cheater Computer created" << endl;
+			players.push_back(new CheaterComputer("Player " + to_string(i + 1), 3));
 			break;
 		default:
 			break;
@@ -257,7 +269,7 @@ void Game::reinforcementPhase()
 	else if (player->type == 2)
 	{
 		static_cast<BenevolentComputer *>(player)->reinforce(this->map);
-	}	
+	}
 	else if (player->type == 3)
 	{
 		static_cast<RandomComputer *>(player)->reinforce(this->map);
@@ -286,7 +298,7 @@ void Game::attackPhase()
 	else if (player->type == 2)
 	{
 		static_cast<BenevolentComputer *>(player)->attack();
-	}	
+	}
 	else if (player->type == 3)
 	{
 		static_cast<RandomComputer *>(player)->attack();

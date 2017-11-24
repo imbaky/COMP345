@@ -20,7 +20,7 @@ class Player
 	{
 		Human,
 		AggressiveComputer,
-		BenevolentComputer
+		BenevolentComputer,
 	};
 	string name;
 	int type;
