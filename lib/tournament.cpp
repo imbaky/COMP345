@@ -25,12 +25,12 @@ void Tournament::start() {
 			while (!mapGames[i][j]->hasWon() &&
 			       mapGames[i][j]->getTurnNumber() <= turns) {
 							
-			mapGames[i][j]->getCurrentPlayer()->getHand()->drawCard(mapGames[i][j]->getDeck());
-			mapGames[i][j]->reinforcementPhase();
-			mapGames[i][j]->attackPhase();
-			mapGames[i][j]->fortificationPhase();
-			mapGames[i][j]->nextTurn();
-			cout << "===================================================================" << endl;
+				mapGames[i][j]->getCurrentPlayer()->getHand()->drawCard(mapGames[i][j]->getDeck());
+				mapGames[i][j]->reinforcementPhase();
+				mapGames[i][j]->attackPhase();
+				mapGames[i][j]->fortificationPhase();
+				mapGames[i][j]->nextTurn();
+				cout << "===================================================================" << endl;
 			}
 			if (!mapGames[i][j]->hasWon() &&
 			    mapGames[i][j]->getTurnNumber() > turns) {
@@ -50,6 +50,18 @@ void Tournament::start() {
 				}
 			}
 		}
+
+		tourneyResults.push_back(results);
+	}
+
+	for (int i = 0; i < tourneyResults.size(); i++) {
+		cout << "Map " << i + 1 << " results: ";
+
+		for (int j = 0; j < tourneyResults[i].size(); j++) {
+			cout << "Game " << j + 1 << "->" << tourneyResults[i][j] << ", ";
+		}
+		
+		cout << endl;
 	}
 }
 
