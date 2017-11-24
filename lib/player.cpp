@@ -590,9 +590,9 @@ bool CheaterComputer::attack()
 			if (static_cast<Player *>(countries.at(i)->getNeighbors().at(j)->owner)->name != static_cast<Player *>(countries.at(i)->owner)->name)
 			{
 				//owns country
-				countries.at(i)->getNeighbors().at(j)->owner = randomCountry->owner;
+				countries.at(i)->getNeighbors().at(j)->owner = countries.at(i)->owner;
 				//automatically subtracts attacking army
-				countries.at(i)->getNeighbors().at(j)->setArmySize(1));
+				countries.at(i)->getNeighbors().at(j)->setArmySize(1);
 			}
 		}
 	}
