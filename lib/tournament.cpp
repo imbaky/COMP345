@@ -92,7 +92,7 @@ void Tournament::start() {
 
 	for (int i = 0; i < numberOfMaps; ++i) {
 		for (int j = 0; j < numberOfGames; ++j) {
-			while (!games[i][j]->hasWon() && this->numberOfTurns <= numberOfTurns) {
+			while (!games[i][j]->hasWon() && games[i][j]->getTurnNumber() <= numberOfTurns) {
 				games[i][j]->getCurrentPlayer()->getHand()->drawCard(games[i][j]->getDeck());
 				games[i][j]->reinforcementPhase();
 				games[i][j]->attackPhase();
@@ -101,8 +101,7 @@ void Tournament::start() {
 				observers[i][j]->info(games[i][j]);
 				cout << "====================================================================" << endl;
 			}
-			if (!games[i][j]->hasWon() &&
-			    games[i][j]->getTurnNumber() > numberOfTurns) {
+			if (games[i][j]->getTurnNumber() > numberOfTurns) {
 				
 				results[i][j] = "Draw";
 			} else {
