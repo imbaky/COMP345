@@ -84,4 +84,25 @@ class BenevolentComputer : public Player
 	bool attack();
 	bool fortify();
 };
+
+class  RandomComputer : public Player
+{
+      public:
+	RandomComputer(string name, int numberOfDices) : Player(name, numberOfDices){this->type=3;};
+	RandomComputer(string name, int numberOfDices, int initArmies) : Player(name, numberOfDices, initArmies){this->type=3;};
+
+	bool reinforce(Map* map);
+	bool attack();
+	bool fortify();
+};
+class CheaterComputer : public Player
+{
+      public:
+	CheaterComputer(string name, int numberOfDices) : Player(name, numberOfDices){this->type=4;};
+	CheaterComputer(string name, int numberOfDices, int initArmies) : Player(name, numberOfDices, initArmies){this->type=4;};
+
+	bool reinforce(Map* map);
+	bool attack();
+	bool fortify();
+};
 #endif

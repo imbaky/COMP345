@@ -1,4 +1,6 @@
 #include "player.h"
+#include <ctime>
+#include <algorithm>
 
 Player::Player(string playerName, int numberOfDices)
 {
@@ -439,6 +441,8 @@ bool Human::reinforce(Map *map)
 	return true;
 }
 
+// Aggressive Computer implementations
+
 bool AggressiveComputer::attack()
 {
 	vector<Country *> countries = this->getCountries();
@@ -505,7 +509,6 @@ bool BenevolentComputer::fortify()
 	}
 }
 
-
 bool BenevolentComputer::reinforce(Map *map)
 {
 	vector<Country *> countries = this->getCountries();
@@ -523,4 +526,55 @@ bool BenevolentComputer::reinforce(Map *map)
 	Country *weakestCountry = this->getWeakestCountry();
 
 	Player::reinforce(weakestCountry, additionalArmies);
+}
+
+// Random computer implementation
+bool RandomComputer::attack()
+{
+	srand(clock());
+	vector<Country *> countries = this->getCountries();
+
+	Country *randomCountry =  countries.at((rand() % countries.size()));
+	int numOfAttacks=(rand() % randomCountry->getNeighbors().size());
+	for (int i = 0; i < numOfAttacks ; i++)
+	{
+		if (static_cast<Player *>(randomCountry->getNeighbors().at(i)->owner)->name != static_cast<Player *>(randomCountry->owner)->name)
+		{
+			Player::attack(randomCountry, randomCountry->getNeighbors().at(i), (randomCountry->getArmySize() > 3 ? 3 : randomCountry->getArmySize() - 1), (randomCountry->getNeighbors().at(i)->getArmySize() > 1 ? 2 : 1));
+		}
+	}
+}
+
+bool RandomComputer::fortify()
+{
+	srand(clock());
+	vector<Country *> countries = this->getCountries();
+	Country *randomCountry = countries.at((rand() % countries.size()));
+	for (int i = 0; i < randomCountry->getNeighbors().size(); i++)
+	{
+		if (static_cast<Player *>(randomCountry->getNeighbors().at(i)->owner)->name == static_cast<Player *>(randomCountry->owner)->name)
+		{
+			Player::fortify(randomCountry->getNeighbors().at(i), randomCountry, (randomCountry->getNeighbors().at(i)->getArmySize() > 1 ? randomCountry->getNeighbors().at(i)->getArmySize() - 1 : 0));
+		}
+	}
+}
+
+bool RandomComputer::reinforce(Map *map)
+{
+	srand(clock());
+	vector<Country *> countries = this->getCountries();
+
+	char input;
+	bool validInput = false;
+	int owned = this->getCountries().size();
+
+	int additionalArmies = owned / 3;
+	if (additionalArmies < 3)
+		additionalArmies = 3;
+	// additionalArmies += this->numOfContinents(map);
+	additionalArmies += this->getHand()->exchange();
+	cout << this->name << " gets " << additionalArmies << " armies" << endl;
+	Country *randomCountry = countries.at((rand() % countries.size()));
+
+	Player::reinforce(randomCountry, additionalArmies);
 }
