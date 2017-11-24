@@ -33,7 +33,7 @@ class Player
 	bool reinforce(Country *country, int reinforcement);
 	bool attack(Country *attacker, Country *defender, int attackerDiceCount, int defenderDiceCount);
 	bool fortify(Country *source, Country *target, int fortificationAmount);
-
+	Country *getStrongestCountry();
 	Hand *getHand();
 	Dice *getDice();
 	vector<Country *> getCountries();
