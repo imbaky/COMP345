@@ -445,6 +445,8 @@ bool Human::reinforce(Map *map)
 
 bool AggressiveComputer::attack()
 {
+	if (this->getCountries().size() == 0)
+		return false;
 	vector<Country *> countries = this->getCountries();
 
 	Country *strongestCountry = this->getStrongestCountry();
@@ -460,6 +462,8 @@ bool AggressiveComputer::attack()
 
 bool AggressiveComputer::fortify()
 {
+	if (this->getCountries().size() == 0)
+		return false;
 	vector<Country *> countries = this->getCountries();
 	Country *strongestCountry = this->getStrongestCountry();
 
@@ -474,8 +478,9 @@ bool AggressiveComputer::fortify()
 
 bool AggressiveComputer::reinforce(Map *map)
 {
+	if (this->getCountries().size() == 0)
+		return false;
 	vector<Country *> countries = this->getCountries();
-
 	char input;
 	bool validInput = false;
 	int owned = this->getCountries().size();
@@ -498,6 +503,8 @@ bool BenevolentComputer::attack()
 
 bool BenevolentComputer::fortify()
 {
+	if (this->getCountries().size() == 0)
+		return false;
 	vector<Country *> countries = this->getCountries();
 	Country *weakestCountry = this->getWeakestCountry();
 	for (int i = 0; i < weakestCountry->getNeighbors().size(); i++)
@@ -511,8 +518,9 @@ bool BenevolentComputer::fortify()
 
 bool BenevolentComputer::reinforce(Map *map)
 {
+	if (this->getCountries().size() == 0)
+		return false;
 	vector<Country *> countries = this->getCountries();
-
 	char input;
 	bool validInput = false;
 	int owned = this->getCountries().size();
@@ -532,8 +540,9 @@ bool BenevolentComputer::reinforce(Map *map)
 bool RandomComputer::attack()
 {
 	srand(clock());
+	if (this->getCountries().size() == 0)
+		return false;
 	vector<Country *> countries = this->getCountries();
-
 	Country *randomCountry = countries.at((rand() % countries.size()));
 	int numOfAttacks = (rand() % randomCountry->getNeighbors().size());
 	for (int i = 0; i < numOfAttacks; i++)
@@ -548,6 +557,8 @@ bool RandomComputer::attack()
 bool RandomComputer::fortify()
 {
 	srand(clock());
+	if (this->getCountries().size() == 0)
+		return false;
 	vector<Country *> countries = this->getCountries();
 	Country *randomCountry = countries.at((rand() % countries.size()));
 	for (int i = 0; i < randomCountry->getNeighbors().size(); i++)
@@ -562,8 +573,9 @@ bool RandomComputer::fortify()
 bool RandomComputer::reinforce(Map *map)
 {
 	srand(clock());
+	if (this->getCountries().size() == 0)
+		return false;
 	vector<Country *> countries = this->getCountries();
-
 	char input;
 	bool validInput = false;
 	int owned = this->getCountries().size();
@@ -582,6 +594,8 @@ bool RandomComputer::reinforce(Map *map)
 // Cheater computer implementation
 bool CheaterComputer::attack()
 {
+	if (this->getCountries().size() == 0)
+		return false;
 	vector<Country *> countries = this->getCountries();
 	for (int i = 0; i < countries.size(); i++)
 	{
@@ -590,6 +604,8 @@ bool CheaterComputer::attack()
 			if (static_cast<Player *>(countries.at(i)->getNeighbors().at(j)->owner)->name != static_cast<Player *>(countries.at(i)->owner)->name)
 			{
 				//owns country
+				countries.at(i)->getNeighbors().at(j)->owner->removeCountry(countries.at(i)->getNeighbors().at(j));
+				countries.at(i)->owner->addCountry(countries.at(i)->getNeighbors().at(j));
 				countries.at(i)->getNeighbors().at(j)->owner = countries.at(i)->owner;
 				//automatically subtracts attacking army
 				countries.at(i)->getNeighbors().at(j)->setArmySize(1);
@@ -600,6 +616,8 @@ bool CheaterComputer::attack()
 
 bool CheaterComputer::fortify()
 {
+	if (this->getCountries().size() == 0)
+		return false;
 	vector<Country *> countries = this->getCountries();
 	for (int i = 0; i < countries.size(); i++)
 	{
@@ -608,7 +626,7 @@ bool CheaterComputer::fortify()
 			if (static_cast<Player *>(countries.at(i)->getNeighbors().at(j)->owner)->name != static_cast<Player *>(countries.at(i)->owner)->name)
 			{
 				//Doubles country's army
-				countries.at(i)->setArmySize(countries.at(i)->getArmySize()*2);
+				countries.at(i)->setArmySize(countries.at(i)->getArmySize() * 2);
 				break;
 			}
 		}
@@ -617,10 +635,12 @@ bool CheaterComputer::fortify()
 
 bool CheaterComputer::reinforce(Map *map)
 {
+	if (this->getCountries().size() == 0)
+		return false;
 	vector<Country *> countries = this->getCountries();
 	for (int i = 0; i < countries.size(); i++)
 	{
 		//Doubles country's army
-		countries.at(i)->setArmySize(countries.at(i)->getArmySize()*2);
+		countries.at(i)->setArmySize(countries.at(i)->getArmySize() * 2);
 	}
 }

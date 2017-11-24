@@ -233,6 +233,14 @@ void Game::reinforcementPhase()
 	else if (player->type == 2)
 	{
 		static_cast<BenevolentComputer *>(player)->reinforce(this->map);
+	}	
+	else if (player->type == 3)
+	{
+		static_cast<RandomComputer *>(player)->reinforce(this->map);
+	}
+	else if (player->type == 4)
+	{
+		static_cast<CheaterComputer *>(player)->reinforce(this->map);
 	}
 
 	notify_msg("Reinforcement phase over");
@@ -254,6 +262,14 @@ void Game::attackPhase()
 	else if (player->type == 2)
 	{
 		static_cast<BenevolentComputer *>(player)->attack();
+	}	
+	else if (player->type == 3)
+	{
+		static_cast<RandomComputer *>(player)->attack();
+	}
+	else if (player->type == 4)
+	{
+		static_cast<CheaterComputer *>(player)->attack();
 	}
 	notify_msg("Attack phase over");
 }
@@ -275,6 +291,14 @@ void Game::fortificationPhase()
 	else if (player->type == 2)
 	{
 		static_cast<BenevolentComputer *>(player)->fortify();
+	}
+	else if (player->type == 3)
+	{
+		static_cast<RandomComputer *>(player)->fortify();
+	}
+	else if (player->type == 4)
+	{
+		static_cast<CheaterComputer *>(player)->fortify();
 	}
 	notify_msg("Fortification phase over");
 	notify_game_stats();
