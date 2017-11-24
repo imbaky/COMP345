@@ -15,12 +15,47 @@ static string select_map_();
 
 void Tournament::start() {
 	setup();
+
+	vector<vector<string>> tourneyResults;
+	for (int i = 0; i < mapGames.size(); i++) {
+		vector<string> results;
+
+		for (int j = 0; j < mapGames[i].size(); j++) {
+			
+			while (!mapGames[i][j]->hasWon() &&
+			       mapGames[i][j]->getTurnNumber() <= turns) {
+							
+			mapGames[i][j]->getCurrentPlayer()->getHand()->drawCard(mapGames[i][j]->getDeck());
+			mapGames[i][j]->reinforcementPhase();
+			mapGames[i][j]->attackPhase();
+			mapGames[i][j]->fortificationPhase();
+			mapGames[i][j]->nextTurn();
+			cout << "===================================================================" << endl;
+			}
+			if (!mapGames[i][j]->hasWon() &&
+			    mapGames[i][j]->getTurnNumber() > turns) {
+				
+				results.push_back("Draw");
+			} else {
+
+				switch (mapGames[i][j]->getCurrentPlayer()->type) {
+				case 1:
+					results.push_back("Aggressive");
+					break;
+				case 2:
+					results.push_back("Benevolent");
+					break;
+				default:
+					break;
+				}
+			}
+		}
+	}
 }
 
 void Tournament::setup() {
 	bool valid_input = false;
 	int numberOfMaps, numberOfComputers, numberOfGames, numberOfTurns;
-	vector<vector<Game *>> mapGames;
 
 	while (!valid_input) {
 		cout << "Select the number of maps (1-5 players)" << endl;
@@ -75,6 +110,7 @@ void Tournament::setup() {
 		cin >> numberOfTurns;
 		if ((numberOfTurns >= 10) && (numberOfTurns <= 50))
 		{
+			this->turns = numberOfTurns;
 			valid_input = true;
 		}
 		else
@@ -86,8 +122,8 @@ void Tournament::setup() {
 	}
 
 	for (int i = 0; i < numberOfMaps; i++) {
-		vector<Game *> games;
-		string gameMap;
+		vector<Game *> games(numberOfGames);
+		mapGames.push_back(games);
 
 		MapLoader *ml = new MapLoader();
 		ml->loadMap(select_map_());
@@ -134,16 +170,8 @@ void Tournament::setup() {
 							break;
 					}
 			}
-
-
-		 	games.push_back(g);
+		 	mapGames[j].push_back(g);
 		}
-
-		mapGames.push_back(games);
-	}
-
-	for (int i = 0; i < numberOfMaps; i++) {
-		
 	}
 }
 

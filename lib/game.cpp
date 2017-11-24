@@ -178,21 +178,19 @@ void Game::createPlayers()
 	this->players = players;
 }
 
+// Computer players
 void Game::createPlayers(int numOfPlayers)
 {
 	vector<Player *> players;
 	
 	for (int i = 0; i < numOfPlayers; i++) {
-		int type = rand() % 3 + 1;
+		int type = rand() % 2 + 1;
 
 		switch (type) {
 		case 1:
-			players.push_back(new Human("Player " + to_string(i + 1), 3));
-			break;
-		case 2:
 			players.push_back(new AggressiveComputer("Player " + to_string(i + 1), 3));
 			break;
-		case 3:
+		case 2:
 			players.push_back(new BenevolentComputer("Player " + to_string(i + 1), 3));
 			break;
 		default:

@@ -14,8 +14,7 @@ public:
 	void start();
 	int getTurns();
 private:
-	vector<Map *> maps;
-	vector<Game *> games;
+	vector<vector<Game *>> mapGames;
 	int turns;
 };
 	

@@ -14,7 +14,7 @@ using namespace std;
 int main() {
 	Tournament *tourney = new Tournament();
 
-	tourney->setup();
+	tourney->start();
 
 	return 0;
 }
